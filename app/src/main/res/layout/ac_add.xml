@@ -1,0 +1,74 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/qqloginwhite"
+    android:orientation="vertical" >
+
+
+    <util.view.TopPanelReturnTitleMenu
+        android:id="@+id/top_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:id="@+id/rlsearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/sharp_edit" >
+
+        <ImageView
+            android:id="@+id/ivsearch"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="14dp"
+            android:src="@android:drawable/ic_menu_search" />
+
+        <util.view.ClearEditText
+            android:id="@+id/cetsearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_toLeftOf="@+id/tvok"
+            android:layout_toRightOf="@+id/ivsearch"
+            android:background="@drawable/sharp_edit"
+            android:drawableRight="@drawable/delblack"
+            android:ems="10"
+            android:hint="CC号/昵称/群组"
+            android:paddingBottom="10dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="12dp"
+            android:paddingTop="10dp"
+            android:singleLine="true"            android:maxLength="100"
+            
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/selector_button_login"
+            android:padding="4dp"
+            android:text="搜索"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/lvresult"
+        android:layout_width="fill_parent"
+         android:divider="@drawable/list_divider"  
+  	    android:dividerHeight="1dp"  
+        android:layout_height="fill_parent"
+        android:background="@color/qqloginwhite" >
+        
+    </ListView>
+ 
+
+</LinearLayout>

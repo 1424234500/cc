@@ -1,0 +1,42 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    defaultConfig {
+        applicationId 'com.cc.walker'
+        minSdkVersion 21
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors {
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+//    implementation 'com.android.support:appcompat-v7:27.1.1'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation files('libs/android-support-v4.jar')
+    implementation files('libs/commons-beanutils-1.8.0.jar')
+    implementation files('libs/commons-lang-2.5.jar')
+    implementation files('libs/commons-logging.jar')
+    implementation files('libs/ezmorph-1.0.3.jar')
+    implementation files('libs/log4j-1.2.13.jar')
+    implementation files('libs/log4j-over-slf4j-1.7.7-sources.jar')
+    implementation files('libs/mina-core-2.0.16.jar')
+    implementation files('libs/okhttp-3.9.1.jar')
+    implementation files('libs/okhttputils-2_6_2.jar')
+    implementation files('libs/picasso-2.5.2.jar')
+    implementation files('libs/slf4j-api-1.7.7.jar')
+    implementation files('libs/slf4j-log4j12-1.7.7.jar')
+}

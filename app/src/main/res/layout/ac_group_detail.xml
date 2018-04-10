@@ -1,0 +1,183 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/qqlightwhite" >
+
+    <ImageView
+        android:id="@+id/ivprofilewall"
+        android:layout_width="fill_parent"
+        android:src="@color/bisque"
+        android:layout_height="200dp"
+        android:scaleType="fitXY" />
+
+    <util.view.TopPanelReturnTitleMenu
+        android:id="@+id/top_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/ivprofilewall"
+        android:background="@color/qqloginwhite"
+        android:orientation="vertical"
+        android:paddingTop="1dp" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/selector_ll_qwhite_press"
+            android:padding="10dp"
+            android:paddingLeft="10dp" >
+
+            <TextView
+                android:id="@+id/tvqunjieshao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:text="群介绍" android:textSize="16dp"
+                
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvsign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvqunjieshao"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:text="some撒打发时间地方啦就是锻炼腹肌啊收到了some撒打发时间地方啦就是锻炼腹肌啊收到了"
+                android:textColor="@color/qqlittleblack" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/viewgroupusers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/selector_ll_qwhite_press"
+            android:padding="10dp"
+            android:paddingLeft="10dp" >
+
+            <TextView
+                android:id="@+id/TextView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true" android:textSize="16dp"
+                android:text="群成员"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/TextView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvnum"
+                android:layout_alignBottom="@+id/tvnum"
+                android:layout_toLeftOf="@+id/imageView11"
+                android:text="人  " android:textSize="16dp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvnum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/TextView11"
+                android:layout_alignBottom="@+id/TextView11"
+                android:layout_toLeftOf="@+id/TextView2"
+                android:text="1987"
+                android:textColor="@color/qqlittleblack" />
+
+            <ImageView
+                android:id="@+id/imageView11"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/tvnum"
+                android:src="@drawable/lt"
+                android:textSize="16dp" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/viewchathistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/selector_ll_qwhite_press"
+            android:padding="10dp"
+            android:visibility="gone"
+            android:paddingLeft="10dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true" 
+                android:textSize="16dp"
+                android:text="聊天记录"
+                android:textColor="@color/black" />
+ 
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/lt"
+                android:textSize="16dp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@color/qqloginwhite"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/bsendoradd"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/selector_button_login"
+            android:text="申请加群/发消息"
+            android:textColor="@color/black"
+            android:textSize="18dp" />
+    </LinearLayout>
+
+ 
+
+    <TextView
+        android:id="@+id/tvid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayout2"
+        android:layout_alignParentLeft="true"
+        android:paddingBottom="6dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:text="1424234500"
+        android:textColor="@color/qqlightwhite" />
+
+    <TextView
+        android:id="@+id/tvusername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tvid"
+        android:layout_alignParentLeft="true"
+        android:paddingBottom="2dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="4dp"
+        android:text="Walker"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/qqlightwhite"
+        android:textSize="24dp" />
+
+</RelativeLayout>

@@ -1,0 +1,182 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/whitesmoke"
+    android:orientation="vertical" >
+    
+	<ImageView
+        android:id="@+id/ivprofile"
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        android:layout_above="@+id/linearLayout1"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/ccd" />
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:paddingBottom="10dp" >
+
+        <util.view.ClearEditText
+            android:id="@+id/cetusername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/sharp_edit"
+            android:drawableRight="@drawable/delblack"
+            android:hint="昵称"
+                   android:maxLength="30"
+            
+            android:paddingBottom="10dp"
+            android:paddingLeft="14dp"
+            android:paddingRight="12dp"
+            android:paddingTop="10dp"
+            android:singleLine="true"
+            android:textSize="16sp" />
+
+        <util.view.ClearEditText
+            android:id="@+id/cetemail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/sharp_edit"
+            android:drawableRight="@drawable/delblack"
+            android:ems="10"                android:maxLength="15"
+            
+            android:hint="邮箱"
+            android:paddingBottom="10dp"
+            android:paddingLeft="14dp"
+            android:paddingRight="12dp"
+            android:paddingTop="10dp"
+            android:singleLine="true"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/sharp_edit"
+            android:ems="10"
+            android:paddingLeft="14dp"
+            android:paddingRight="12dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="性别"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <RadioGroup
+                android:id="@+id/rgsex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="14dp"
+                android:paddingRight="12dp" >
+
+                <RadioButton
+                    android:id="@+id/rbmale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:checked="true"
+                    android:text="男"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rbfemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:text="女"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <util.view.ClearEditText
+            android:id="@+id/cetpwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/sharp_edit"
+            android:drawableRight="@drawable/delblack"
+            android:hint="密码"
+                            android:maxLength="20"
+            
+            android:paddingBottom="10dp"
+            android:paddingLeft="14dp"
+            android:paddingRight="12dp"
+            android:paddingTop="10dp"
+            android:password="true"
+            android:singleLine="true"
+            android:textSize="16sp" />
+
+        <util.view.ClearEditText
+            android:id="@+id/cetrepwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/sharp_edit"
+            android:drawableRight="@drawable/delblack"
+            android:hint="确认密码"
+            android:paddingBottom="10dp"                android:maxLength="20"
+            
+            android:paddingLeft="14dp"
+            android:paddingRight="12dp"
+            android:paddingTop="10dp"
+            android:password="true"
+            android:singleLine="true"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/bregiste"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/selector_button_login"
+            android:text="注册"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvhelp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="15dp"
+        android:text="帮助"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/qqloginbuttonblue"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvreturn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvhelp"
+        android:layout_alignBottom="@+id/tvhelp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:text="返回登录"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/qqloginbuttonblue"
+        android:textSize="14sp" />
+
+</RelativeLayout>

@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/qqloginwhite"
+    android:orientation="vertical" >
+
+
+    <util.view.TopPanelReturnTitleMenu
+        android:id="@+id/top_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ListView
+        android:id="@+id/lvresult"
+        android:layout_width="fill_parent"
+         android:divider="@drawable/list_divider"  
+  	    android:dividerHeight="1dp"  
+        android:layout_height="fill_parent"
+        android:background="@color/qqloginwhite" >
+        
+    </ListView>
+ 
+
+</LinearLayout>

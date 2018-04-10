@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_ll_qwhite_press"
+	 android:paddingBottom="5dp"
+    android:paddingLeft="15dp"   
+    android:paddingRight="15dp"
+    android:paddingTop="5dp" >
+
+    <ImageView
+        android:id="@+id/ivprofile"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginRight="10dp"
+         android:scaleType="centerCrop"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"  
+        android:src="@drawable/profile" />
+
+    <ImageView
+        android:id="@+id/ivsex"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_alignBottom="@+id/ivprofile"
+        android:layout_toRightOf="@+id/ivprofile"
+        android:paddingBottom="3dp"
+        android:src="@drawable/face1" />
+
+    <TextView
+        android:id="@+id/tvid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ivsex"
+        android:layout_toRightOf="@+id/ivsex"
+        android:text="12310230123013"
+        android:textColor="@color/qqlittleblack"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/tvusername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ivsex"
+        android:layout_alignLeft="@+id/ivsex"
+        android:layout_marginBottom="3dp"
+        android:text="小昵称"
+        android:textColor="@color/black"
+        android:textSize="18dp" />
+
+</RelativeLayout>

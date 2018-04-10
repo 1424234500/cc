@@ -1,0 +1,85 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_item_msg"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="1dp" >
+
+    <LinearLayout
+        android:id="@+id/linearlayout0"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tvtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="5dp"
+            android:text="2016/5/9"
+            android:textColor="@color/qqlittleblack"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/linearlayout0"        android:paddingLeft="10dp"
+        
+        android:layout_marginRight="50dp" >
+        <ImageView
+            android:id="@+id/ivprofile"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="2dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/boy" />
+
+	<TextView
+            android:id="@+id/tvusername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/ivprofile"
+            android:layout_toLeftOf="@+id/linearlayout"
+            android:singleLine="true"
+            android:gravity="center"
+            android:text="uu" />
+
+        <LinearLayout
+            android:id="@+id/linearlayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_toRightOf="@id/ivprofile"
+            android:background="@drawable/selector_chatfrom_bg"
+            android:clickable="true"
+            android:focusable="true"
+            android:minHeight="40dp" >
+
+
+            <TextView
+                android:id="@+id/tvtext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="left|center"
+                android:minHeight="40dp"
+                android:text="1&apos;22&apos;&apos;"
+                android:textColor="@color/black"
+                
+                 android:enabled="true"  
+				android:textIsSelectable="true"  
+				android:longClickable="true"
+                
+                
+                android:textSize="17dp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_focused="false"
+      android:state_enabled="true"
+      android:state_pressed="false"
+      android:color="@color/qqloginbuttonblue"/><!--选择器的默认颜色-->
+
+    <item android:state_enabled="false"
+      android:color="@color/black" /><!--控件是否接受触摸或者点击事件时的颜色,false不接受-->
+
+    <item android:state_pressed="true"
+      android:color="@color/qqlogintiptextblue" /><!--是否按下，如一个按钮触摸或者点击,true按下-->
+
+    <item android:state_focused="false"
+      android:color="@color/red" /><!--是否取得焦点,true取的焦点-->
+    </selector>

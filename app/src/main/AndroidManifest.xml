@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.cc">
+
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE"/> -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <!--<uses-permission android:name="android.permission.WRITE_SETTINGS" />-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+
+    <application
+        android:name="util.ac.MyApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/yeying"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.NoTitleBar" >
+
+        <activity android:name="com.cc.StartAc" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+
+        </activity>
+        <activity android:name="com.cc.LoginAc"  android:launchMode="singleTask">  > </activity>
+
+        <service
+            android:name="service.NetService"
+            android:exported="true" >
+        </service>
+
+        <activity android:name="com.cc.MainAc"  android:launchMode="singleTask"> </activity>
+        <activity android:name="com.cc.MainMsgAc" > </activity>
+        <activity android:name="com.cc.MainContactAc" > </activity>
+        <activity android:name="com.cc.MainDollarAc" > </activity>
+
+        <activity android:name="com.cc.AddAc" > </activity>
+        <activity android:name="com.cc.AddSendAc" > </activity>
+        <activity android:name="com.cc.UserDetailAc" > </activity>
+        <activity android:name="com.cc.UserUpdateAc" > </activity>
+        <activity android:name="com.cc.UserMoreAc" > </activity>
+        <activity android:name="com.cc.UserNicknameAc" > </activity>
+        <activity android:name="com.cc.GroupDetailAc" > </activity>
+        <activity android:name="com.cc.GroupCreateAc" > </activity>
+        <activity android:name="com.cc.GroupMoreAc" > </activity>
+        <activity android:name="com.cc.GroupUserListAc" > </activity>
+
+        <activity android:name="com.cc.ChatAc" android:launchMode="singleTask">   </activity>
+        <activity android:name="com.cc.ChatHistoryAc" >   </activity>
+        <activity android:name="com.cc.ChatAcDoll" >  </activity>
+
+
+        <activity android:name="com.cc.TestMainAc" >  </activity>
+        <activity android:name="com.cc.RegisteAc" > </activity>
+
+
+
+        <activity android:name="util.ac.demo.PayAc" >  </activity>
+
+
+
+    </application>
+
+</manifest>

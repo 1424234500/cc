@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_ll_qwhite_press"
+	 android:paddingBottom="5dp"
+    android:paddingLeft="15dp"   
+    android:paddingRight="15dp"
+    android:paddingTop="5dp" >
+
+    <ImageView
+        android:id="@+id/ivprofile"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginRight="10dp"
+         android:scaleType="centerCrop"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"  
+        android:src="@drawable/profile" />
+
+    <TextView
+        android:id="@+id/tvmsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ivprofile"
+        android:layout_toLeftOf="@+id/tvnum"
+        android:layout_toRightOf="@+id/ivprofile"
+        android:singleLine="true"
+        android:text="12310230123013"
+        android:textColor="@color/qqlittleblack"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/tvusername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ivprofile"
+        android:layout_toRightOf="@+id/ivprofile"
+        android:text="小昵称"
+        android:textColor="@color/black"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/tvtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvusername"
+        android:layout_alignBottom="@+id/tvusername"
+        android:layout_alignParentRight="true"
+        android:text="11-12" />
+
+    <TextView
+        android:id="@+id/tvnum"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:text="35"
+        android:textColor="@color/qqlightwhite"
+        android:visibility="visible"
+        android:textSize="10sp"
+        android:layout_alignRight="@+id/tvtime"
+android:layout_below="@+id/tvtime"
+        android:gravity="center"
+        android:background="@drawable/red_point" />
+
+</RelativeLayout>

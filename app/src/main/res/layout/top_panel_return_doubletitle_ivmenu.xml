@@ -1,0 +1,67 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:background="@color/qqtoppanelblue" >
+
+    <ImageView
+        android:id="@+id/ivmenu"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true" 
+        android:padding="10dp"
+        android:src="@drawable/picon" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:paddingLeft="5dp" >
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/atwhite" />
+
+        <TextView
+            android:id="@+id/tvreturn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="消息"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@drawable/selector_textview_title"
+            android:textSize="18dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tvtitleone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="某某某"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@drawable/selector_textview_title"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/tvtitletwo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="在线/不在线"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@drawable/selector_textview_title"
+            android:textSize="10dp" />
+    </LinearLayout>
+
+</RelativeLayout>

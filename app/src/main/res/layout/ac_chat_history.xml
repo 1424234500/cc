@@ -1,0 +1,72 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <RelativeLayout
+        android:id="@+id/viewchatmain"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/qqlightwhite"
+        android:orientation="vertical" >
+
+        <include
+            android:id="@+id/include_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            layout="@layout/top_panel_return_doubletitle_ivmenu"
+            android:padding="10dp" />
+
+       
+        <ListView
+            android:id="@+id/lvchat"
+            android:layout_width="wrap_content"
+            android:layout_height="396dp"
+            android:layout_above="@+id/viewbottom"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/include_panel"
+            android:layout_weight="0.77"
+            android:background="@color/qqloginwhite"
+            android:divider="@drawable/list_divider"
+            android:dividerHeight="0dp" >
+        </ListView>
+
+
+        <LinearLayout
+            android:id="@+id/viewbottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:background="@color/qqlightwhite"
+            android:orientation="horizontal"
+            android:padding="5dp" >
+
+            <TextView
+                android:id="@+id/tvpre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/selector_button_login"
+                android:gravity="center"
+                android:text="上一页"
+                android:textColor="@color/qqlightwhite"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/tvnext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/selector_button_login"
+                android:gravity="center"
+                android:text="下一页"
+                android:textColor="@color/qqlightwhite"
+                android:textSize="30dp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

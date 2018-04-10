@@ -1,0 +1,104 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:id="@+id/viewchatmain"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/qqlightwhite"
+        android:orientation="vertical" >
+
+        <include
+            android:id="@+id/include_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/top_panel_return_doubletitle_ivmenu"
+            android:padding="10dp" />
+
+       
+ 			<android.support.v4.widget.SwipeRefreshLayout
+           		android:id="@+id/srl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+ 			    
+            <ListView
+                android:id="@+id/lvchat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/qqloginwhite"
+                android:divider="@drawable/list_divider"
+                android:dividerHeight="0dp" >
+            </ListView>
+ 			
+ 			</android.support.v4.widget.SwipeRefreshLayout>
+
+        <LinearLayout
+            android:id="@+id/viewbottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@color/qqloginwhite"
+            android:orientation="vertical"
+            android:paddingTop="4dp" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <EditText
+                    android:id="@+id/etsend"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toLeftOf="@+id/tvsend"
+                    android:layout_weight="1"
+                    android:background="@color/qqlightwhite"
+                    android:inputType="textMultiLine"
+                    android:maxLength="200"
+                    android:minHeight="36dp"
+                    android:paddingLeft="4dp"
+                    android:textSize="17dp" />
+
+                <TextView
+                    android:id="@+id/tvsend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/selector_button_login_disable"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="5dp"
+                    android:text="发送"
+                    android:textColor="@color/qqlightwhite" />
+            </RelativeLayout>
+
+            <util.view.ChatView
+                android:id="@+id/cvchat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:id="@+id/viewfill"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/qqlightwhite"
+                android:orientation="horizontal"
+                android:visibility="gone" >
+
+                <FrameLayout
+                    android:id="@+id/id_content"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" >
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

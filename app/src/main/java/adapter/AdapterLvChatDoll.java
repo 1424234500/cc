@@ -6,14 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import util.tools.EmotionUtils;
-import util.tools.MyImage;
-import util.tools.Tools;
+import util.Tools;
 import util.tools.picasso.NetImage;
-import util.view.DialogBeats;
-import util.view.DialogImageShow;
-import android.app.AlertDialog;
+
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.text.SpannableString;
 import android.view.LayoutInflater;

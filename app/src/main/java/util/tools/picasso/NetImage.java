@@ -2,23 +2,13 @@ package util.tools.picasso;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.widget.ImageView;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 import util.tools.MyImage;
-import util.tools.Tools;
-import util.tools.picasso.transform.PicassoResizeTransform;
+import util.Tools;
 import util.tools.picasso.transform.PicassoRoundTransform;
 
 import com.cc.Constant;

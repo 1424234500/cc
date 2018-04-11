@@ -2,46 +2,24 @@ package com.cc;
 
 import interfac.CallString;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
-
 import net.MSG;
 import net.MSGSender;
 import util.tools.AndroidTools;
 import util.tools.MyJson;
 import util.tools.MySP;
-import util.tools.Tools;
+import util.Tools;
 import util.view.ClearEditText;
-import adapter.AdapterLvIds;
-import android.app.ActionBar.LayoutParams;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.content.Context;
-import android.content.DialogInterface;
+
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.cc.R;
 
 public class RegisteAc extends BaseAc implements OnClickListener {
 

@@ -11,8 +11,7 @@ import net.MSG;
 import net.MSGSender;
 import util.tools.AndroidTools;
 import util.tools.MyJson;
-import util.tools.Tools;
-import util.view.ClearEditText;
+import util.Tools;
 import util.view.TopPanelReturnTitleMenu;
 import adapter.AdapterLvAddFind;
 import android.content.Intent;
@@ -21,9 +20,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.TextView;
-
-
 
 
 /**

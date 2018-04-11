@@ -4,10 +4,6 @@ package net.impl.mina;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
 
-import util.tools.Tools;
-
-import android.util.Log;
-
 /**
  * <b>function:</b> 客户端消息处理类
  */

@@ -10,24 +10,17 @@ import net.MSG;
 import net.MSGSender;
 import util.tools.AndroidTools;
 import util.tools.MyJson;
-import util.tools.Tools;
+import util.Tools;
 import adapter.AdapterContact;
-import adapter.AdapterLvAddFind;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.ExpandableListView.OnGroupClickListener;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 public class MainContactAc extends BaseAc implements CallMap  {
  

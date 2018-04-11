@@ -1,7 +1,7 @@
 package fragm;
  
 import util.fragm.BaseFragment;
-import util.tools.Tools;
+import util.Tools;
 import util.view.VoiceListener;
 import util.view.VoiceListener.OnVoice;
 import android.os.Bundle;

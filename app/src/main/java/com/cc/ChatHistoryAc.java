@@ -13,7 +13,7 @@ import okhttp3.Call;
 import util.tools.AndroidTools;
 import util.tools.MyJson;
 import util.tools.MyMediaPlayer;
-import util.tools.Tools;
+import util.Tools;
 import util.tools.picasso.NetImage;
 import util.view.DialogImageShow;
 import adapter.AdapterLvChat;

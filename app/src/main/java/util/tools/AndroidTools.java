@@ -11,6 +11,7 @@ import java.util.Set;
 
 import okhttp3.Call;
 import okhttp3.Response;
+import util.Tools;
 import util.tools.picasso.NetImage;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -32,7 +33,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.cc.Constant;
 import com.zhy.http.okhttp.OkHttpUtils;

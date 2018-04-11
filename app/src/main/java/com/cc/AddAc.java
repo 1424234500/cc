@@ -11,7 +11,7 @@ import net.MSG;
 import net.MSGSender;
 import util.tools.AndroidTools;
 import util.tools.MyJson;
-import util.tools.Tools;
+import util.Tools;
 import util.view.ClearEditText;
 import util.view.TopPanelReturnTitleMenu;
 import adapter.AdapterLvAddFind;

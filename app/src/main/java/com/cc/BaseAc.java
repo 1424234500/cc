@@ -1,23 +1,16 @@
 package com.cc;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import database.BaseDao;
 import database.BaseDaoImpl;
 import service.NetService;
 import util.tools.MyJson;
-import util.tools.Tools;
+import util.Tools;
 import util.view.DialogBeats;
 import util.view.TopPanelReturnTitleMenu;
-import interfac.BaseCall;
 import interfac.CallString;
 import net.MSG;
-import net.MSGSender;
-import adapter.AdapterContact;
+
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,9 +18,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnTouchListener;
 import android.widget.Toast;
 
 /**

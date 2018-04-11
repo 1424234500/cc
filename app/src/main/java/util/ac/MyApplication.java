@@ -1,6 +1,6 @@
 package util.ac;
 
-import util.tools.Tools;
+import util.Tools;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;

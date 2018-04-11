@@ -5,7 +5,7 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.CumulativeProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 
-import util.tools.Tools;
+import util.Tools;
 
 public class MyCharsetDecoder extends CumulativeProtocolDecoder {
 

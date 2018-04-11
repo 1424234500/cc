@@ -14,7 +14,6 @@ import com.cc.Constant;
 import android.util.Log;
 
 import util.tools.MyJson;
-import util.tools.Tools;
 
 import net.Client;
 import net.MSG;

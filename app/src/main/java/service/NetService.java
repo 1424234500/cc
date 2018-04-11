@@ -6,7 +6,7 @@ import interfac.CallString;
 import net.Client;
 import net.MSG;
 import util.tools.MyJson;
-import util.tools.Tools;
+import util.Tools;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;

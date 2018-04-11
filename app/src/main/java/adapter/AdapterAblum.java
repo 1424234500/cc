@@ -3,8 +3,7 @@ package adapter;
 import java.util.List;
 import java.util.Map;
 
-import util.tools.MyImage;
-import util.tools.Tools;
+import util.Tools;
 import util.tools.picasso.NetImage;
 import android.content.Context;
 import android.view.LayoutInflater;

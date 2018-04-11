@@ -9,7 +9,7 @@ import com.cc.Constant;
 
 import util.fragm.BaseFragment;
 import util.tools.EmotionUtils;
-import util.tools.Tools;
+import util.Tools;
 import adapter.AdapterGvEmoji;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

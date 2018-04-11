@@ -2,8 +2,6 @@ package com.cc;
 
 import interfac.CallInt;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -13,11 +11,10 @@ import org.json.JSONObject;
 import net.MSG;
 import net.MSGSender;
 import service.NetService;
-import util.ac.demo.PayAc;
 import util.tools.AndroidTools;
 import util.tools.MyJson;
 import util.tools.MySP;
-import util.tools.Tools;
+import util.Tools;
 import util.tools.picasso.NetImage;
 import util.view.ClearEditText;
 import adapter.AdapterLvIds;
@@ -26,7 +23,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -44,8 +40,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
-import com.cc.R;
 
 public class LoginAc extends BaseAc implements OnClickListener, TextWatcher {
 

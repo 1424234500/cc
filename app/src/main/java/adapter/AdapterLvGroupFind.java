@@ -1,17 +1,14 @@
 package adapter;
 
-import interfac.InterfaceOkOrDel;
-
 import java.util.List;
 import java.util.Map;
 
-import util.tools.Tools;
+import util.Tools;
 import util.tools.picasso.NetImage;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;

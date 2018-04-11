@@ -1,19 +1,14 @@
 package util.fragm;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import fragm.FragmentPhoto;
 
 import util.ac.MyApplication;
 import util.tools.AndroidTools;
-import util.tools.Tools;
+import util.Tools;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 

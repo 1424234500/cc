@@ -4,7 +4,7 @@ import util.tools.AndroidTools;
 import util.tools.AudioRecoderUtils;
 import util.tools.MyFile;
 import util.tools.MyMediaPlayer;
-import util.tools.Tools;
+import util.Tools;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.view.MotionEvent;
@@ -16,7 +16,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cc.ChatAc;
 import com.cc.R;
 
 public class VoiceListener implements OnTouchListener{

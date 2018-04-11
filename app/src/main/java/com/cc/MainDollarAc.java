@@ -8,9 +8,9 @@ import net.MSG;
 import net.MSGSender;
 import util.tools.AndroidTools;
 import util.tools.MyJson;
-import util.tools.Tools;
+import util.Tools;
 import adapter.AdapterLvDoll;
-import adapter.AdapterLvSession;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;

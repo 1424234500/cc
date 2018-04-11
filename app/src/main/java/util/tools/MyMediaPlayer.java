@@ -4,6 +4,8 @@ package util.tools;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 
+import util.Tools;
+
 public class MyMediaPlayer { 
 	    private static MyMediaPlayer mMyMediaPlayer;
 	    private MediaPlayer mMediaPlayer;

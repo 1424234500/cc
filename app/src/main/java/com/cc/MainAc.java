@@ -2,22 +2,18 @@ package com.cc;
 
 import net.MSGSender;
 import interfac.CallInt;
-import service.NetService;
 import util.tools.AndroidTools;
-import util.tools.MySP;
-import util.tools.Tools;
+import util.Tools;
 import util.tools.picasso.NetImage;
 import util.view.BottomControlPanel;
 import util.view.SlidingMenu;
 import util.view.TopPanelImageTitleMenu;
 import android.app.ActivityGroup;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
@@ -26,8 +22,7 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
- 
+
 @SuppressWarnings("deprecation")
 public class MainAc extends ActivityGroup implements View.OnClickListener{
 

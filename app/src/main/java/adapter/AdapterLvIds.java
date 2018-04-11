@@ -5,7 +5,7 @@ import interfac.InterfaceOkOrDel;
 import java.util.List;
 import java.util.Map;
 
-import util.tools.Tools;
+import util.Tools;
 import util.tools.picasso.NetImage;
 
 import android.content.Context;

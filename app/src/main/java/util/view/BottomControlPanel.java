@@ -5,9 +5,8 @@ import interfac.CallInt;
 import java.util.ArrayList;
 import java.util.List;
 
-import util.tools.Tools;
+import util.Tools;
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;

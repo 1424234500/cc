@@ -7,7 +7,7 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolEncoderAdapter;
 import org.apache.mina.filter.codec.ProtocolEncoderOutput;
 
-import util.tools.Tools;
+import util.Tools;
 
 //mina编解码流程：request->MyDecoder->MyHandler->MyEncode->response
 

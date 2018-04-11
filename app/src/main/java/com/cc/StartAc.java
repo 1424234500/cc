@@ -2,40 +2,16 @@ package com.cc;
 
 import java.io.File;
 
-import com.cc.R;
-
-import database.BaseDao;
-import database.BaseDaoImpl;
-import database.SqLiteControl;
-
 import net.MSG;
 import service.NetService;
 import util.tools.MyJson;
-import util.tools.Tools;
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import util.Tools;
+
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.DisplayMetrics;
-import android.view.MotionEvent;
-import android.view.TextureView;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 
-
-
- 
 /**
  * @author Walker
  * @date 2017-2-18 下午1:06:34

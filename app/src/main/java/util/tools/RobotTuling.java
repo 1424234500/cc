@@ -1,16 +1,9 @@
 package util.tools;
 
-import java.io.File;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
-import com.cc.Constant;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.Callback;
-
-
+import util.Tools;
 
 
 //聊天机器人

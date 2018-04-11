@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import util.fragm.BaseFragment;
-import util.tools.Tools;
+import util.Tools;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

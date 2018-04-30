@@ -4,10 +4,12 @@ import interfac.CallInt;
 
 import java.util.Map;
 
-import net.MSG;
+import net.MSGTYPE;
 import net.MSGSender;
-import util.tools.AndroidTools;
-import util.tools.MyJson;
+
+import util.AndroidTools;
+import util.JsonMsg;
+import util.MapListUtil;
 import util.Tools;
 import util.view.TopPanelReturnTitleMenu;
 
@@ -32,34 +34,34 @@ public class UserMoreAc extends BaseAc implements OnClickListener, CallInt {
 	
 	public void setByMap(final Map<String, Object> map){
 		if(map != null){
-			Tools.log(Tools.getMap(map, "NICKNAME")==null?"null":"not null");
-			Tools.log(Tools.getMap(map, "NICKNAME").toString()==null?"toString null":"toString not null");
-			//Tools.log("NICKNAME:'" + Tools.getMap(map, "NICKNAME").toString()  + "'");
+			AndroidTools.log(MapListUtil.getMap(map, "NICKNAME")==null?"null":"not null");
+			AndroidTools.log(MapListUtil.getMap(map, "NICKNAME").toString()==null?"toString null":"toString not null");
+			//AndroidTools.log("NICKNAME:'" + MapListUtil.getMap(map, "NICKNAME").toString()  + "'");
 			
-			tvUsername.setText(Tools.getMap(map, "USERNAME").toString());
-			tvNickname.setText(Tools.getMap(map, "NICKNAME").toString().equals(" ")?"":Tools.getMap(map, "NICKNAME").toString());
-			tvId.setText(Tools.getMap(map, "ID").toString());
-			tvEmail.setText(Tools.getMap(map, "EMAIL").toString());
+			tvUsername.setText(MapListUtil.getMap(map, "USERNAME").toString());
+			tvNickname.setText(MapListUtil.getMap(map, "NICKNAME").toString().equals(" ")?"":MapListUtil.getMap(map, "NICKNAME").toString());
+			tvId.setText(MapListUtil.getMap(map, "ID").toString());
+			tvEmail.setText(MapListUtil.getMap(map, "EMAIL").toString());
 			
 		}
 	}
 	@Override
 	public void callback(String jsonstr) { 
-		int cmd = MyJson.getCmd(jsonstr); 
+		int cmd = JsonMsg.getCmd(jsonstr);
 		switch (cmd) { 
-		case MSG.DELETE_RELEATIONSHIP_BY_TYPE_ID:
+		case MSGTYPE.DELETE_RELEATIONSHIP_BY_TYPE_ID:
 			this.closeLoading();
-			if(MyJson.getValue0(jsonstr).equals("true")){
+			if(JsonMsg.getValue0(jsonstr).equals("true")){
 				toast("删除成功");
 				this.finish();
 			}else{
-				toast("删除失败：" + MyJson.getValue0(jsonstr));
+				toast("删除失败：" + JsonMsg.getValue0(jsonstr));
 			}
 
 			break;
-		case MSG.UPDATE_NICKNAME_BY_ID_NICKNAME_GROUPID:
-			if(MyJson.getValue0(jsonstr).equals("true")){
-				this.tvNickname.setText(MyJson.getValue2(jsonstr));
+		case MSGTYPE.UPDATE_NICKNAME_BY_ID_NICKNAME_GROUPID:
+			if(JsonMsg.getValue0(jsonstr).equals("true")){
+				this.tvNickname.setText(JsonMsg.getValue2(jsonstr));
 			} 
 			break;
 		}

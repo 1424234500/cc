@@ -3,8 +3,9 @@ package adapter;
 import java.util.List;
 import java.util.Map;
 
+import util.MapListUtil;
 import util.Tools;
-import util.tools.picasso.NetImage;
+import util.picasso.NetImage;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +28,7 @@ import com.cc.R;
  */
 public   class AdapterAblum extends BaseAdapter      {
 	private Context context; // 运行上下文
-	private List<Map<String, String>>  listItems = null; // listview的数据集合
+	private List<Map<String, Object>>  listItems = null; // listview的数据集合
 	private LayoutInflater listContainer; // 视图容器
 	//控件集合实例
 	private ViewHolder viewHolder ;
@@ -56,7 +57,7 @@ public   class AdapterAblum extends BaseAdapter      {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 		// 设置文字和图片和监听
-		viewHolder.cbchose.setChecked(Tools.getListS(listItems, position,"chose").equals("true")) ;
+		viewHolder.cbchose.setChecked(MapListUtil.getList(listItems, position,"chose").equals("true")) ;
 		viewHolder.cbchose.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean bool) {
@@ -69,7 +70,7 @@ public   class AdapterAblum extends BaseAdapter      {
 		});
 	
 		//viewHolder.ivphoto.setImageBitmap(MyImage.getBitmapByDecodeFile(Tools.getListS(listItems, position,"path")));
-		NetImage.loadLocalImgResize(context, Tools.getListS(listItems, position,"path"),Constant.ablumMaxH,Constant.ablumMaxH, viewHolder.ivphoto);
+		NetImage.loadLocalImgResize(context, MapListUtil.getList(listItems, position,"path"),Constant.ablumMaxH,Constant.ablumMaxH, viewHolder.ivphoto);
 	 	
 	 	
 	 	return convertView; 
@@ -87,7 +88,7 @@ public   class AdapterAblum extends BaseAdapter      {
 		}
 		
 	
-	public AdapterAblum(Context context, List<Map<String, String>> listItems) {
+	public AdapterAblum(Context context, List<Map<String, Object>> listItems) {
 		this.context = context;
 		listContainer = LayoutInflater.from(context); // 创建视图容器并设置上下文
 		this.listItems = listItems;

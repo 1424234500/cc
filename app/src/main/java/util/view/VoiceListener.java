@@ -1,9 +1,9 @@
 package util.view;
 
-import util.tools.AndroidTools;
-import util.tools.AudioRecoderUtils;
-import util.tools.MyFile;
-import util.tools.MyMediaPlayer;
+import util.AndroidTools;
+import util.AudioRecoderUtils;
+import util.MyFile;
+import util.MyMediaPlayer;
 import util.Tools;
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -56,11 +56,11 @@ public class VoiceListener implements OnTouchListener{
             public void onUpdate(double db, long time) {  //录音中....db为声音分贝，time为录音时长
                 //根据分贝值来设置录音时话筒图标的上下波动，下面有讲解
                // mImageView.getDrawable().setLevel((int) (3000 + 6000 * db / 100));
-                tvtime.setText(Tools.long2string(time));
+                tvtime.setText(Tools.calcTime(time));
             }
             @Override
             public void onStop(String filePath) {   //录音结束，filePath为保存路径
-               Tools.log( "" + filePath);
+               AndroidTools.log( "" + filePath);
                file = filePath;
             }
         });
@@ -77,7 +77,7 @@ public class VoiceListener implements OnTouchListener{
 		case MotionEvent.ACTION_DOWN:
 			if(status != 2){
 				if(AndroidTools.isOnClick(ivpress, x, y)){
-					Tools.log("ACTION_DOWN ivpress");
+					AndroidTools.log("ACTION_DOWN ivpress");
 
 					// 动画效果
 					Animation myAnimation = AnimationUtils.loadAnimation(context, R.anim.anim_voice_press);
@@ -93,15 +93,15 @@ public class VoiceListener implements OnTouchListener{
 		case MotionEvent.ACTION_UP:
 			if(status == 1){
 				if(AndroidTools.isOnClick(ivplay, x, y)){//试听
-					Tools.log("ACTION_UP ivplay"); 
+					AndroidTools.log("ACTION_UP ivplay");
 					onStatusPlay(); 
                     mAudioRecoderUtils.stopRecord();        //结束录音（保存录音文件）
 				} else if(AndroidTools.isOnClick(ivdel, x, y)){//取消发送
-					Tools.log("ACTION_UP ivdel");
+					AndroidTools.log("ACTION_UP ivdel");
 					onStatusInit(); 
                     mAudioRecoderUtils.cancelRecord();    //取消录音（不保存录音文件）
 				} else{	 //发送语音文件
-					Tools.log("ACTION_UP send");
+					AndroidTools.log("ACTION_UP send");
 					onStatusInit();
                     mAudioRecoderUtils.stopRecord();        //结束录音（保存录音文件）
                     if(onVoice != null)

@@ -7,12 +7,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.MSG;
+import net.MSGTYPE;
 import net.MSGSender;
-import util.tools.AndroidTools;
-import util.tools.MyJson;
-import util.Tools;
+
+import util.AndroidTools;
+import util.AndroidTools;
+import util.JsonMsg;
+import util.MapListUtil;
 import adapter.AdapterLvSession;
+import util.Tools;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -37,65 +41,65 @@ public class MainMsgAc extends BaseAc implements CallMap  {
 	
 	@Override
 	public void callback(String jsonstr) {
-		int cmd = MyJson.getCmd(jsonstr);
+		int cmd = JsonMsg.getCmd(jsonstr);
 		int i ;
 
 		List<Map<String, Object>>  list;
 		Map<String, Object>  map;
 		
 		switch (cmd) {
-		case MSG.TURN_DELETE_RELEATIONSHIP_BY_GROUPNAME:	//被踢出群
-			toast("群组:"+MyJson.getValue0(jsonstr) + " 抛弃了您");
+		case MSGTYPE.TURN_DELETE_RELEATIONSHIP_BY_GROUPNAME:	//被踢出群
+			toast("群组:"+ JsonMsg.getValue0(jsonstr) + " 抛弃了您");
 			break;
-		case MSG.TURN_DELETE_RELEATIONSHIP_BY_FRIENDNAME:	//被删好友
-			toast("用户:"+MyJson.getValue0(jsonstr)+" 与您解除好友关系");
+		case MSGTYPE.TURN_DELETE_RELEATIONSHIP_BY_FRIENDNAME:	//被删好友
+			toast("用户:"+ JsonMsg.getValue0(jsonstr)+" 与您解除好友关系");
 			break;
-		case MSG.SEND_CHATMSG_BY_GTYPE_TOID_TYPE_TIME_MSG://在线时收到一些条消息，对会话列表的影响
-			AndroidTools.systemVoiceToast(this); 
+		case MSGTYPE.SEND_CHATMSG_BY_GTYPE_TOID_TYPE_TIME_MSG://在线时收到一些条消息，对会话列表的影响
+			AndroidTools.systemVoiceToast(this);
 			
-			list = MyJson.getList(jsonstr);
+			list = JsonMsg.getList(jsonstr);
 			//若此处没有该会话，则添加，若有则更新msg
 			//消息记录fromid,toid,type,time,msg
 			//会话列表
-			//TIME=22:16, MSG=1516, NAME=小孩, PROFILEPATH=http: , ID=100, MSGTYPE=text, USERNAME=小海, STATUS=[在线], NUM=0, TYPE=user, NICKNAME=小孩
+			//TIME=22:16, MSGTYPE=1516, NAME=小孩, PROFILEPATH=http: , ID=100, MSGTYPE=text, USERNAME=小海, STATUS=[在线], NUM=0, TYPE=user, NICKNAME=小孩
 //			//消息发送传输
-			//username,u.profilepath,um.fromid,um.toid,um.type,time,MSG
+			//username,u.profilepath,um.fromid,um.toid,um.type,time,MSGTYPE
 			//把收到的一些条消息转化为会话列表
 			if(list == null || list.size() <= 0)return;
 			map = list.get(list.size() - 1);
-			if(Tools.getMap(map, "SESSIONTYPE").equals("user")){
+			if(MapListUtil.getMap(map, "SESSIONTYPE").equals("user")){
 				//判断是否有会话， fromid to me，
-				i = Tools.getCountListByName(listSessions, "ID", Tools.getMap(map, "FROMID"));
+				i = MapListUtil.getCountListByName(listSessions, "ID", MapListUtil.getMap(map, "FROMID"));
 				if(i >= 0){//有了，则更新
-					listSessions.get(i).put("MSGTYPE", Tools.getMap(map, "TYPE"));
-					listSessions.get(i).put("MSG", Tools.getMap(map, "MSG"));
-					listSessions.get(i).put("TIME", Tools.getMap(map, "TIME"));
-					listSessions.get(i).put("NUM",(Tools.parseInt(Tools.getList(listSessions, i, "NUM"))+1) +"") ;
+					listSessions.get(i).put("MSG", MapListUtil.getMap(map, "TYPE"));
+					listSessions.get(i).put("MSG", MapListUtil.getMap(map, "MSG"));
+					listSessions.get(i).put("TIME", MapListUtil.getMap(map, "TIME"));
+					listSessions.get(i).put("NUM",(Tools.parseInt(MapListUtil.getList(listSessions, i, "NUM"))+1) +"") ;
 
 				}else{	//否则添加一条会话
-					map.put("MSGTYPE", Tools.getMap(map, "TYPE"));	//消息类型变为msgtype
-					map.put("TYPE", Tools.getMap(map, "SESSIONTYPE"));	//群/用户类型变为TYPE
-					map.put("NAME", Tools.getMap(map, "USERNAME"));
-					map.put("ID", Tools.getMap(map, "FROMID"));
-					map.put("NUM", (Tools.parseInt(Tools.getList(listSessions, i, "NUM"))+1) +"") ;
+					map.put("MSG", MapListUtil.getMap(map, "TYPE"));	//消息类型变为msgtype
+					map.put("TYPE", MapListUtil.getMap(map, "SESSIONTYPE"));	//群/用户类型变为TYPE
+					map.put("NAME", MapListUtil.getMap(map, "USERNAME"));
+					map.put("ID", MapListUtil.getMap(map, "FROMID"));
+					map.put("NUM", (Tools.parseInt(MapListUtil.getList(listSessions, i, "NUM"))+1) +"") ;
 
 					listSessions.add(0, map);
 				}
 			}else{
 				//判断是否有会话 fromid  groupid to me
-				i = Tools.getCountListByName(listSessions, "ID", Tools.getMap(map, "TOID"));
+				i = MapListUtil.getCountListByName(listSessions, "ID", MapListUtil.getMap(map, "TOID"));
 				if(i >= 0){//有了，则更新
-					listSessions.get(i).put("MSGTYPE", Tools.getMap(map, "TYPE"));
-					listSessions.get(i).put("MSG", Tools.getMap(map, "MSG"));
-					listSessions.get(i).put("TIME", Tools.getMap(map, "TIME"));
-					listSessions.get(i).put("NUM",(Tools.parseInt(Tools.getList(listSessions, i, "NUM"))+1) +"") ;
+					listSessions.get(i).put("MSG", MapListUtil.getMap(map, "TYPE"));
+					listSessions.get(i).put("MSG", MapListUtil.getMap(map, "MSG"));
+					listSessions.get(i).put("TIME", MapListUtil.getMap(map, "TIME"));
+					listSessions.get(i).put("NUM",(Tools.parseInt(MapListUtil.getList(listSessions, i, "NUM"))+1) +"") ;
 
 				}else{	//否则添加一条会话
-					map.put("MSGTYPE", Tools.getMap(map, "TYPE"));	//消息类型变为msgtype
-					map.put("TYPE", Tools.getMap(map, "SESSIONTYPE"));	//群/用户类型变为TYPE
-					map.put("NAME", Tools.getMap(map, "USERNAME"));
-					map.put("ID", Tools.getMap(map, "GROUPID"));
-					map.put("NUM", (Tools.parseInt(Tools.getList(listSessions, i, "NUM"))+1) +"") ;
+					map.put("MSG", MapListUtil.getMap(map, "TYPE"));	//消息类型变为msgtype
+					map.put("TYPE", MapListUtil.getMap(map, "SESSIONTYPE"));	//群/用户类型变为TYPE
+					map.put("NAME", MapListUtil.getMap(map, "USERNAME"));
+					map.put("ID", MapListUtil.getMap(map, "GROUPID"));
+					map.put("NUM", (Tools.parseInt(MapListUtil.getList(listSessions, i, "NUM"))+1) +"") ;
 
 					listSessions.add(0, map);
 				}
@@ -105,58 +109,58 @@ public class MainMsgAc extends BaseAc implements CallMap  {
 			adapterLvSession.notifyDataSetChanged();
 
 		break;
-		case MSG.GET_CHAT_SESSIONS:  //会话列表
-			Tools.log("MainMsgAc:会话列表");
+		case MSGTYPE.GET_CHAT_SESSIONS:  //会话列表
+			AndroidTools.log("MainMsgAc:会话列表");
             swipeRefreshLayout.setRefreshing(false);
 
 			listSessions.clear();
-			listSessions.addAll(MyJson.getList(jsonstr));
+			listSessions.addAll(JsonMsg.getList(jsonstr));
  			
  			if(adapterLvSession != null){
  				adapterLvSession.notifyDataSetChanged();
  			}
  			for(i = 0;  i < listSessions.size(); i++){
- 				if(Tools.parseInt( Tools.getList(listSessions, i, "NUM")) > 0){//有未读消息
+ 				if(Tools.parseInt( MapListUtil.getList(listSessions, i, "NUM")) > 0){//有未读消息
  					AndroidTools.systemVoiceToast(this);
  					break;
  				}
  			}
 			break;  
-		case MSG.DELETE_RELEATIONSHIP_BY_TYPE_ID:
-			Tools.log("MainMsgAc:删除关系");
+		case MSGTYPE.DELETE_RELEATIONSHIP_BY_TYPE_ID:
+			AndroidTools.log("MainMsgAc:删除关系");
 
 			this.closeLoading();
-			if(MyJson.getValue0(jsonstr).equals("true")){
-				i = Tools.getCountListByName(listSessions, "ID", MyJson.getValue1(jsonstr));
+			if(JsonMsg.getValue0(jsonstr).equals("true")){
+				i = MapListUtil.getCountListByName(listSessions, "ID", JsonMsg.getValue1(jsonstr));
 				if(i >= 0){
 					listSessions.remove(i);
 					adapterLvSession.notifyDataSetChanged();
 				}
 			} 
 			break;
-		case MSG.UPDATE_GROUP_BY_ID_NAME_SIGN_NUM_CHECK:
+		case MSGTYPE.UPDATE_GROUP_BY_ID_NAME_SIGN_NUM_CHECK:
 			this.closeLoading();
-			if(MyJson.getValue0(jsonstr).equals("true")){
+			if(JsonMsg.getValue0(jsonstr).equals("true")){
 				//1:id,2:name,sign,num,check
-				i = Tools.getCountListByName(listSessions, "ID", MyJson.getValueI(jsonstr, 1));
+				i = MapListUtil.getCountListByName(listSessions, "ID", JsonMsg.getValueI(jsonstr, 1));
 				if(i >= 0){//有了，则更新
-					listSessions.get(i).put("NUM",MyJson.getValueI(jsonstr, 4)) ;
-					listSessions.get(i).put("SIGN",MyJson.getValueI(jsonstr, 3)) ;
-					listSessions.get(i).put("USERNAME",MyJson.getValueI(jsonstr, 2)) ;
-					listSessions.get(i).put("NAME",MyJson.getValueI(jsonstr, 2)) ;
-					listSessions.get(i).put("NICKNAME",MyJson.getValueI(jsonstr, 2)) ;
+					listSessions.get(i).put("NUM", JsonMsg.getValueI(jsonstr, 4)) ;
+					listSessions.get(i).put("SIGN", JsonMsg.getValueI(jsonstr, 3)) ;
+					listSessions.get(i).put("USERNAME", JsonMsg.getValueI(jsonstr, 2)) ;
+					listSessions.get(i).put("NAME", JsonMsg.getValueI(jsonstr, 2)) ;
+					listSessions.get(i).put("NICKNAME", JsonMsg.getValueI(jsonstr, 2)) ;
 					adapterLvSession.notifyDataSetChanged();
 				}
 				
 			}
 			break;
-		case MSG.UPDATE_NICKNAME_BY_ID_NICKNAME_GROUPID:
-			Tools.log("MainMsgAc:更新备注 " + MyJson.getValue1(jsonstr) + " " + MyJson.getValue2(jsonstr));
+		case MSGTYPE.UPDATE_NICKNAME_BY_ID_NICKNAME_GROUPID:
+			AndroidTools.log("MainMsgAc:更新备注 " + JsonMsg.getValue1(jsonstr) + " " + JsonMsg.getValue2(jsonstr));
 			
-			if(MyJson.getValue0(jsonstr).equals("true")){
-				String newId = MyJson.getValue1(jsonstr);
-				String newNickname = MyJson.getValue2(jsonstr);
-				i = Tools.getCountListByName(listSessions, "ID", newId);
+			if(JsonMsg.getValue0(jsonstr).equals("true")){
+				String newId = JsonMsg.getValue1(jsonstr);
+				String newNickname = JsonMsg.getValue2(jsonstr);
+				i = MapListUtil.getCountListByName(listSessions, "ID", newId);
 				if(i >= 0){	//若有会话则更
 					if( listSessions.get(i).get("NICKNAME").toString().equals("")){
 						if(!newNickname.equals("")){	//本来没有备注，之后有了备注
@@ -177,16 +181,16 @@ public class MainMsgAc extends BaseAc implements CallMap  {
 			} 
 			break;	
 		 
-		case MSG.CLOSE:
-			Tools.toast(this, MyJson.getValue0(jsonstr));
+		case MSGTYPE.CLOSE:
+			AndroidTools.toast(this, JsonMsg.getValue0(jsonstr));
 			AndroidTools.putIfLogin(getApplicationContext(), "false");
-			Tools.log("MainMsgAc收到close,iflogin sp=" +  AndroidTools.getIfLogin(getApplicationContext()));
-			 Tools.toast(this, "需要重新登录"  );
+			AndroidTools.log("MainMsgAc收到close,iflogin sp=" +  AndroidTools.getIfLogin(getApplicationContext()));
+			 AndroidTools.toast(this, "需要重新登录"  );
 			break;
-		case MSG.TOAST:
-		case MSG.OK:
-		case MSG.ERROR:
-			Tools.toast(this, MyJson.getValue0(jsonstr));
+		case MSGTYPE.TOAST:
+		case MSGTYPE.OK:
+		case MSGTYPE.ERROR:
+//			AndroidTools.toast(this, JsonMsg.getValue0(jsonstr));
 			break;
 		}
 	
@@ -198,7 +202,7 @@ public class MainMsgAc extends BaseAc implements CallMap  {
 	@Override
 	public void OnCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.ac_main_msg);
-		Tools.log("msg oncrate");
+		AndroidTools.log("msg oncrate");
 		rlSearch = (View)findViewById(R.id.rlsearch);
 		rlSearch.setOnClickListener(new OnClickListener() {
 			@Override
@@ -251,14 +255,14 @@ public class MainMsgAc extends BaseAc implements CallMap  {
 		
 		if(Constant.offlineMode == 1){
 			Map<String,Object> map = new HashMap<String, Object>();
-			map.put("MSGTYPE","text");	//消息类型变为msgtype
+			map.put("MSG","text");	//消息类型变为msgtype
 			map.put("TYPE", "user");	//群/用户类型变为TYPE
 			map.put("USERNAME", "CC");
 			map.put("NAME", "CC");
 			map.put("STATUS", "[在线]");
 			map.put("PROFILEPATH", "http://img03.tooopen.com/images/20131111/sy_46708898917.jpg");
 			map.put("ID", "12345");
-			map.put("TIME", Tools.getNowTimeS());
+			map.put("TIME", Tools.getNowTime());
 			map.put("NUM", 1) ;
 			map.put("MSG", "消息") ;
 
@@ -282,24 +286,24 @@ public class MainMsgAc extends BaseAc implements CallMap  {
 
 	@Override
 	public void OnStart() {
-		Tools.log("msg OnStart");
+		AndroidTools.log("msg OnStart");
 	} 
 	@Override
 	public void OnResume() {
 		this.adapterLvSession.notifyDataSetChanged(); 
-		Tools.log("msg OnResume");
+		AndroidTools.log("msg OnResume");
 	} 
 	@Override
 	public void OnPause() {
-		Tools.log("msg OnPause");
+		AndroidTools.log("msg OnPause");
 	} 
 	@Override
 	public void OnStop() {
-		Tools.log("msg OnStop");
+		AndroidTools.log("msg OnStop");
 	} 
 	@Override
 	public void OnDestroy() {
-		Tools.log("msg OnDestroy");
+		AndroidTools.log("msg OnDestroy");
 	}
 
 
@@ -314,12 +318,12 @@ public class MainMsgAc extends BaseAc implements CallMap  {
 		Intent intent = null;
 
 		if(type.equals("user")){
-			listSessions.get( Tools.getCountListByName(listSessions, "ID", map.get("ID").toString())).put("NUM", 0);
+			listSessions.get( MapListUtil.getCountListByName(listSessions, "ID", map.get("ID").toString())).put("NUM", 0);
 			adapterLvSession.notifyDataSetChanged();
 			
 			intent = new Intent(this, ChatAc.class);
 		}else if(type.equals("group")){
-			listSessions.get( Tools.getCountListByName(listSessions, "ID", map.get("ID").toString())).put("NUM", 0);
+			listSessions.get( MapListUtil.getCountListByName(listSessions, "ID", map.get("ID").toString())).put("NUM", 0);
 			adapterLvSession.notifyDataSetChanged();
 			
 			intent = new Intent(this, ChatAc.class);
@@ -343,7 +347,7 @@ public class MainMsgAc extends BaseAc implements CallMap  {
 
 	private void removeSession(int position) {
 		Map<String, Object> map = listSessions.get(position);
-		MSGSender.removeChatSessionById(this, Tools.getMap(map, "ID"));
+		MSGSender.removeChatSessionById(this, MapListUtil.getMap(map, "ID"));
 		listSessions.remove(position);
     	adapterLvSession.notifyDataSetChanged();
     	

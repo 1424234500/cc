@@ -1,9 +1,8 @@
-package util.tools;
+package util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import util.Tools;
 
 
 //聊天机器人
@@ -36,24 +35,25 @@ public class RobotTuling {
 	
 	public static String makeMsg(String jsonstr){
 	 
-			if(Tools.testNull( jsonstr))return "nothing";
+			if(!Tools.notNull( jsonstr))return "nothing";
 			String res = "";
 			List<Map<String,Object>> list;
-			int code = MyJson.getInt(jsonstr, "code");
+			Map map = JsonUtil.getMap(jsonstr);
+			int code = Tools.parseInt(MapListUtil.getMap(map, "code"));
 			switch(code){
 			case 100000:
-				res = MyJson.getString(jsonstr, "text");
+				res = MapListUtil.getMap(map, "text");
 				break;
 			case 200000:
-				res = MyJson.getString(jsonstr, "text") + "\n" + MyJson.getString(jsonstr, "url");
+				res = MapListUtil.getMap(map, "text") + "\n" + MapListUtil.getMap(map, "url");
 				break;
 			case 302000:
-				res = MyJson.getString(jsonstr, "text") + "\n" ;
-				list = MyJson.getList(jsonstr, "list");
-				for(Map<String,Object> map: list){
-					res += "" + map.get("source").toString() + "\n";
-					res += "" + map.get("article").toString() + "\n";
-					res += "" + map.get("detailurl").toString() + "\n";
+				res = MapListUtil.getMap(map, "text") + "\n" ;
+				list = (List<Map<String,Object>>)MapListUtil.getMap(map, "text", new ArrayList<>()); //JsonUtil.getList(jsonstr, "list");
+				for(Map<String,Object> item: list){
+					res += "" + item.get("source").toString() + "\n";
+					res += "" + item.get("article").toString() + "\n";
+					res += "" + item.get("detailurl").toString() + "\n";
 //					"article": "工信部:今年将大幅提网速降手机流量费",
 //					"source": "网易新闻",
 //					"icon": "",
@@ -61,10 +61,10 @@ public class RobotTuling {
 				}
 				break;
 			default:
-				res = MyJson.getString(jsonstr, "text")  ;
+				res = MapListUtil.getMap(map, "text");
 				break;
 			}
-			Tools.out(  "聊天机器人返回." + jsonstr + "解析结果." + res );
+			Tools.out(  "聊天机器人返回." + jsonstr + "  解析结果." + res );
 			return res;
 		}
 //100000	文本类

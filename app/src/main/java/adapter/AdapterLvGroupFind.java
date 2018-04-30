@@ -3,8 +3,9 @@ package adapter;
 import java.util.List;
 import java.util.Map;
 
+import util.MapListUtil;
 import util.Tools;
-import util.tools.picasso.NetImage;
+import util.picasso.NetImage;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -58,11 +59,11 @@ public   class AdapterLvGroupFind extends BaseAdapter  {
 			listItemView.tvusername = (TextView) convertView .findViewById(R.id.tvusername);
 			listItemView.tvsign = (TextView) convertView .findViewById(R.id.tvsign);
 			// 设置文字和图片
-			listItemView.tvid.setText(Tools.getList(listItems, position, "ID").toString()) ;
-			listItemView.tvusername.setText(Tools.getList(listItems, position, "USERNAME").toString()) ;
-			listItemView.tvsign.setText(Tools.getList(listItems, position, "SIGN").toString()) ;
-			listItemView.tvnum.setText(Tools.getList(listItems, position, "NUM").toString()) ;
-		 	NetImage.loadProfile(context, Tools.getList(listItems, position, "PROFILEPATH").toString(), listItemView.ivprofile);
+			listItemView.tvid.setText(MapListUtil.getList(listItems, position, "ID").toString()) ;
+			listItemView.tvusername.setText(MapListUtil.getList(listItems, position, "USERNAME").toString()) ;
+			listItemView.tvsign.setText(MapListUtil.getList(listItems, position, "SIGN").toString()) ;
+			listItemView.tvnum.setText(MapListUtil.getList(listItems, position, "NUM").toString()) ;
+		 	NetImage.loadProfile(context, MapListUtil.getList(listItems, position, "PROFILEPATH").toString(), listItemView.ivprofile);
 
 		 	
 		 	

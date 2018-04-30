@@ -8,14 +8,16 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import net.MSG;
+import net.MSGTYPE;
 import net.MSGSender;
+
 import service.NetService;
-import util.tools.AndroidTools;
-import util.tools.MyJson;
-import util.tools.MySP;
+import util.AndroidTools;
+import util.JsonMsg;
+import util.JsonUtil;
+import util.MySP;
 import util.Tools;
-import util.tools.picasso.NetImage;
+import util.picasso.NetImage;
 import util.view.ClearEditText;
 import adapter.AdapterLvIds;
 import android.app.ActionBar.LayoutParams;
@@ -57,12 +59,12 @@ public class LoginAc extends BaseAc implements OnClickListener, TextWatcher {
 	public void callback(String jsonstr) {
 	//	out("get. " + jsonstr);
 
-		int cmd = MyJson.getCmd(jsonstr);
+		int cmd = JsonMsg.getCmd(jsonstr);
 		String value = "", value1 = "", value2 = "", value3, value4,value5,value6,value7,  res = "";
 		switch (cmd) {
-		case MSG.PROFILE_PATH_BY_ID:// 从服务器返回的图片信息
-			final String path = MyJson.getValue0(jsonstr);
-			if(!Tools.testNull(path)){
+		case MSGTYPE.PROFILE_PATH_BY_ID:// 从服务器返回的图片信息
+			final String path = JsonMsg.getValue0(jsonstr);
+			if(Tools.notNull(path)){
 		    	 NetImage.loadProfile(this, path, ivprofile);
 		    	 
 		    	 //out("path:." + cc++);
@@ -71,10 +73,10 @@ public class LoginAc extends BaseAc implements OnClickListener, TextWatcher {
 			
 			
 			break;
-		case MSG.LOGIN_BY_ID_PWD:
+		case MSGTYPE.LOGIN_BY_ID_PWD:
 			this.closeLoading();
 
-			value = MyJson.getValue0(jsonstr);
+			value = JsonMsg.getValue0(jsonstr);
 		
 			if(value.equals( "true")){
 				try {
@@ -87,7 +89,7 @@ public class LoginAc extends BaseAc implements OnClickListener, TextWatcher {
 					value6 = jb.getString("value6");
 					value7 = jb.getString("value7");
 					//登陆成功， 下一步
-					Tools.toast(this, "登陆成功"); 
+					AndroidTools.toast(this, "登陆成功"); 
 					Constant.offlineMode = 0;
 
 					Constant.id = value1; 
@@ -117,15 +119,15 @@ public class LoginAc extends BaseAc implements OnClickListener, TextWatcher {
 					e.printStackTrace();
 				}
 			}else{
- 				Tools.toast(this, "登陆失败."+ value1); 
+ 				AndroidTools.toast(this, "登陆失败."+ value1); 
 				out("登陆失败."+ value1);
 			}
 			break;
-		case MSG.TOAST:
-		case MSG.OK:
-		case MSG.ERROR:
-		case MSG.CLOSE:
-			Tools.toast(this, MyJson.getValue0(jsonstr));
+		case MSGTYPE.TOAST:
+		case MSGTYPE.OK:
+		case MSGTYPE.ERROR:
+		case MSGTYPE.CLOSE:
+//			AndroidTools.toast(this, JsonMsg.getValue0(jsonstr));
 			break;
 		}
 
@@ -244,7 +246,7 @@ public class LoginAc extends BaseAc implements OnClickListener, TextWatcher {
 
 		String id = cetId.getText().toString();
 		String pwd = cetPwd.getText().toString();
-		if (!Tools.testNull(id) && !Tools.testNull(pwd)) {
+		if (Tools.notNull(id) && Tools.notNull(pwd)) {
 			//合法账号密码，发送登陆请求,并且本地放入本地临时账户信息记录
 			Constant.id = id;
 			Constant.pwd = pwd;
@@ -341,9 +343,9 @@ public class LoginAc extends BaseAc implements OnClickListener, TextWatcher {
 			getid = llu.get("id").toString();
 			getpwd = llu.get("pwd").toString();
 			getpath = llu.get("profilepath").toString();
-			if (!Tools.testNull(getpwd)) {
+			if (Tools.notNull(getpwd)) {
 				cetPwd.setText(getpwd);
-				if (!Tools.testNull(getpath)) {
+				if (Tools.notNull(getpath)) {
 					NetImage.loadProfile(this, getpath, this.ivprofile);
 				} 
 			} else {
@@ -351,7 +353,7 @@ public class LoginAc extends BaseAc implements OnClickListener, TextWatcher {
 			}
 		} else{
 			cetPwd.setText("");
-			if(!Tools.testNull(cetId.getText().toString()))
+			if(Tools.notNull(cetId.getText().toString()))
 				MSGSender.getProfileByPath(this,  cetId.getText().toString());
 		}
 		

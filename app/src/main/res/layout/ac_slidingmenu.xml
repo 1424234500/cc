@@ -127,7 +127,52 @@
                     android:text="退出登陆"
                     android:textColor="@color/black" />
             </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+            <LinearLayout
+                android:id="@+id/llsystem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="1dp"
+                android:background="@drawable/selector_ll_qslidemenu_press"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@android:drawable/btn_default" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="30dp"
+                    android:text="设备控制"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+
+
+
         </LinearLayout>
+
+
+
+
+
     </ScrollView>
 
 </LinearLayout>

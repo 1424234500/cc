@@ -7,10 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import net.MSG;
+import net.MSGTYPE;
 import net.MSGSender;
-import util.tools.AndroidTools;
-import util.tools.MyJson;
+
+import util.AndroidTools;
+import util.JsonMsg;
+import util.JsonUtil;
+import util.MapListUtil;
 import util.Tools;
 import util.view.ClearEditText;
 import util.view.TopPanelReturnTitleMenu;
@@ -35,20 +38,19 @@ public class AddAc extends BaseAc implements CallInt, View.OnClickListener, Call
  
 	@Override
 	public void callback(String jsonstr) {
-
-		int cmd = MyJson.getCmd(jsonstr);
+		int cmd = JsonMsg.getCmd(jsonstr);
 		switch (cmd) {
-		case MSG.FIND_USERS_GROUPS_BY_ID:// 从服务器返回的查询结果
+		case MSGTYPE.FIND_USERS_GROUPS_BY_ID:// 从服务器返回的查询结果
 			this.closeLoading();
-			if(MyJson.getValue0(jsonstr).equals("")){
+			if(JsonMsg.getValue0(jsonstr).equals("")){
 				listAddFind.clear();
-				listAddFind.addAll( MyJson.getList(jsonstr));
+				listAddFind.addAll( JsonUtil.getList(jsonstr));
 				//Tools.out( (Tools.list2string( listAddFind)));
 				if(adapterLvAddFind != null) {
 					adapterLvAddFind.notifyDataSetChanged();
 				}
 			}else{
-				toast(MyJson.getValue0(jsonstr));
+				toast(JsonMsg.getValue0(jsonstr));
 			}
 			break;
 		}
@@ -108,7 +110,7 @@ public class AddAc extends BaseAc implements CallInt, View.OnClickListener, Call
 			break;
 		case R.id.tvok:
 			//搜索
-			if(!Tools.testNull( cetSearch.getText().toString())){
+			if(Tools.notNull( cetSearch.getText().toString())){
 				MSGSender.findById(this, cetSearch.getText().toString());
 				this.openLoading();
 			}else{
@@ -130,11 +132,11 @@ public class AddAc extends BaseAc implements CallInt, View.OnClickListener, Call
 	@Override
 	public void call(Map<String, Object> map) {
 		//点中某个用户/群组，进入详情界面显示
-		String type = Tools.getMap(map, "TYPE").toString();
+		String type = MapListUtil.getMap(map, "TYPE").toString();
 		
-		//MSGSender.getUserGroupDetailByTypeId(this, type, Tools.getMap(map, "ID").toString() );
+		//MSGSender.getUserGroupDetailByTypeId(this, type, MapListUtil.getMap(map, "ID").toString() );
 		Intent intent  = null;
-		if(Tools.getMap(map, "ID").toString().equals(Constant.id)){
+		if(MapListUtil.getMap(map, "ID").toString().equals(Constant.id)){
 			//自己，跳转自己的详情和修改界面
 			intent = new Intent( this, UserDetailAc.class);
 			intent.putExtra("menu", "编辑");
@@ -146,7 +148,7 @@ public class AddAc extends BaseAc implements CallInt, View.OnClickListener, Call
 			}else{		//群组展示
 				intent = new Intent( this, GroupDetailAc.class);
 				
-				if(Tools.getMap(map, "CREATORID").toString().equals(Constant.id)){
+				if(MapListUtil.getMap(map, "CREATORID").toString().equals(Constant.id)){
 					intent.putExtra("menu", "编辑");	//自己创建的群,进入修改群名称
 				}else{
 					intent.putExtra("menu", "更多");	//非自己创建的群,进入退群

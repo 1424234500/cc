@@ -6,11 +6,11 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
-import net.MSG;
+import net.MSGTYPE;
 import net.MSGSender;
-import util.tools.AndroidTools;
-import util.tools.MD5;
-import util.tools.MyJson;
+import util.AndroidTools;
+import util.JsonMsg;
+import util.MD5;
 import util.Tools;
 import util.view.ClearEditText;
 import util.view.TopPanelReturnTitleMenu;
@@ -53,13 +53,13 @@ public class UserUpdateAc extends BaseAc implements OnClickListener, CallInt  {
 	@Override
 	public void callback(String jsonstr) {
 
-		int cmd = MyJson.getCmd(jsonstr);
+		int cmd = JsonMsg.getCmd(jsonstr);
 		String value0 = "", value1 = "", value2 = "", res = "";
 		switch (cmd) { 
-		case MSG.UPDATE_BY_USERNAME_SIGN_SEX_OLDPWD_NEWPWD:
+		case MSGTYPE.UPDATE_BY_USERNAME_SIGN_SEX_OLDPWD_NEWPWD:
 			this.closeLoading();
 			
-			value0 = MyJson.getValue0(jsonstr);
+			value0 = JsonMsg.getValue0(jsonstr);
 			if(value0.equals("true")){
 				toast("修改个人信息成功");
 				
@@ -74,7 +74,7 @@ public class UserUpdateAc extends BaseAc implements OnClickListener, CallInt  {
 			}
 			finish();
 		}else{
-			value1 = MyJson.getValue1(jsonstr); 
+			value1 = JsonMsg.getValue1(jsonstr);
 			toast("修改个人信息失败:" + value1);
 		}
 			
@@ -132,7 +132,7 @@ public class UserUpdateAc extends BaseAc implements OnClickListener, CallInt  {
 		String oldpwd = cetPwd.getText().toString();
 		String newpwd = cetRepwd.getText().toString();
 		
-		if(!Tools.testNull(username,sex) ){
+		if(Tools.notNull(username,sex) ){
 			this.openLoading();
 			if(!newpwd.equals("")){
 				newpwd = MD5.make(Constant.id, newpwd);

@@ -5,13 +5,15 @@ import interfac.CallInt;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.MSG;
+import net.MSGTYPE;
 import net.MSGSender;
-import util.tools.AndroidTools;
-import util.tools.MyImage;
-import util.tools.MyJson;
+import util.AndroidTools;
+import util.JsonMsg;
+import util.JsonUtil;
+import util.MapListUtil;
+import util.MyImage;
 import util.Tools;
-import util.tools.picasso.NetImage;
+import util.picasso.NetImage;
 import util.view.TopPanelReturnTitleMenu;
 
 import android.content.Intent;
@@ -41,17 +43,17 @@ public class GroupDetailAc extends BaseAc implements OnClickListener, CallInt {
 	
 	public void setByMap(final Map<String, Object> map){
 		if(map != null){
-			if(Tools.getMap(map, "CREATORID" ).equals(Constant.id)){
+			if(MapListUtil.getMap(map, "CREATORID" ).equals(Constant.id)){
 				this.topTitle.setMenu( "编辑"); 
 			}else{
 				this.topTitle.setMenu( "更多"); 
 			}
-			tvUsername.setText(Tools.getMap(map,"USERNAME").toString());
-			tvSign.setText(Tools.getMap(map,"SIGN").toString());
-			tvId.setText(Tools.getMap(map,"ID").toString());
-			tvNum.setText(Tools.getMap(map,"NOWNUM")+"/"+Tools.getMap(map,"NUM").toString());
-			 NetImage.loadProfileWallGroup(this, Tools.getMap(map,"PROFILEPATH").toString(), ivProfileWall);
-			if(Tools.getMap(map,"IFADD").equals("true")){
+			tvUsername.setText(MapListUtil.getMap(map,"USERNAME").toString());
+			tvSign.setText(MapListUtil.getMap(map,"SIGN").toString());
+			tvId.setText(MapListUtil.getMap(map,"ID").toString());
+			tvNum.setText(MapListUtil.getMap(map,"NOWNUM")+"/"+MapListUtil.getMap(map,"NUM").toString());
+			 NetImage.loadProfileWallGroup(this, MapListUtil.getMap(map,"PROFILEPATH").toString(), ivProfileWall);
+			if(MapListUtil.getMap(map,"IFADD").equals("true")){
 				bSendOrAdd.setText("发消息");
 				bSendOrAdd.setBackgroundResource(R.drawable.selector_button_login);
 				bSendOrAdd.setOnClickListener(new OnClickListener() {
@@ -60,22 +62,22 @@ public class GroupDetailAc extends BaseAc implements OnClickListener, CallInt {
 						//点击发消息，跳转到聊天界面等待消息，传递相关数据给server，获取与目标用户的聊天记录10条/分页查询 并在server中插入/更新会话列表
 						//type <user,group>,toid id,username,profilepath,nickname,name,   msg,time,status <在线,离线>
 						//添加会话列表
-						int c = Tools.getCountListByName(MainMsgAc.listSessions, "ID", Tools.getMap(map,"ID").toString());
+						int c = MapListUtil.getCountListByName(MainMsgAc.listSessions, "ID", MapListUtil.getMap(map,"ID").toString());
 						if(c < 0){
 							Map<String, Object> session = new HashMap<String, Object>();
-							session.put("ID", Tools.getMap(map,"ID").toString());
-							session.put("USERNAME", Tools.getMap(map,"USERNAME").toString());
-							session.put("PROFILEPATH", Tools.getMap(map,"PROFILEPATH").toString());
-							session.put("NICKNAME", Tools.getMap(map,"NICKNAME").toString());
-							session.put("NAME", Tools.getMap(map,"NAME").toString());
-							session.put("STATUS", Tools.getMap(map,"STATUS").toString());
-							session.put("TYPE", Tools.getMap(map,"TYPE").toString());
+							session.put("ID", MapListUtil.getMap(map,"ID").toString());
+							session.put("USERNAME", MapListUtil.getMap(map,"USERNAME").toString());
+							session.put("PROFILEPATH", MapListUtil.getMap(map,"PROFILEPATH").toString());
+							session.put("NICKNAME", MapListUtil.getMap(map,"NICKNAME").toString());
+							session.put("NAME", MapListUtil.getMap(map,"NAME").toString());
+							session.put("STATUS", MapListUtil.getMap(map,"STATUS").toString());
+							session.put("TYPE", MapListUtil.getMap(map,"TYPE").toString());
 							session.put("MSG", "");
 							session.put("NUM", "0");
 							session.put("TIME", "");
 							MainMsgAc.listSessions.add(0, session);
 						}
-						c = Tools.getCountListByName(MainContactAc.listItems, "ID", Tools.getMap(map,"ID").toString());
+						c = MapListUtil.getCountListByName(MainContactAc.listItems, "ID", MapListUtil.getMap(map,"ID").toString());
 						if(c >= 0){
 							Intent intent = new Intent(GroupDetailAc.this, ChatAc.class);
 							AndroidTools.putMapToIntent(intent, MainContactAc.listItems.get(c));
@@ -85,7 +87,7 @@ public class GroupDetailAc extends BaseAc implements OnClickListener, CallInt {
 					}
 				});
 		
-			}else if(Tools.getMap(map,"IFADD").equals("false")){
+			}else if(MapListUtil.getMap(map,"IFADD").equals("false")){
 				bSendOrAdd.setText("申请加群");
 				bSendOrAdd.setBackgroundResource(R.drawable.selector_ll_qwhite_press);
 				bSendOrAdd.setOnClickListener(new OnClickListener() {
@@ -118,50 +120,50 @@ public class GroupDetailAc extends BaseAc implements OnClickListener, CallInt {
 		}
 	}
 	@Override
-	public void callback(String jsonstr) { 
-		int cmd = MyJson.getCmd(jsonstr); 
+	public void callback(String jsonstr) {
+		int cmd = JsonMsg.getCmd(jsonstr);
 		switch (cmd) { 
-		case MSG.GET_USER_GROUP_DETAIL_BY_TYPE_ID:
+		case MSGTYPE.GET_USER_GROUP_DETAIL_BY_TYPE_ID:
 			this.closeLoading();
-			if(MyJson.getValue0(jsonstr).equals("false")){
+			if(JsonMsg.getValue0(jsonstr).equals("false")){
 				toast("查询失败"); //查找失败
 			}else{
-			//	setByMap(MyJson.getMap(jsonstr));
+			//	setByMap(JsonUtil.getMap(jsonstr));
 			} 
 			break;
-		case MSG.UPDATE_PROFILE_BY_ID_TYPE:
+		case MSGTYPE.UPDATE_PROFILE_BY_ID_TYPE:
 			this.closeLoading();
-			if(MyJson.getValue0(jsonstr).equals("true")){
+			if(JsonMsg.getValue0(jsonstr).equals("true")){
 				toast("更新头像成功");
 				NetImage.clear(this, Constant.profileHttp()+getIntent().getExtras().getString("PROFILEPATH"));
-				NetImage.loadProfileWallGroup(this, MyJson.getValue2(jsonstr), ivProfileWall);
-				String path = MyJson.getValue2(jsonstr);
-				int i = Tools.getCountListByName(MainContactAc.listItems, "ID", tvId.getText().toString());
+				NetImage.loadProfileWallGroup(this, JsonMsg.getValue2(jsonstr), ivProfileWall);
+				String path = JsonMsg.getValue2(jsonstr);
+				int i = MapListUtil.getCountListByName(MainContactAc.listItems, "ID", tvId.getText().toString());
 				if(i >= 0){
 					MainContactAc.listItems.get(i).put("PROFILEPATH", path);
 					this.getIntent().putExtra("PROFILEPATH", path);
 				}
 				
 			}else{
-				toast(MyJson.getValue0(jsonstr));
+				toast(JsonMsg.getValue0(jsonstr));
 			}
 			break;
-		case MSG.UPDATE_GROUP_BY_ID_NAME_SIGN_NUM_CHECK:
+		case MSGTYPE.UPDATE_GROUP_BY_ID_NAME_SIGN_NUM_CHECK:
 			this.closeLoading();
-			if(MyJson.getValue0(jsonstr).equals("true")){
+			if(JsonMsg.getValue0(jsonstr).equals("true")){
 				//1:id,2:name,sign,num,check
-				tvNum.setText(MyJson.getValueI(jsonstr, 4));
-				tvUsername.setText(MyJson.getValueI(jsonstr, 2));
-				tvSign.setText(MyJson.getValueI(jsonstr, 3));
+				tvNum.setText(JsonMsg.getValueI(jsonstr, 4));
+				tvUsername.setText(JsonMsg.getValueI(jsonstr, 2));
+				tvSign.setText(JsonMsg.getValueI(jsonstr, 3));
 			}
 			break;
-		case MSG.DELETE_RELEATIONSHIP_BY_TYPE_ID:
+		case MSGTYPE.DELETE_RELEATIONSHIP_BY_TYPE_ID:
 			this.closeLoading();
-			if(MyJson.getValue0(jsonstr).equals("true")){
+			if(JsonMsg.getValue0(jsonstr).equals("true")){
 				//toast("删除成功");
 				this.finish();
 			}else{
-				//toast("删除失败：" + MyJson.getValue0(jsonstr));
+				//toast("删除失败：" + JsonUtil.getValue0(jsonstr));
 			}
 			break;
 		}
@@ -202,7 +204,7 @@ public class GroupDetailAc extends BaseAc implements OnClickListener, CallInt {
 	@Override
 	public void OnResume() {
 		String str = this.getIntent().getExtras().getString("mode");
-		if(!Tools.testNull(str)){
+		if(Tools.notNull(str)){
 			topTitle.setAlphaMode(false);
 		}
 	}
@@ -302,13 +304,13 @@ public class GroupDetailAc extends BaseAc implements OnClickListener, CallInt {
 	@Override  
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {  
 		if(resultCode != RESULT_OK || data == null){
-			Tools.log("操作取消");
+			AndroidTools.log("操作取消");
 			return;
 		}
 		if (requestCode == ACTIVITY_RESULT_PROFILE  ) {             
         	 Uri uri = data.getData(); 
         	 if(uri == null){
-     			Tools.log("uri == null ?");
+				 AndroidTools.log("uri == null ?");
      			return;
      		}
              makePhoto = Constant.dirProfile + tvId.getText() + ".png";

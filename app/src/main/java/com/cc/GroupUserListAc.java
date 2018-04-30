@@ -7,10 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import net.MSG;
+import net.MSGTYPE;
 import net.MSGSender;
-import util.tools.AndroidTools;
-import util.tools.MyJson;
+
+import util.AndroidTools;
+import util.JsonMsg;
+import util.JsonUtil;
+import util.MapListUtil;
 import util.Tools;
 import util.view.TopPanelReturnTitleMenu;
 import adapter.AdapterLvAddFind;
@@ -32,44 +35,44 @@ public class GroupUserListAc extends BaseAc implements CallInt, View.OnClickList
 	@Override
 	public void callback(String jsonstr) {
 
-		int cmd = MyJson.getCmd(jsonstr);
+		int cmd = JsonMsg.getCmd(jsonstr);
 		switch (cmd) {
-		case MSG.UPDATE_NICKNAME_BY_ID_NICKNAME_GROUPID:
-			if(MyJson.getValue0(jsonstr).equals("true")){
-				if(Tools.testNull(MyJson.getValue3(jsonstr))){	//没有回传groupid，表示非修改群昵称而是 好友昵称
+		case MSGTYPE.UPDATE_NICKNAME_BY_ID_NICKNAME_GROUPID:
+			if(JsonMsg.getValue0(jsonstr).equals("true")){
+				if(Tools.notNull(JsonMsg.getValue3(jsonstr))){	//没有回传groupid，表示非修改群昵称而是 好友昵称
 				}else{//群昵称，修改位置
-					int i =Tools.getCountListByName(listAddFind, "ID", MyJson.getValue1(jsonstr));
+					int i = MapListUtil.getCountListByName(listAddFind, "ID", JsonMsg.getValue1(jsonstr));
 					 if(i >= 0){
-						 listAddFind.get(i).put("GROUPNICKNAME",  MyJson.getValue2(jsonstr) );
+						 listAddFind.get(i).put("GROUPNICKNAME",  JsonMsg.getValue2(jsonstr) );
 					 }
 				}
 			} 
 			break;	
 		
-		case MSG.FIND_USERS_BY_GROUPID:// 从服务器返回的查询结果
+		case MSGTYPE.FIND_USERS_BY_GROUPID:// 从服务器返回的查询结果
 			this.closeLoading();
-			if(MyJson.getValue0(jsonstr).equals("")){
+			if(JsonMsg.getValue0(jsonstr).equals("")){
 				listAddFind.clear();
-				listAddFind.addAll( MyJson.getList(jsonstr));
+				listAddFind.addAll( JsonUtil.getList(jsonstr));
 				//Tools.out( (Tools.list2string( listAddFind)));
 				if(adapterLvAddFind != null) {
 					adapterLvAddFind.notifyDataSetChanged();
 				}
 			}else{
-				toast(MyJson.getValue0(jsonstr));
+				toast(JsonMsg.getValue0(jsonstr));
 			}
 			break;
-		case MSG.DELETE_RELEATIONSHIP_BY_GROUPID_USERID:	//踢出某用户
+		case MSGTYPE.DELETE_RELEATIONSHIP_BY_GROUPID_USERID:	//踢出某用户
 			this.closeLoading();
-			if(MyJson.getValue0(jsonstr).equals("true")){
-				int i = Tools.getCountListByName(listAddFind, "ID", MyJson.getValue1(jsonstr));
+			if(JsonMsg.getValue0(jsonstr).equals("true")){
+				int i = MapListUtil.getCountListByName(listAddFind, "ID", JsonMsg.getValue1(jsonstr));
 				if(i >= 0){
 					listAddFind.remove(i);
 					adapterLvAddFind.notifyDataSetChanged();
 				}
-				toast("已踢出用户:"+ MyJson.getValue1(jsonstr));
+				toast("已踢出用户:"+ JsonMsg.getValue1(jsonstr));
 			}else{
-				toast(MyJson.getValue0(jsonstr));
+				toast(JsonMsg.getValue0(jsonstr));
 			}
 			break;
 			
@@ -143,11 +146,11 @@ public class GroupUserListAc extends BaseAc implements CallInt, View.OnClickList
 	@Override
 	public void call(Map<String, Object> map) {
 		//点中某个用户/群组，进入详情界面显示
-		String type = Tools.getMap(map, "TYPE").toString();
+		String type = MapListUtil.getMap(map, "TYPE").toString();
 		
 		//MSGSender.getUserGroupDetailByTypeId(this, type, Tools.getMap(map, "ID").toString() );
 		Intent intent  = null;
-		if(Tools.getMap(map, "ID").toString().equals(Constant.id)){ //自己，跳转自己的详情和修改界面
+		if(MapListUtil.getMap(map, "ID").toString().equals(Constant.id)){ //自己，跳转自己的详情和修改界面
 			intent = new Intent( this, UserDetailAc.class);
 			intent.putExtra("menu", "编辑");
 		}else{

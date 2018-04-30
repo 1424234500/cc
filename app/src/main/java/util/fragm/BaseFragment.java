@@ -3,7 +3,7 @@ package util.fragm;
 import java.io.File;
 
 import util.ac.MyApplication;
-import util.tools.AndroidTools;
+import util.AndroidTools;
 import util.Tools;
 import android.app.Activity;
 import android.app.Fragment;
@@ -55,7 +55,7 @@ public class BaseFragment extends Fragment{
   	@Override
   	public void onActivityResult(int requestCode, int resultCode, Intent data) {  
   		if(resultCode != Activity.RESULT_OK || data == null){
-  			Tools.toast(getContext(), "操作取消");
+  			AndroidTools.toast(getContext(), "操作取消");
   			return;
   		}
       	try{

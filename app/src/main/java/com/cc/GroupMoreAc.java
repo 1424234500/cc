@@ -4,10 +4,13 @@ import interfac.CallInt;
 
 import java.util.Map;
 
-import net.MSG;
+import net.MSGTYPE;
 import net.MSGSender;
-import util.tools.AndroidTools;
-import util.tools.MyJson;
+
+import util.AndroidTools;
+import util.JsonMsg;
+import util.JsonUtil;
+import util.MapListUtil;
 import util.Tools;
 import util.view.TopPanelReturnTitleMenu;
 
@@ -38,23 +41,24 @@ public class GroupMoreAc extends BaseAc implements OnClickListener, CallInt {
 	Button bDelete;
 	 
 	@Override
-	public void callback(String jsonstr) { 
-		int cmd = MyJson.getCmd(jsonstr); 
+	public void callback(String jsonstr) {
+
+		int cmd = JsonMsg.getCmd(jsonstr);
 		int i = 0; 
 		switch (cmd) { 
-		case MSG.DELETE_RELEATIONSHIP_BY_TYPE_ID:
+		case MSGTYPE.DELETE_RELEATIONSHIP_BY_TYPE_ID:
 			this.closeLoading();
-			if(MyJson.getValue0(jsonstr).equals("true")){
+			if(JsonMsg.getValue0(jsonstr).equals("true")){
 				toast("删除成功");
 				this.finish();
 			}else{
-				toast("删除失败：" + MyJson.getValue0(jsonstr));
+				toast("删除失败：" + JsonMsg.getValue0(jsonstr));
 			}
 
 			break;
-		case MSG.UPDATE_GROUP_BY_ID_NAME_SIGN_NUM_CHECK:
+		case MSGTYPE.UPDATE_GROUP_BY_ID_NAME_SIGN_NUM_CHECK:
 			this.closeLoading();
-			if(MyJson.getValue0(jsonstr).equals("true")){
+			if(JsonMsg.getValue0(jsonstr).equals("true")){
 				toast("更新信息成功");
 				this.finish();
 			}
@@ -77,26 +81,26 @@ public class GroupMoreAc extends BaseAc implements OnClickListener, CallInt {
 		topTitle.setAlphaMode(true);
 		Map<String, Object> map =	AndroidTools.getMapFromIntent(this.getIntent());
 		etname = (EditText)findViewById(R.id.etname);
-		etname.setText(Tools.getMap(map, "USERNAME"));
+		etname.setText(MapListUtil.getMap(map, "USERNAME"));
 		etsign = (EditText)findViewById(R.id.etsign);
-		etsign.setText(Tools.getMap(map, "SIGN"));
+		etsign.setText(MapListUtil.getMap(map, "SIGN"));
 		snum = (Spinner)findViewById(R.id.snum);
 		String[] nums = getResources().getStringArray(R.array.group_num);
-		String num = Tools.getMap(map, "NUM");
+		String num = MapListUtil.getMap(map, "NUM");
 		int count = Tools.getCount(nums, num);
 		if(count >= 0){
 			snum.setSelection(count);
 		}
 		cbok = (CheckBox)findViewById(R.id.cbok);
-		cbok.setChecked(Tools.getMap(map, "CHECKED").equals("true") );
+		cbok.setChecked(MapListUtil.getMap(map, "CHECKED").equals("true") );
 	
 		tvid	 = (TextView)findViewById(R.id.tvid);
-		tvid.setText(Tools.getMap(map, "ID"));
+		tvid.setText(MapListUtil.getMap(map, "ID"));
 		
 		bDelete = (Button)findViewById(R.id.bdelete);
 		bDelete.setOnClickListener(this); 
 		
-		if(Tools.getMap(map, "CREATORID").equals(Constant.id)){
+		if(MapListUtil.getMap(map, "CREATORID").equals(Constant.id)){
 			bDelete.setText("解散该群");
 			topTitle.setMenu("更新");
 			etname.setClickable(true);

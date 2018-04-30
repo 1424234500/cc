@@ -2,10 +2,14 @@ package com.cc;
 
 import java.io.File;
 
-import net.MSG;
+import net.MSGTYPE;
+
 import service.NetService;
-import util.tools.MyJson;
+import util.JsonMsg;
+import util.JsonMsg;
+import util.MySP;
 import util.Tools;
+import net.MSGTYPE;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,7 +32,9 @@ public class StartAc extends BaseAc {
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 		Constant.screenH = dm.heightPixels;
 		Constant.screenW = dm.widthPixels;
-		  
+
+		//初始化sharedPreference
+		initSP();
 		//初始化数据库表
 		initDatabaseTable();
 		initFileDir();
@@ -41,7 +47,12 @@ public class StartAc extends BaseAc {
 		startActivity(new Intent(StartAc.this, LoginAc.class));
 		this.finish(); 
 		
-	} 
+	}
+	public void initSP(){
+		Constant.systemKey = MySP.get(getContext(), "syskey", "raspberrypi");
+		Constant.systemId = MySP.get(getContext(), "sysid", "walker");
+		Constant.systemPwd = MySP.get(getContext(), "syspwd", "0");
+	}
 	public void initFileDir(){
 //		public static final String root = Environment.getExternalStorageDirectory() + "/mycc/";  
 //		public static final String dirVoice = root + "record/";  
@@ -83,10 +94,10 @@ public class StartAc extends BaseAc {
 	public void callback(String jsonstr) { 
 		Tools.out("StartAc.callback."+jsonstr);
 		
-		//Tools.toast(this, MyJson.getValue0(jsonstr)); 
+		//Tools.toast(this, JsonMsg.getValue0(jsonstr));
 		
-		switch (MyJson.getCmd(jsonstr)) {
-		case MSG.OK: 
+		switch (JsonMsg.getCmd(jsonstr)) {
+		case MSGTYPE.OK:
 			startActivity(new Intent(StartAc.this, LoginAc.class));
 			this.finish(); 
 			break;

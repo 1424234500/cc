@@ -1,5 +1,6 @@
 package fragm;
  
+import util.AndroidTools;
 import util.fragm.BaseFragment;
 import util.Tools;
 import util.view.VoiceListener;
@@ -18,13 +19,13 @@ public class FragmentVoice extends BaseFragment   {
     @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Tools.life("FragmentVoice onCreate");
+		AndroidTools.life("FragmentVoice onCreate");
 		
 	}
 	@Override  
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {  
     	View view = inflater.inflate(R.layout.layout_voice, container, false);  
-		Tools.life("FragmentVoice onCreateView");
+		AndroidTools.life("FragmentVoice onCreateView");
 
     	vl = new VoiceListener(getContext(), view);
     	view.setOnTouchListener(vl);
@@ -36,7 +37,7 @@ public class FragmentVoice extends BaseFragment   {
     OnVoice onVoice;
     public void setCall(OnVoice onVoice){
     	this.onVoice = onVoice;
-    	Tools.life("FragmentVoice setCall");
+    	AndroidTools.life("FragmentVoice setCall");
 
     }
     //设置存储文件名前缀

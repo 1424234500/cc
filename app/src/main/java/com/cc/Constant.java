@@ -6,11 +6,46 @@ public class Constant {
 	//public static String serverIp = "10.18.176.187";//校园网
 	//public static String serverIp = "192.168.253.1";	//本机360wifi作废了
 
-	
-	public static String serverIpNet = "119.29.232.188";	//服务器
+	public static int serverPort = 8092;
+	public static String serverIpNet = "192.168.1.6";	//服务器
 	public static String serverIpLocal = "192.168.191.1";	//本机
-	public static String serverIp = serverIpLocal;	 
-	 
+	public static String serverIp = serverIpLocal;
+
+
+
+
+
+	public static String systemKey = "";	//系统key
+	public static String systemId = "";
+	public static String systemPwd = "";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	//public static String http = serverIp + ":8080/cc/";
 	//public static String httpUpload = "http://"+serverIp + ":8080/cc/UploadFile"; //服务器http上传地址
 	public static String httpUpload(){
@@ -37,8 +72,7 @@ public class Constant {
 
 	//http://10.18.176.187:8080/cc/profile/yls1.png服务器图片访问方式，个人信息访问权限问题？
 	//头像可以随意访问，但是聊天图片呢？http访问图片限制验证密码or key？
-	public static int serverPort = 1228;
-		
+
  
 		
 
@@ -70,7 +104,10 @@ public class Constant {
 
 	protected static final int maxChatNum = 32;//最多聊天界面记录
 	
-	
+
+
+
+
 	
 	
 	

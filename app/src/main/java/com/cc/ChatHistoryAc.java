@@ -7,14 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import net.MSG;
+import net.MSGTYPE;
 import net.MSGSender;
 import okhttp3.Call;
-import util.tools.AndroidTools;
-import util.tools.MyJson;
-import util.tools.MyMediaPlayer;
+import util.AndroidTools;
+import util.JsonMsg;
+import util.JsonUtil;
+import util.MapListUtil;
+import util.MyMediaPlayer;
 import util.Tools;
-import util.tools.picasso.NetImage;
+import util.picasso.NetImage;
 import util.view.DialogImageShow;
 import adapter.AdapterLvChat;
 import android.media.MediaPlayer;
@@ -42,12 +44,11 @@ public class ChatHistoryAc extends BaseAc implements CallInt, View.OnClickListen
 	public void callback(String jsonstr) {
 		List<Map<String, Object>>  list;
 		Map<String, Object>  map;
-		int cmd = MyJson.getCmd(jsonstr);
+		int cmd = JsonMsg.getCmd(jsonstr);
 		switch (cmd) {
-		case MSG.GET_USER_GROUP_CHAT_BY_TYPE_ID_START_HISTORY://查询消息记录 服务器决定一次多x<10>条消息
+		case MSGTYPE.GET_USER_GROUP_CHAT_BY_TYPE_ID_START_HISTORY://查询消息记录 服务器决定一次多x<10>条消息
 			closeLoading();
-			
-			list = MyJson.getList(jsonstr);
+			list = JsonUtil.getList(jsonstr);
 
 			//需要适配好友 私聊，群聊，非好友，为了复用代码，多传输部分冗余数据
 			//本地添加会话记录
@@ -129,18 +130,18 @@ public class ChatHistoryAc extends BaseAc implements CallInt, View.OnClickListen
 			public void call(final int position) {
 
 				Map<String,Object> map = listChatMsg.get(position);
-				Tools.log(map.toString());
+				AndroidTools.log(map.toString());
 
 				//点中某个用户/群组，进入详情界面显示
-				String type = Tools.getMap(map, "TYPE").toString();
+				String type = MapListUtil.getMap(map, "TYPE").toString();
 				if(type.equals("text")){	//文本消息点击,头像点击
 				}else if(type.equals("voice")){	//语音消息点击,播放暂停
-					if(Tools.getMapString(map, "isplay").equals("true")){//停止播放
+					if(MapListUtil.getMap(map, "isplay").equals("true")){//停止播放
 						listChatMsg.get(position).put("isplay", "false");
 						MyMediaPlayer.getInstance().stop();
-						Tools.log("isplay true");
+						AndroidTools.log("isplay true");
 					}else{//开始播放
-						Tools.log("isplay false");
+						AndroidTools.log("isplay false");
 						//关闭其它正在播放的 动画
 						for(int i = 0;i  < listChatMsg.size(); i++){
 							if(listChatMsg.get(i).get("TYPE").toString().equals("voice")){
@@ -149,7 +150,7 @@ public class ChatHistoryAc extends BaseAc implements CallInt, View.OnClickListen
 						}
 						listChatMsg.get(position).put("isplay", "true");
 
-						MyMediaPlayer.getInstance().play(Constant.dirVoice + Tools.getMap(map, "MSG"),new MyMediaPlayer.OnPlay() {
+						MyMediaPlayer.getInstance().play(Constant.dirVoice + MapListUtil.getMap(map, "MSG"),new MyMediaPlayer.OnPlay() {
 							@Override
 							public void onPlayEnd(MediaPlayer mediaPlayerr) {
 								listChatMsg.get(position).put("isplay", "false");
@@ -161,12 +162,12 @@ public class ChatHistoryAc extends BaseAc implements CallInt, View.OnClickListen
 					
 				}else if(type.equals("photo")){	//图片消息点击
 					//携带参数跳转
-					String path = Constant.dirPhoto + Tools.getMap(map, "MSG");
+					String path = Constant.dirPhoto + MapListUtil.getMap(map, "MSG");
 					DialogImageShow dis = new DialogImageShow(ChatHistoryAc.this, path);
 					dis.show();
 					dis.setCancelable(true);
 				}else if(type.equals("file")){	//文件消息点击,提示打开
-					String id_filename = Tools.getMap(map, "MSG");	//101OTJOTOTxxx.doc
+					String id_filename = MapListUtil.getMap(map, "MSG");	//101OTJOTOTxxx.doc
 					String filename = id_filename.substring(id_filename.split(Constant.split)[0].length() + Constant.split.length());	//xxx.doc
 					String path = Constant.dirFile + filename;
 					AndroidTools.openFile(ChatHistoryAc.this, path);
@@ -185,11 +186,11 @@ public class ChatHistoryAc extends BaseAc implements CallInt, View.OnClickListen
 	}
 	private void setByMap(Map<String, Object> map) {
 		if(map != null){
-			tvTitleOne.setText(Tools.getMap(map, "title").toString());
+			tvTitleOne.setText(MapListUtil.getMap(map, "title").toString());
 			tvTitleTwo.setText("");
 			tvReturn.setText("返回");
-			toid = Tools.getMap(map, "ID").toString();
-			type = Tools.getMap(map, "TYPE").toString();
+			toid = MapListUtil.getMap(map, "ID").toString();
+			type = MapListUtil.getMap(map, "TYPE").toString();
 		}
 	} 
 	@Override
@@ -207,7 +208,7 @@ public class ChatHistoryAc extends BaseAc implements CallInt, View.OnClickListen
 		case R.id.tvpre:
         	time = "";
         	if(listChatMsg.size() > 0){
-        		time = Tools.getList(listChatMsg, 0, "TIME");
+        		time = MapListUtil.getList(listChatMsg, 0, "TIME");
         		listtime.add(0, time);
         		MSGSender.getChatMsgByTypeIdStarttimeHistory(ChatHistoryAc.this, type, toid, time );
         		openLoading();
@@ -255,36 +256,36 @@ public class ChatHistoryAc extends BaseAc implements CallInt, View.OnClickListen
 			final Map<String, Object> map = list.get(i);
 
 			try{
-				if(Tools.getMap(map, "TYPE").toString().equals("text")){
+				if(MapListUtil.getMap(map, "TYPE").toString().equals("text")){
 
-				}else if(Tools.getMap(map, "TYPE").toString().equals("voice")){
-					final String filename = Tools.getMap(map, "MSG") ;//检测本地存在
+				}else if(MapListUtil.getMap(map, "TYPE").toString().equals("voice")){
+					final String filename = MapListUtil.getMap(map, "MSG") ;//检测本地存在
 					if(new File(Constant.dirVoice + filename).exists()){
 						Tools.out("声音文件:" + Constant.dirVoice + filename + "已存在");
 						map.put("isok", "true");	//该文件的可用状态
-						map.put("count", Tools.calcTimeSize(MyMediaPlayer.getInstance().getDutation(Constant.dirVoice + filename)));	//该文件的时长
+						map.put("count", Tools.calcTime(MyMediaPlayer.getInstance().getDutation(Constant.dirVoice + filename)));	//该文件的时长
 					}else{
 						Tools.out("声音文件:" + Constant.dirVoice + filename + "不存在，开始下载");
 						AndroidTools.downloadVoice(filename, new FileCallBack(Constant.dirVoice , filename) { 
 					        @Override
 					        public void onError(Call request, Exception e, int arg2)   {
-					           Tools.log("声音文件:" + Constant.dirVoice + filename + "onError :" + e.getMessage());
+					           AndroidTools.log("声音文件:" + Constant.dirVoice + filename + "onError :" + e.getMessage());
 								map.put("isok", "error");	//该文件的可用状态
 								adapterLvChat.notifyDataSetChanged();	
 					        }
 					        @Override
 					        public void onResponse(File file, int arg1) {
-					        	Tools.log( "声音文件:" + Constant.dirVoice + filename + "onResponse :" + file.getAbsolutePath() + " int:" + arg1);
+					        	AndroidTools.log( "声音文件:" + Constant.dirVoice + filename + "onResponse :" + file.getAbsolutePath() + " int:" + arg1);
 								map.put("isok", "true");	//该文件的可用状态
-					        	map.put("count", Tools.calcTimeSize(MyMediaPlayer.getInstance().getDutation(Constant.dirVoice + filename)));	//该文件的时长
+					        	map.put("count", Tools.calcTime(MyMediaPlayer.getInstance().getDutation(Constant.dirVoice + filename)));	//该文件的时长
 								adapterLvChat.notifyDataSetChanged();	
 					        } 
 					    });
 						map.put("isok", "false");	//该文件的可用状态
 					}
 					map.put("isplay", "false");	//该文件的播放状态
-				} else if(Tools.getMap(map, "TYPE").toString().equals("photo")){ 
-					final String filename = Tools.getMap(map, "MSG").toString();//检测本地存在
+				} else if(MapListUtil.getMap(map, "TYPE").toString().equals("photo")){ 
+					final String filename = MapListUtil.getMap(map, "MSG").toString();//检测本地存在
 					if(new File(Constant.dirPhoto + filename).exists()){
 						Tools.out("图片文件:" + Constant.dirPhoto + filename + "已存在");
 						map.put("isok", "true");	
@@ -293,13 +294,13 @@ public class ChatHistoryAc extends BaseAc implements CallInt, View.OnClickListen
 						AndroidTools.downloadPhoto(filename, new FileCallBack(Constant.dirPhoto , filename) { 
 					        @Override
 					        public void onError(Call request, Exception e, int arg2)   {
-					           Tools.log("图片文件:" + Constant.dirVoice + filename + "下载失败" + e.getMessage());
+					           AndroidTools.log("图片文件:" + Constant.dirVoice + filename + "下载失败" + e.getMessage());
 								map.put("isok", "false");	
 								adapterLvChat.notifyDataSetChanged();	
 					        }
 					        @Override
 					        public void onResponse(File file, int arg1) {
-					        	Tools.log( "图片文件下载结果onResponse :" + file.getAbsolutePath() + " int:" + arg1);
+					        	AndroidTools.log( "图片文件下载结果onResponse :" + file.getAbsolutePath() + " int:" + arg1);
 								map.put("isok", "true");	//该文件的可用状态，！！此处map是否能够更新listadpater里面的数据？
 								adapterLvChat.notifyDataSetChanged();	
 					        } 
@@ -307,8 +308,8 @@ public class ChatHistoryAc extends BaseAc implements CallInt, View.OnClickListen
 						map.put("isok", "false");	//该文件的下载
 					}
 					
-				} else if(Tools.getMap(map, "TYPE").toString().equals("file")){
-					final String id_filename = Tools.getMap(map, "MSG").toString();//检测本地存在
+				} else if(MapListUtil.getMap(map, "TYPE").toString().equals("file")){
+					final String id_filename = MapListUtil.getMap(map, "MSG").toString();//检测本地存在
 					final String filename = id_filename.substring(id_filename.split(Constant.split)[0].length() + Constant.split.length());	//xxx.doc
 					//关于同个用户重复发送某同名文件，文件覆盖不重复?, id????????????
 					if(new File(Constant.dirFile + filename).exists()){////下载的文件并重命名，去掉102OTOTO服务器上传下载编制前缀
@@ -319,13 +320,13 @@ public class ChatHistoryAc extends BaseAc implements CallInt, View.OnClickListen
 						AndroidTools.downloadFile(id_filename, new FileCallBack(Constant.dirFile , filename) { 
 					        @Override
 					        public void onError(Call request, Exception e, int arg2)   {
-					           Tools.log("文件:" + Constant.dirFile + filename + "下载失败onError." + e.getMessage());
+					           AndroidTools.log("文件:" + Constant.dirFile + filename + "下载失败onError." + e.getMessage());
 								map.put("isok", "error");
 					        	adapterLvChat.notifyDataSetChanged();	
 					        }
 					        @Override
 					        public void onResponse(File file, int arg1) {
-					        	Tools.log( "文件下载结果onResponse :" + file.getAbsolutePath() + " int:" + arg1);
+					        	AndroidTools.log( "文件下载结果onResponse :" + file.getAbsolutePath() + " int:" + arg1);
 					        	//下载的文件并重命名，去掉102OTOTO服务器上传下载编制前缀
 					        	file.renameTo(new File(Constant.dirFile+filename));
 								map.put("isok", "true");
@@ -336,7 +337,7 @@ public class ChatHistoryAc extends BaseAc implements CallInt, View.OnClickListen
 					}
 				  } 
 				}catch(Exception e){
-					toast( Tools.getMap(map, "MSG")+" 下载失败");
+					toast( MapListUtil.getMap(map, "MSG")+" 下载失败");
 					e.printStackTrace();
 			}
 			

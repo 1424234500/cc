@@ -12,17 +12,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.MSG;
+import net.MSGTYPE;
 import net.MSGSender;
 import okhttp3.Call;
-import util.tools.AndroidTools;
-import util.tools.EmotionKeyboard;
-import util.tools.MyFile;
-import util.tools.MyImage;
-import util.tools.MyJson;
-import util.tools.MyMediaPlayer;
+import util.AndroidTools;
+import util.EmotionKeyboard;
+import util.JsonMsg;
+import util.JsonUtil;
+import util.MapListUtil;
+import util.MyFile;
+import util.MyImage;
+import util.MyMediaPlayer;
 import util.Tools;
-import util.tools.picasso.NetImage;
+import util.picasso.NetImage;
 import util.view.ChatView;
 import util.view.ChatView.OnControl;
 import util.view.DialogImageShow;
@@ -64,14 +66,14 @@ public class ChatAcDoll extends BaseAc implements CallInt, View.OnClickListener{
 	@Override
 	public void callback(String jsonstr) {
 		Map<String, Object>  map;
-		int cmd = MyJson.getCmd(jsonstr);
+		int cmd = JsonMsg.getCmd(jsonstr);
 		String v, v1, v2;
 		int j;
 		switch (cmd) {
-		case MSG.DOLL_IN_OR_OUT_BY_NAME_TYPE:
-			v = MyJson.getValue0(jsonstr);
-			v1 =  MyJson.getValue1(jsonstr);
-			v2 =  MyJson.getValue2(jsonstr);
+		case MSGTYPE.DOLL_IN_OR_OUT_BY_NAME_TYPE:
+			v = JsonMsg.getValue0(jsonstr);
+			v1 =  JsonMsg.getValue1(jsonstr);
+			v2 =  JsonMsg.getValue2(jsonstr);
 			if(! v.equals(this.toid)){
 				return;
 			}
@@ -99,12 +101,12 @@ public class ChatAcDoll extends BaseAc implements CallInt, View.OnClickListener{
 		    adapterLvChat.notifyDataSetChanged();
 		    lvChat.setSelection(listChatMsg.size()-1);	//选中最新一条，滚动到底部
 			break;
-		case MSG.DOLL_CHAT_BY_TONAME_TYPE_MSG://在线时收到一些条消息，判定，是此会话的fromid和toid才显示在当前界面
+		case MSGTYPE.DOLL_CHAT_BY_TONAME_TYPE_MSG://在线时收到一些条消息，判定，是此会话的fromid和toid才显示在当前界面
 			
-			map = MyJson.getMap(jsonstr);
+			map = JsonUtil.getMap(jsonstr);
 			//Tools.out("当前selfid:"+Constant.id + " toid:" + this.toid);
 			//我和目标用户之间的对话消息，此处一条消息，只能是别人发给我，或者别人发给群
-			if( ( Tools.getMap(map,  "TOID").equals(this.toid)) ){
+			if( ( MapListUtil.getMap(map,  "TOID").equals(this.toid)) ){
 				
 				if(listChatMsg.size() >= Constant.maxChatNum){
             		//toast("更多的消息在聊天记录中查看");
@@ -197,22 +199,22 @@ public class ChatAcDoll extends BaseAc implements CallInt, View.OnClickListener{
 			public void call(final int position) {
 
 				Map<String,Object> map = listChatMsg.get(position);
-				Tools.log(map.toString());
+				AndroidTools.log(map.toString());
 
 				//点中某个用户/群组，进入详情界面显示
-				String type = Tools.getMap(map, "TYPE").toString();
+				String type = MapListUtil.getMap(map, "TYPE").toString();
 				if(type.equals("text")){	//文本消息点击,头像点击
-					 etSend.setText("@"+Tools.getMap(map, "USERNAME"));
+					 etSend.setText("@"+MapListUtil.getMap(map, "USERNAME"));
 					 etSend.requestFocus();
 					 etSend.setSelection(etSend.getText().length()); 
 					 ekb.openSoft();
 				}else if(type.equals("voice")){	//语音消息点击,播放暂停
-					if(Tools.getMapString(map, "isplay").equals("true")){//停止播放
+					if(MapListUtil.getMap(map, "isplay").equals("true")){//停止播放
 						listChatMsg.get(position).put("isplay", "false");
 						MyMediaPlayer.getInstance().stop();
-						Tools.log("isplay true");
+						AndroidTools.log("isplay true");
 					}else{//开始播放
-						Tools.log("isplay false");
+						AndroidTools.log("isplay false");
 						//关闭其它正在播放的 动画
 						for(int i = 0;i  < listChatMsg.size(); i++){
 							if(listChatMsg.get(i).get("TYPE").toString().equals("voice")){
@@ -221,7 +223,7 @@ public class ChatAcDoll extends BaseAc implements CallInt, View.OnClickListener{
 						}
 						listChatMsg.get(position).put("isplay", "true");
 
-						MyMediaPlayer.getInstance().play(Constant.dirVoice + Tools.getMap(map, "MSG"),new MyMediaPlayer.OnPlay() {
+						MyMediaPlayer.getInstance().play(Constant.dirVoice + MapListUtil.getMap(map, "MSG"),new MyMediaPlayer.OnPlay() {
 							@Override
 							public void onPlayEnd(MediaPlayer mediaPlayerr) {
 								listChatMsg.get(position).put("isplay", "false");
@@ -233,13 +235,13 @@ public class ChatAcDoll extends BaseAc implements CallInt, View.OnClickListener{
 					
 				}else if(type.equals("photo")){	//图片消息点击
 					//携带参数跳转
-					String path = Constant.dirPhoto + Tools.getMap(map, "MSG");
+					String path = Constant.dirPhoto + MapListUtil.getMap(map, "MSG");
 					DialogImageShow dis = new DialogImageShow(ChatAcDoll.this, path);
 					dis.show();
 					dis.setCancelable(true);
 				}else if(type.equals("file")){	//文件消息点击,提示打开
 					
-					String id_filename = Tools.getMap(map, "MSG");	//101OTJOTOTxxx.doc
+					String id_filename = MapListUtil.getMap(map, "MSG");	//101OTJOTOTxxx.doc
 					String filename = id_filename.substring(id_filename.split(Constant.split)[0].length() + Constant.split.length());	//xxx.doc
 					String path = Constant.dirFile + filename;
 					AndroidTools.openFile(ChatAcDoll.this, path);
@@ -422,7 +424,7 @@ public class ChatAcDoll extends BaseAc implements CallInt, View.OnClickListener{
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {  
          if (requestCode == ACTIVITY_RESULT_CAMERA && resultCode == Activity.RESULT_OK  ) {   
-        	Tools.log("拍照结果"+ChatAcDoll.TAKEPHOTO);
+        	AndroidTools.log("拍照结果"+ChatAcDoll.TAKEPHOTO);
         	List<String> list = new ArrayList<String>();
 			list.add(ChatAcDoll.TAKEPHOTO);
 			sendPhotos(list);
@@ -447,9 +449,9 @@ public class ChatAcDoll extends BaseAc implements CallInt, View.OnClickListener{
 		if(map != null){
 			//"result":{"NOWNUM":2,"MAXNUM":100,"NAME":"Default","IVROOM":24,"MASTERID":"123456"}
 			tvReturn.setText("退出");
-			tvTitleOne.setText(Tools.getMap(map, "NAME").toString());
-			tvTitleTwo.setText(Tools.getMap(map, "NOWNUM") + "/" + Tools.getMap(map, "MAXNUM").toString());
-			toid = Tools.getMap(map, "NAME").toString();
+			tvTitleOne.setText(MapListUtil.getMap(map, "NAME").toString());
+			tvTitleTwo.setText(MapListUtil.getMap(map, "NOWNUM") + "/" + MapListUtil.getMap(map, "MAXNUM").toString());
+			toid = MapListUtil.getMap(map, "NAME").toString();
 			type = "doll";
 		}
 	} 
@@ -469,7 +471,7 @@ public class ChatAcDoll extends BaseAc implements CallInt, View.OnClickListener{
 		case R.id.ivmenu://用户详情
 			break;
 		case R.id.tvsend: //点击发送消息
-			if(!Tools.testNull( etSend.getText().toString())){
+			if(Tools.notNull( etSend.getText().toString())){
 				sendText();
 			} 
 			break;
@@ -603,7 +605,7 @@ public class ChatAcDoll extends BaseAc implements CallInt, View.OnClickListener{
 		map.put("TYPE", "voice");	//类型，文本，语音，图片，文件
 		map.put("MSG", Tools.getFileNameByLocalPath(file));	//声音文件名	本地路径+name.amr
 		
-		map.put("count", Tools.calcTimeSize(MyMediaPlayer.getInstance().getDutation(file)));	//该文件的时长
+		map.put("count", Tools.calcTime(MyMediaPlayer.getInstance().getDutation(file)));	//该文件的时长
 		map.put("isplay", "false");	//该文件的播放状态
 		map.put("isok", "true");	//该文件的下载
 
@@ -659,36 +661,36 @@ public class ChatAcDoll extends BaseAc implements CallInt, View.OnClickListener{
 			final Map<String, Object> map = list.get(i);
 
 			try{
-				if(Tools.getMap(map, "TYPE").toString().equals("text")){
+				if(MapListUtil.getMap(map, "TYPE").toString().equals("text")){
 
-				}else if(Tools.getMap(map, "TYPE").toString().equals("voice")){
-					final String filename = Tools.getMap(map, "MSG") ;//检测本地存在
+				}else if(MapListUtil.getMap(map, "TYPE").toString().equals("voice")){
+					final String filename = MapListUtil.getMap(map, "MSG") ;//检测本地存在
 					if(new File(Constant.dirVoice + filename).exists()){
 						Tools.out("声音文件:" + Constant.dirVoice + filename + "已存在");
 						map.put("isok", "true");	//该文件的可用状态
-						map.put("count", Tools.calcTimeSize(MyMediaPlayer.getInstance().getDutation(Constant.dirVoice + filename)));	//该文件的时长
+						map.put("count", Tools.calcTime(MyMediaPlayer.getInstance().getDutation(Constant.dirVoice + filename)));	//该文件的时长
 					}else{
 						Tools.out("声音文件:" + Constant.dirVoice + filename + "不存在，开始下载");
 						AndroidTools.downloadVoice(filename, new FileCallBack(Constant.dirVoice , filename) { 
 					        @Override
 					        public void onError(Call request, Exception e, int arg2)   {
-					           Tools.log("声音文件:" + Constant.dirVoice + filename + "onError :" + e.getMessage());
+					           AndroidTools.log("声音文件:" + Constant.dirVoice + filename + "onError :" + e.getMessage());
 								map.put("isok", "error");	//该文件的可用状态
 								adapterLvChat.notifyDataSetChanged();	
 					        }
 					        @Override
 					        public void onResponse(File file, int arg1) {
-					        	Tools.log( "声音文件:" + Constant.dirVoice + filename + "onResponse :" + file.getAbsolutePath() + " int:" + arg1);
+					        	AndroidTools.log( "声音文件:" + Constant.dirVoice + filename + "onResponse :" + file.getAbsolutePath() + " int:" + arg1);
 								map.put("isok", "true");	//该文件的可用状态
-					        	map.put("count", Tools.calcTimeSize(MyMediaPlayer.getInstance().getDutation(Constant.dirVoice + filename)));	//该文件的时长
+					        	map.put("count", Tools.calcTime(MyMediaPlayer.getInstance().getDutation(Constant.dirVoice + filename)));	//该文件的时长
 								adapterLvChat.notifyDataSetChanged();	
 					        } 
 					    });
 						map.put("isok", "false");	//该文件的可用状态
 					}
 					map.put("isplay", "false");	//该文件的播放状态
-				} else if(Tools.getMap(map, "TYPE").toString().equals("photo")){ 
-					final String filename = Tools.getMap(map, "MSG").toString();//检测本地存在
+				} else if(MapListUtil.getMap(map, "TYPE").toString().equals("photo")){ 
+					final String filename = MapListUtil.getMap(map, "MSG").toString();//检测本地存在
 					if(new File(Constant.dirPhoto + filename).exists()){
 						Tools.out("图片文件:" + Constant.dirPhoto + filename + "已存在");
 						map.put("isok", "true");	
@@ -697,13 +699,13 @@ public class ChatAcDoll extends BaseAc implements CallInt, View.OnClickListener{
 						AndroidTools.downloadPhoto(filename, new FileCallBack(Constant.dirPhoto , filename) { 
 					        @Override
 					        public void onError(Call request, Exception e, int arg2)   {
-					           Tools.log("图片文件:" + Constant.dirVoice + filename + "下载失败" + e.getMessage());
+					           AndroidTools.log("图片文件:" + Constant.dirVoice + filename + "下载失败" + e.getMessage());
 								map.put("isok", "false");	
 								adapterLvChat.notifyDataSetChanged();	
 					        }
 					        @Override
 					        public void onResponse(File file, int arg1) {
-					        	Tools.log( "图片文件下载结果onResponse :" + file.getAbsolutePath() + " int:" + arg1);
+					        	AndroidTools.log( "图片文件下载结果onResponse :" + file.getAbsolutePath() + " int:" + arg1);
 								map.put("isok", "true");	//该文件的可用状态，！！此处map是否能够更新listadpater里面的数据？
 								adapterLvChat.notifyDataSetChanged();	
 					        } 
@@ -711,8 +713,8 @@ public class ChatAcDoll extends BaseAc implements CallInt, View.OnClickListener{
 						map.put("isok", "false");	//该文件的下载
 					}
 					
-				} else if(Tools.getMap(map, "TYPE").toString().equals("file")){
-					final String id_filename = Tools.getMap(map, "MSG").toString();//检测本地存在
+				} else if(MapListUtil.getMap(map, "TYPE").toString().equals("file")){
+					final String id_filename = MapListUtil.getMap(map, "MSG").toString();//检测本地存在
 					final String filename = id_filename.substring(id_filename.split(Constant.split)[0].length() + Constant.split.length());	//xxx.doc
 					//关于同个用户重复发送某同名文件，文件覆盖不重复?, id????????????
 					if(new File(Constant.dirFile + filename).exists()){////下载的文件并重命名，去掉102OTOTO服务器上传下载编制前缀
@@ -723,13 +725,13 @@ public class ChatAcDoll extends BaseAc implements CallInt, View.OnClickListener{
 						AndroidTools.downloadFile(id_filename, new FileCallBack(Constant.dirFile , filename) { 
 					        @Override
 					        public void onError(Call request, Exception e, int arg2)   {
-					           Tools.log("文件:" + Constant.dirFile + filename + "下载失败onError." + e.getMessage());
+					           AndroidTools.log("文件:" + Constant.dirFile + filename + "下载失败onError." + e.getMessage());
 								map.put("isok", "error");
 					        	adapterLvChat.notifyDataSetChanged();	
 					        }
 					        @Override
 					        public void onResponse(File file, int arg1) {
-					        	Tools.log( "文件下载结果onResponse :" + file.getAbsolutePath() + " int:" + arg1);
+					        	AndroidTools.log( "文件下载结果onResponse :" + file.getAbsolutePath() + " int:" + arg1);
 					        	//下载的文件并重命名，去掉102OTOTO服务器上传下载编制前缀
 					        	file.renameTo(new File(Constant.dirFile+filename));
 								map.put("isok", "true");
@@ -740,7 +742,7 @@ public class ChatAcDoll extends BaseAc implements CallInt, View.OnClickListener{
 					}
 				  } 
 				}catch(Exception e){
-					toast( Tools.getMap(map, "MSG")+" 下载失败");
+					toast( MapListUtil.getMap(map, "MSG")+" 下载失败");
 					e.printStackTrace();
 			}
 			

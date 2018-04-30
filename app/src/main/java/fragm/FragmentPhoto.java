@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import util.AndroidTools;
+import util.MapListUtil;
 import util.fragm.BaseFragment;
 import util.Tools;
 import util.view.HorizontalListView;
@@ -24,7 +26,7 @@ import com.cc.R;
   
 public class FragmentPhoto extends BaseFragment     {  
   
-	List<Map<String, String>> listPhoto = new ArrayList<Map<String, String>>();
+	List<Map<String, Object>> listPhoto = new ArrayList<Map<String, Object>>();
 	AdapterAblum adapterAblum;
 	TextView tvok;
 	TextView tvablum;
@@ -35,14 +37,14 @@ public class FragmentPhoto extends BaseFragment     {
     @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Tools.life("FragmentPhoto onCreate");
+		AndroidTools.life("FragmentPhoto onCreate");
  
 	}
 
 
 	@Override  
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {  	
-		Tools.life("FragmentPhoto onCreateView");
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
+		AndroidTools.life("FragmentPhoto onCreateView");
 
     	viewPhoto = inflater.inflate(R.layout.layout_photo, null);
 	   	     tvablum = ((TextView)viewPhoto.findViewById(R.id.tvablum));
@@ -54,7 +56,7 @@ public class FragmentPhoto extends BaseFragment     {
 				for(int i = 0; i < listPhoto.size(); i++){
 					//chose,path
 					if(listPhoto.get(i).get("chose").equals("true")){
-						files.add(listPhoto.get(i).get("path"));
+						files.add(MapListUtil.getList(listPhoto, i, "path"));
 						listPhoto.get(i).put("chose", "false");
 					}
 				}
@@ -145,7 +147,7 @@ public class FragmentPhoto extends BaseFragment     {
 	    if(mCursor == null){  return;   }
 	    int i = 0;
 	    while(mCursor.moveToNext() && i++ < 10){//只显示最多30张图片
-	    	   Map<String, String> map = new HashMap<String, String>();
+	    	   Map<String, Object> map = new HashMap<String, Object>();
 	    	   map.put("chose", "false");
 	    	   map.put("path", mCursor.getString(mCursor .getColumnIndex(MediaStore.Images.Media.DATA)));
 	    	   listPhoto.add(map);

@@ -7,8 +7,10 @@ import java.util.Map;
 
 import com.cc.Constant;
 
+import util.AndroidTools;
+import util.MapListUtil;
 import util.fragm.BaseFragment;
-import util.tools.EmotionUtils;
+import util.EmotionUtils;
 import util.Tools;
 import adapter.AdapterGvEmoji;
 import android.graphics.Bitmap;
@@ -38,7 +40,7 @@ public class FragmentEmoji extends BaseFragment implements  OnItemClickListener
     @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Tools.life("FragmentEmoji onCreate");
+		AndroidTools.life("FragmentEmoji onCreate");
 		listEmoji = new ArrayList<Map<String, Object>>();
 	   	 Map<String, Object> map;
 		 Map<String, Integer> emojiMap =  EmotionUtils.getEmojiMap();
@@ -60,7 +62,7 @@ public class FragmentEmoji extends BaseFragment implements  OnItemClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {  
 //    	   View view = inflater.inflate(R.layout.fragment_two, container, false);  
 //           mBtn = (Button) view.findViewById(R.id.id_fragment_two_btn);  
-		Tools.life("FragmentEmoji onCreateView");
+		AndroidTools.life("FragmentEmoji onCreateView");
 
 		 AdapterGvEmoji adapterGridEmoji = new AdapterGvEmoji(getContext(), listEmoji);
 //		 Tools.tip("emoji. getContext=" + (getContext()==null?"null":"not null"));
@@ -86,11 +88,11 @@ public class FragmentEmoji extends BaseFragment implements  OnItemClickListener
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int i, long l) {
 		if(call != null){
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), Tools.parseInt( Tools.getList(listEmoji, i, "id").toString()) );
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), Tools.parseInt( MapListUtil.getList(listEmoji, i, "id").toString()) );
             bitmap = Bitmap.createScaledBitmap(bitmap, Constant.emojiWH, Constant.emojiWH, true);
             ImageSpan imageSpan = new ImageSpan(getContext(), bitmap);
-            SpannableString spannableString = new SpannableString(Tools.getList(listEmoji, i, "name").toString());
-            spannableString.setSpan(imageSpan, 0, Tools.getList(listEmoji, i, "name").toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            SpannableString spannableString = new SpannableString(MapListUtil.getList(listEmoji, i, "name").toString());
+            spannableString.setSpan(imageSpan, 0, MapListUtil.getList(listEmoji, i, "name").toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
           
 			call.onCall(spannableString );
 		}

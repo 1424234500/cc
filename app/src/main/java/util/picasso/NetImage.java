@@ -1,4 +1,4 @@
-package util.tools.picasso; 
+package util.picasso;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,9 +7,9 @@ import android.widget.ImageView;
 import java.io.File;
 import java.io.IOException;
 
-import util.tools.MyImage;
+import util.picasso.transform.PicassoRoundTransform;
+import util.MyImage;
 import util.Tools;
-import util.tools.picasso.transform.PicassoRoundTransform;
 
 import com.cc.Constant;
 import com.cc.R;

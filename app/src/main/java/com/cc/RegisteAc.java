@@ -2,11 +2,11 @@ package com.cc;
 
 import interfac.CallString;
 
-import net.MSG;
+import net.MSGTYPE;
 import net.MSGSender;
-import util.tools.AndroidTools;
-import util.tools.MyJson;
-import util.tools.MySP;
+import util.AndroidTools;
+import util.JsonMsg;
+import util.MySP;
 import util.Tools;
 import util.view.ClearEditText;
 
@@ -34,16 +34,16 @@ public class RegisteAc extends BaseAc implements OnClickListener {
 	public void callback(String jsonstr) {
 		out("get. " + jsonstr);
 
-		int cmd = MyJson.getCmd(jsonstr);
+		int cmd = JsonMsg.getCmd(jsonstr);
 		String value0 = "", value1 = "", value2 = "", res = "";
 		switch (cmd) { 
-		case MSG.REGISTE_BY_USERNAME_EMAIL_SEX_PWD:
+		case MSGTYPE.REGISTE_BY_USERNAME_EMAIL_SEX_PWD:
 			this.closeLoading();
 
-			value0 = MyJson.getValue0(jsonstr);
-			value1 = MyJson.getValue1(jsonstr);
+			value0 = JsonMsg.getValue0(jsonstr);
+			value1 = JsonMsg.getValue1(jsonstr);
 			if(value0.equals( "true")){
-			//(MyJson.makeJson(MSG.REGISTE_BY_USERNAME_EMAIL_SEX_PWD, "false", "添加用户数据失败"));
+			//(JsonMsg.makeJson(MSGTYPE.REGISTE_BY_USERNAME_EMAIL_SEX_PWD, "false", "添加用户数据失败"));
 				//注册成功， 下一步
 				//toast( "注册成功"); 
 			  
@@ -140,7 +140,7 @@ public class RegisteAc extends BaseAc implements OnClickListener {
 	    RadioButton radioButton = (RadioButton)findViewById(rgSex.getCheckedRadioButtonId());
 		String sex =  radioButton.getText() + "";
 		
-		if(!Tools.testNull(username,pwd,repwd,email,sex) ){
+		if(Tools.notNull(username,pwd,repwd,email,sex) ){
 			if(repwd.equals(pwd)){
 				Constant.pwd = pwd;
 

@@ -1,6 +1,5 @@
-package util.tools;
+package util;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -13,10 +12,8 @@ import android.graphics.BitmapFactory;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
-import android.util.Log;
 import android.widget.TextView;
 
-import com.cc.Constant;
 import com.cc.R;
 
  //表情加载类,可自己添加多种表情，分别建立不同的map存放和不同的标志符即可

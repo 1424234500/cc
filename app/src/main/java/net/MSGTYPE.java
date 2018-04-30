@@ -2,7 +2,7 @@ package net;
 
 
 //消息结构类型名称定义
-public   class MSG {
+public   class MSGTYPE {
 
 	public final static String broadcastUrl = "cc.broadcast.client";	//广播接收注册id
 

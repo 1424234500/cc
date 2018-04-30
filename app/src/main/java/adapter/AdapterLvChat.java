@@ -5,9 +5,10 @@ import interfac.CallInt;
 import java.util.List;
 import java.util.Map;
 
-import util.tools.EmotionUtils;
+import util.EmotionUtils;
+import util.MapListUtil;
 import util.Tools;
-import util.tools.picasso.NetImage;
+import util.picasso.NetImage;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
@@ -230,9 +231,9 @@ public   class AdapterLvChat extends  BaseAdapter      {
 		//////////////////////////////////////////设置文本消息
 		if(type == TYPE_TEXT_SELF ){ 
 			viewHolderTextSelf.tvusername.setText( Tools.cutName(Constant.username)) ;
-			viewHolderTextSelf.tvtime.setText(Tools.getList(listItems, position, "TIME").toString()) ;
+			viewHolderTextSelf.tvtime.setText(MapListUtil.getList(listItems, position, "TIME").toString()) ;
 	        //解析消息内容
-	        SpannableString spannableString = EmotionUtils.getEmotionContent(context,viewHolderTextSelf.tvtext,Tools.getList(listItems, position, "MSG").toString());
+	        SpannableString spannableString = EmotionUtils.getEmotionContent(context,viewHolderTextSelf.tvtext,MapListUtil.getList(listItems, position, "MSG").toString());
 	        viewHolderTextSelf.tvtext.setText(spannableString);
 	        viewHolderTextSelf.ivprofile.setOnClickListener(new OnClickListener() {
 				@Override
@@ -240,12 +241,12 @@ public   class AdapterLvChat extends  BaseAdapter      {
 					if(callInt != null)callInt.call(position);
 				}
 			});
-			NetImage.loadProfile(context, Tools.getList(listItems, position, "PROFILEPATH").toString(), viewHolderTextSelf.ivprofile);
+			NetImage.loadProfile(context, MapListUtil.getList(listItems, position, "PROFILEPATH").toString(), viewHolderTextSelf.ivprofile);
 		}else if(type == TYPE_TEXT_OTHER){ 
-			viewHolderTextOther.tvusername.setText(Tools.cutName( Tools.getList(listItems, position, "USERNAME").toString())) ;
-			viewHolderTextOther.tvtime.setText(  Tools.getList(listItems, position, "TIME").toString()) ;
+			viewHolderTextOther.tvusername.setText(Tools.cutName( MapListUtil.getList(listItems, position, "USERNAME").toString())) ;
+			viewHolderTextOther.tvtime.setText(  MapListUtil.getList(listItems, position, "TIME").toString()) ;
 	        //解析消息内容
-	        SpannableString spannableString = EmotionUtils.getEmotionContent(context,viewHolderTextOther.tvtext,Tools.getList(listItems, position, "MSG").toString());
+	        SpannableString spannableString = EmotionUtils.getEmotionContent(context,viewHolderTextOther.tvtext,MapListUtil.getList(listItems, position, "MSG").toString());
 	        viewHolderTextOther.tvtext.setText(spannableString);
 	        viewHolderTextOther.ivprofile.setOnClickListener(new OnClickListener() {
 	    				@Override
@@ -253,33 +254,33 @@ public   class AdapterLvChat extends  BaseAdapter      {
 	    					if(callInt != null)callInt.call(position);
 	    				}
 	    			});
-			NetImage.loadProfile(context, Tools.getList(listItems, position, "PROFILEPATH").toString(), viewHolderTextOther.ivprofile);
+			NetImage.loadProfile(context, MapListUtil.getList(listItems, position, "PROFILEPATH").toString(), viewHolderTextOther.ivprofile);
 		}
 		//////////////////////////////////////设置语音消息
 		else if(type == TYPE_VOICE_SELF ){ 
 			viewHolderVoiceSelf.tvusername.setText( Tools.cutName(Constant.username)) ;
-			viewHolderVoiceSelf.tvtime.setText(Tools.getList(listItems, position, "TIME").toString()) ;
-			NetImage.loadProfile(context, Tools.getList(listItems, position, "PROFILEPATH").toString(), viewHolderVoiceSelf.ivprofile);
+			viewHolderVoiceSelf.tvtime.setText(MapListUtil.getList(listItems, position, "TIME").toString()) ;
+			NetImage.loadProfile(context, MapListUtil.getList(listItems, position, "PROFILEPATH").toString(), viewHolderVoiceSelf.ivprofile);
 			//设置语音播放状态
 			//viewHolderVoiceSelf.ivvoice.setImageResource(R.anim.anim_frame_voice_right);
 			AnimationDrawable anim = (AnimationDrawable)viewHolderVoiceSelf.ivvoice.getDrawable(); 
 //			anim.start();  
 
-			if(Tools.getMapString(listItems.get( position), "isplay").equals("true")){
+			if(MapListUtil.getMap(listItems.get( position), "isplay").equals("true")){
 				 anim.start();  
 			}else{
 				 anim.stop();  
 			}
 			
-			if(Tools.getList(listItems, position, "isok").toString().equals("true")){//文件下载就绪
-				viewHolderVoiceSelf.tvtext.setText(Tools.getMapString(listItems.get( position), "count"));
+			if(MapListUtil.getList(listItems, position, "isok").toString().equals("true")){//文件下载就绪
+				viewHolderVoiceSelf.tvtext.setText(MapListUtil.getMap(listItems.get( position), "count"));
 				viewHolderVoiceSelf.ivvoice.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
 						if(callInt != null) callInt.call(position);
 					}
 				});
-			}else if(Tools.getList(listItems, position, "isok").toString().equals("error")){
+			}else if(MapListUtil.getList(listItems, position, "isok").toString().equals("error")){
 				viewHolderVoiceSelf.tvtext.setText("下载失败");
 				viewHolderVoiceSelf.ivvoice.setOnClickListener(null);
 			}else {
@@ -288,13 +289,13 @@ public   class AdapterLvChat extends  BaseAdapter      {
 			}
 		
 		}else if(type == TYPE_VOICE_OTHER){ 
-			viewHolderVoiceOther.tvusername.setText(Tools.cutName( Tools.getList(listItems, position, "USERNAME").toString())) ;
-			viewHolderVoiceOther.tvtime.setText(  Tools.getList(listItems, position, "TIME").toString()) ;
-			NetImage.loadProfile(context, Tools.getList(listItems, position, "PROFILEPATH").toString(), viewHolderVoiceOther.ivprofile);
+			viewHolderVoiceOther.tvusername.setText(Tools.cutName( MapListUtil.getList(listItems, position, "USERNAME").toString())) ;
+			viewHolderVoiceOther.tvtime.setText(  MapListUtil.getList(listItems, position, "TIME").toString()) ;
+			NetImage.loadProfile(context, MapListUtil.getList(listItems, position, "PROFILEPATH").toString(), viewHolderVoiceOther.ivprofile);
 		
 			//设置语音播放状态
 			AnimationDrawable anim = (AnimationDrawable)viewHolderVoiceOther.ivvoice.getDrawable(); 
-			if(Tools.getMapString(listItems.get( position), "isplay").equals("true")){
+			if(MapListUtil.getMap(listItems.get( position), "isplay").equals("true")){
 				if (!anim.isRunning()) {  
 					anim.start();  
 	            }
@@ -303,15 +304,15 @@ public   class AdapterLvChat extends  BaseAdapter      {
 						anim.stop();  
 		          }
 			}
-			if(Tools.getList(listItems, position, "isok").toString().equals("true")){//文件下载就绪
-				viewHolderVoiceOther.tvtext.setText(Tools.getMapString(listItems.get( position), "count"));
+			if(MapListUtil.getList(listItems, position, "isok").toString().equals("true")){//文件下载就绪
+				viewHolderVoiceOther.tvtext.setText(MapListUtil.getMap(listItems.get( position), "count"));
 				viewHolderVoiceOther.ivvoice.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
 						if(callInt != null) callInt.call(position);
 					}
 				});
-			}else if(Tools.getList(listItems, position, "isok").toString().equals("error")){
+			}else if(MapListUtil.getList(listItems, position, "isok").toString().equals("error")){
 				viewHolderVoiceOther.tvtext.setText("下载失败");
 				viewHolderVoiceOther.ivvoice.setOnClickListener(null);
 			}else {
@@ -323,14 +324,14 @@ public   class AdapterLvChat extends  BaseAdapter      {
 		//////////////////////////////////////设置图片消息
 		else if(type == TYPE_PHOTO_SELF ){ 
 			viewHolderPhotoSelf.tvusername.setText( Tools.cutName(Constant.username)) ;
-			viewHolderPhotoSelf.tvtime.setText(Tools.getList(listItems, position, "TIME").toString()) ;
-			NetImage.loadProfile(context, Tools.getList(listItems, position, "PROFILEPATH").toString(), viewHolderPhotoSelf.ivprofile);
+			viewHolderPhotoSelf.tvtime.setText(MapListUtil.getList(listItems, position, "TIME").toString()) ;
+			NetImage.loadProfile(context, MapListUtil.getList(listItems, position, "PROFILEPATH").toString(), viewHolderPhotoSelf.ivprofile);
 		
-			//NetImage.loadNetImageInto(context, Tools.getList(listItems, position, "MSG").toString(), viewHolderPhotoSelf.ivphoto);
-			if(Tools.getList(listItems, position, "isok").toString().equals("true")){//文件下载就绪,使用picasso加载的本地文件
-				NetImage.loadLocalImgResize(context, Constant.dirPhoto + Tools.getList(listItems, position, "MSG"),Constant.photoMaxH, viewHolderPhotoSelf.ivphoto);
-			//	viewHolderPhotoSelf.ivphoto.setImageBitmap(MyImage.getBitmapByDecodeFile(Constant.dirPhoto + Tools.getList(listItems, position, "MSG").toString()));
-			//	Tools.out("设置图片消息"+Constant.dirPhoto + Tools.getList(listItems, position, "MSG").toString());
+			//NetImage.loadNetImageInto(context, MapListUtil.getList(listItems, position, "MSG").toString(), viewHolderPhotoSelf.ivphoto);
+			if(MapListUtil.getList(listItems, position, "isok").toString().equals("true")){//文件下载就绪,使用picasso加载的本地文件
+				NetImage.loadLocalImgResize(context, Constant.dirPhoto + MapListUtil.getList(listItems, position, "MSG"),Constant.photoMaxH, viewHolderPhotoSelf.ivphoto);
+			//	viewHolderPhotoSelf.ivphoto.setImageBitmap(MyImage.getBitmapByDecodeFile(Constant.dirPhoto + MapListUtil.getList(listItems, position, "MSG").toString()));
+			//	Tools.out("设置图片消息"+Constant.dirPhoto + MapListUtil.getList(listItems, position, "MSG").toString());
 				viewHolderPhotoSelf.ivphoto.setClickable(true);
 				viewHolderPhotoSelf.ivphoto.setOnClickListener(new OnClickListener() { // 点击放大
 					public void onClick(View paramView) {
@@ -344,16 +345,16 @@ public   class AdapterLvChat extends  BaseAdapter      {
 			}
 			
 		}else if(type == TYPE_PHOTO_OTHER){ 
-			viewHolderPhotoOther.tvusername.setText(Tools.cutName( Tools.getList(listItems, position, "USERNAME").toString())) ;
-			viewHolderPhotoOther.tvtime.setText(  Tools.getList(listItems, position, "TIME").toString()) ;
-			NetImage.loadProfile(context, Tools.getList(listItems, position, "PROFILEPATH").toString(), viewHolderPhotoOther.ivprofile);
+			viewHolderPhotoOther.tvusername.setText(Tools.cutName( MapListUtil.getList(listItems, position, "USERNAME").toString())) ;
+			viewHolderPhotoOther.tvtime.setText(  MapListUtil.getList(listItems, position, "TIME").toString()) ;
+			NetImage.loadProfile(context, MapListUtil.getList(listItems, position, "PROFILEPATH").toString(), viewHolderPhotoOther.ivprofile);
 			
 			//MSG存储图片名字id
-			//NetImage.loadNetImageInto(context, Tools.getList(listItems, position, "MSG").toString(), viewHolderPhotoSelf.ivphoto);
-			if(Tools.getList(listItems, position, "isok").toString().equals("true")){//文件下载就绪,使用picasso加载的本地文件
-				NetImage.loadLocalImgResize(context, Constant.dirPhoto + Tools.getList(listItems, position, "MSG"),Constant.photoMaxH, viewHolderPhotoOther.ivphoto);
-				//viewHolderPhotoOther.ivphoto.setImageBitmap(MyImage.getBitmapByDecodeFile(Constant.dirPhoto + Tools.getList(listItems, position, "MSG").toString()));
-				//	Tools.out("设置图片消息"+Constant.dirPhoto + Tools.getList(listItems, position, "MSG").toString());
+			//NetImage.loadNetImageInto(context, MapListUtil.getList(listItems, position, "MSG").toString(), viewHolderPhotoSelf.ivphoto);
+			if(MapListUtil.getList(listItems, position, "isok").toString().equals("true")){//文件下载就绪,使用picasso加载的本地文件
+				NetImage.loadLocalImgResize(context, Constant.dirPhoto + MapListUtil.getList(listItems, position, "MSG"),Constant.photoMaxH, viewHolderPhotoOther.ivphoto);
+				//viewHolderPhotoOther.ivphoto.setImageBitmap(MyImage.getBitmapByDecodeFile(Constant.dirPhoto + MapListUtil.getList(listItems, position, "MSG").toString()));
+				//	Tools.out("设置图片消息"+Constant.dirPhoto + MapListUtil.getList(listItems, position, "MSG").toString());
 				viewHolderPhotoOther.ivphoto.setOnClickListener(new OnClickListener() { // 点击放大
 					public void onClick(View paramView) {
 						if(callInt != null) callInt.call(position);
@@ -368,17 +369,17 @@ public   class AdapterLvChat extends  BaseAdapter      {
 		//////////////////////////////////////设置文件消息
 		else if(type == TYPE_FILE_SELF ){ 
 			viewHolderFileSelf.tvusername.setText( Tools.cutName(Constant.username)) ;
-			viewHolderFileSelf.tvtime.setText(Tools.getList(listItems, position, "TIME").toString()) ;
-			NetImage.loadProfile(context, Tools.getList(listItems, position, "PROFILEPATH").toString(), viewHolderFileSelf.ivprofile);
+			viewHolderFileSelf.tvtime.setText(MapListUtil.getList(listItems, position, "TIME").toString()) ;
+			NetImage.loadProfile(context, MapListUtil.getList(listItems, position, "PROFILEPATH").toString(), viewHolderFileSelf.ivprofile);
 			
-			String id_filename = Tools.getMapString(listItems.get( position), "MSG");	//1011_xxx.doc
+			String id_filename = MapListUtil.getMap(listItems.get( position), "MSG");	//1011_xxx.doc
 			String filename = id_filename.substring(id_filename.split(Constant.split)[0].length() + Constant.split.length());	//xxx.doc
 			String fileext = Tools.getFileTypeByLocalPath(filename);	//doc
 			int resid = Constant.getDrawableByTypeFile(fileext);
 			
 			NetImage.loadImage(context, resid, viewHolderFileSelf.ivvoice);
 
-			if(Tools.getList(listItems, position, "isok").toString().equals("true")){//文件下载就绪
+			if(MapListUtil.getList(listItems, position, "isok").toString().equals("true")){//文件下载就绪
 				viewHolderFileSelf.tvtext.setText(filename);
 				viewHolderFileSelf.ivvoice.setOnClickListener(new OnClickListener() {
 					@Override
@@ -386,7 +387,7 @@ public   class AdapterLvChat extends  BaseAdapter      {
 						if(callInt != null) callInt.call(position);
 					}
 				});
-			}else if(Tools.getList(listItems, position, "isok").toString().equals("error")){
+			}else if(MapListUtil.getList(listItems, position, "isok").toString().equals("error")){
 				viewHolderFileSelf.tvtext.setText(filename + "\n下载失败");
 				viewHolderFileSelf.ivvoice.setOnClickListener(null);
 			}else {
@@ -395,17 +396,17 @@ public   class AdapterLvChat extends  BaseAdapter      {
 			}
 			// viewHolderTextSelf.tvtext.setText(spannafbleString);
 		}else if(type == TYPE_FILE_OTHER){ 
-			viewHolderFileOther.tvusername.setText(Tools.cutName( Tools.getList(listItems, position, "USERNAME").toString())) ;
-			viewHolderFileOther.tvtime.setText(  Tools.getList(listItems, position, "TIME").toString()) ;
-			NetImage.loadProfile(context, Tools.getList(listItems, position, "PROFILEPATH").toString(), viewHolderFileOther.ivprofile);
+			viewHolderFileOther.tvusername.setText(Tools.cutName( MapListUtil.getList(listItems, position, "USERNAME").toString())) ;
+			viewHolderFileOther.tvtime.setText(  MapListUtil.getList(listItems, position, "TIME").toString()) ;
+			NetImage.loadProfile(context, MapListUtil.getList(listItems, position, "PROFILEPATH").toString(), viewHolderFileOther.ivprofile);
 		
-			String id_filename = Tools.getMapString(listItems.get( position), "MSG");	//1011_xxx.doc
+			String id_filename = MapListUtil.getMap(listItems.get( position), "MSG");	//1011_xxx.doc
 			String filename = id_filename.substring(id_filename.split(Constant.split)[0].length() + Constant.split.length());	//xxx.doc
 			String fileext = Tools.getFileTypeByLocalPath(filename);	//doc
 			int resid = Constant.getDrawableByTypeFile(fileext);
 			
 			NetImage.loadImage(context, resid, viewHolderFileOther.ivvoice);
-			if(Tools.getList(listItems, position, "isok").toString().equals("true")){//文件下载就绪
+			if(MapListUtil.getList(listItems, position, "isok").toString().equals("true")){//文件下载就绪
 				viewHolderFileOther.tvtext.setText(filename);
 				viewHolderFileOther.ivvoice.setOnClickListener(new OnClickListener() {
 					@Override
@@ -413,7 +414,7 @@ public   class AdapterLvChat extends  BaseAdapter      {
 						if(callInt != null) callInt.call(position);
 					}
 				});
-			}else if(Tools.getList(listItems, position, "isok").toString().equals("error")){
+			}else if(MapListUtil.getList(listItems, position, "isok").toString().equals("error")){
 				viewHolderFileOther.tvtext.setText(filename + "\n下载失败");
 				viewHolderFileOther.ivvoice.setOnClickListener(null);
 			}else {

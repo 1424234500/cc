@@ -3,9 +3,10 @@ package adapter;
 import java.util.List;
 import java.util.Map;
 
-import util.tools.EmotionUtils;
+import util.EmotionUtils;
+import util.MapListUtil;
 import util.Tools;
-import util.tools.picasso.NetImage;
+import util.picasso.NetImage;
 
 import android.content.Context;
 import android.text.SpannableString;
@@ -63,25 +64,25 @@ public   class AdapterLvSession extends BaseAdapter    {
 		// 设置文字和图片和监听
 		//	viewHolderUser.tvusername.setText("aaaaaaaaaaaaaaaaaa") ;
 
-		viewHolderUser.tvusername.setText(Tools.getList(listItems, position, "NAME")) ;
-		//viewHolderUser.tvmsg.setText(Tools.getList(listItems, position, "MSG")) ;
-		if(Tools.getMap(listItems.get( position), "MSGTYPE").equals("text")){
-			SpannableString spannableString = EmotionUtils.getEmotionContent(context,viewHolderUser.tvmsg,Tools.getList(listItems, position, "MSG"));
+		viewHolderUser.tvusername.setText(MapListUtil.getList(listItems, position, "NAME")) ;
+		//viewHolderUser.tvmsg.setText(MapListUtil.getList(listItems, position, "MSG")) ;
+		if(MapListUtil.getMap(listItems.get( position), "MSG").equals("text")){
+			SpannableString spannableString = EmotionUtils.getEmotionContent(context,viewHolderUser.tvmsg,MapListUtil.getList(listItems, position, "MSG"));
 			viewHolderUser.tvmsg.setText(spannableString);
-		}else if(Tools.getMap(listItems.get( position), "MSGTYPE").equals("voice")){
+		}else if(MapListUtil.getMap(listItems.get( position), "MSG").equals("voice")){
 			viewHolderUser.tvmsg.setText("[语音]");
-		}else if(Tools.getMap(listItems.get( position), "MSGTYPE").equals("file")){
+		}else if(MapListUtil.getMap(listItems.get( position), "MSG").equals("file")){
 			viewHolderUser.tvmsg.setText("[文件]");
-		}else if(Tools.getMap(listItems.get( position), "MSGTYPE").equals("photo")){
+		}else if(MapListUtil.getMap(listItems.get( position), "MSG").equals("photo")){
 			viewHolderUser.tvmsg.setText("[图片]");
 		}else {
-			SpannableString spannableString = EmotionUtils.getEmotionContent(context,viewHolderUser.tvmsg,Tools.getList(listItems, position, "MSG"));
+			SpannableString spannableString = EmotionUtils.getEmotionContent(context,viewHolderUser.tvmsg,MapListUtil.getList(listItems, position, "MSG"));
 			viewHolderUser.tvmsg.setText(spannableString);
 		}
 		
 			
-		viewHolderUser.tvtime.setText(Tools.getList(listItems, position, "TIME"));
-		int t = Tools.parseInt( Tools.getList(listItems, position, "NUM") );
+		viewHolderUser.tvtime.setText(MapListUtil.getList(listItems, position, "TIME"));
+		int t = Tools.parseInt( MapListUtil.getList(listItems, position, "NUM") );
 		if(t <= 0){
 			viewHolderUser.tvnum.setText( "") ;
 			viewHolderUser.tvnum.setVisibility(View.INVISIBLE);
@@ -92,7 +93,7 @@ public   class AdapterLvSession extends BaseAdapter    {
 			viewHolderUser.tvnum.setText( ""+t) ;
 			viewHolderUser.tvnum.setVisibility(View.VISIBLE);
 		}
-	 	NetImage.loadProfile(context, Tools.getList(listItems, position, "PROFILEPATH"), viewHolderUser.ivprofile);
+	 	NetImage.loadProfile(context, MapListUtil.getList(listItems, position, "PROFILEPATH"), viewHolderUser.ivprofile);
 		 
 		return convertView; 
 	}

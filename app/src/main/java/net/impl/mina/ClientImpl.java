@@ -5,7 +5,7 @@ import interfac.CallString;
 import java.net.InetSocketAddress;
 
 import net.Client;
-import net.MSG;
+import net.MSGTYPE;
 import net.impl.mina.coder.MyCharsetCodecFactory;
 
 import org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder;
@@ -18,7 +18,8 @@ import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import com.cc.Constant;
 
 
-import util.tools.MyJson;
+import util.AndroidTools;
+import util.JsonUtil;
 import util.Tools;
 
 public abstract class ClientImpl implements Client, CallString {
@@ -26,8 +27,8 @@ public abstract class ClientImpl implements Client, CallString {
     private ConnectFuture future;
     private IoSession session;
 
-    public static int port = 1228;
-    public static String ip = "127.0.0.1";
+    public static int port = 8092;
+    public static String ip = "192.168.1.6";
 
 
     public ClientImpl(String ip) {
@@ -36,7 +37,7 @@ public abstract class ClientImpl implements Client, CallString {
 
     @Override
     public void out(String str) {
-        Tools.out("Mina." + str);
+//        AndroidTools.out("Mina." + str);
     }
 
     @Override
@@ -66,7 +67,7 @@ public abstract class ClientImpl implements Client, CallString {
         return true;
     }
 
-    int ipcount = 0;
+    int ipcount = 1;
     static boolean ifOnConn = false;
 
     public void whileConn() {
@@ -88,7 +89,7 @@ public abstract class ClientImpl implements Client, CallString {
 
                         // 连接服务器，知道端口、地址
                         future = connector.connect(new InetSocketAddress(ip, port));
-                        out("等待服务器响应");
+                        out("等待服务器响应" + ip + ":" + port);
                         // 等待连接创建完成
                         future.awaitUninterruptibly();
 //						try {
@@ -102,9 +103,9 @@ public abstract class ClientImpl implements Client, CallString {
                         ifOnConn = false;
                         break;
                     } catch (Exception e) {
-                        out("连接异常,3s后尝试重新连接");
+                        out("连接异常,稍后后尝试重新连接");
                         try {
-                            Thread.sleep(1000);
+                            Thread.sleep(600);
                         } catch (InterruptedException e1) {
                             e1.printStackTrace();
                         }
@@ -142,7 +143,7 @@ public abstract class ClientImpl implements Client, CallString {
         if (session != null && session.isConnected()) {
             session.write(message);
         } else {
-            onReceive(MyJson.makeJson(MSG.TOAST, "连接中"));
+            onReceive(JsonUtil.makeJson(MSGTYPE.TOAST, "连接中"));
             reconnect("");
         }
 
@@ -159,7 +160,7 @@ public abstract class ClientImpl implements Client, CallString {
 
     public void exceptionCaught(String message) {
         out("clientimpl异常" + message);
-        onReceive(MyJson.makeJson(MSG.CLOSE, "连接断开"));
+        onReceive(JsonUtil.makeJson(MSGTYPE.CLOSE, "连接断开"));
         //reconnect("");
     }
 
@@ -170,7 +171,7 @@ public abstract class ClientImpl implements Client, CallString {
     }
 
     public void disConn() {
-        onReceive(MyJson.makeJson(MSG.CLOSE, "连接断开"));
+        onReceive(JsonUtil.makeJson(MSGTYPE.CLOSE, "连接断开"));
     }
 
 
@@ -186,7 +187,7 @@ public abstract class ClientImpl implements Client, CallString {
             } catch (Exception e) {
                 // TODO: handle exception
             }
-            Tools.log("断开重连");
+            AndroidTools.log("断开重连");
             connect();
         }
 

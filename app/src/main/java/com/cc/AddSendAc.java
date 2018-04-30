@@ -4,12 +4,15 @@ import interfac.CallInt;
 
 import java.util.Map;
 
-import net.MSG;
+import net.MSGTYPE;
 import net.MSGSender;
-import util.tools.AndroidTools;
-import util.tools.MyJson;
+
+import util.AndroidTools;
+import util.JsonMsg;
+import util.JsonUtil;
+import util.MapListUtil;
 import util.Tools;
-import util.tools.picasso.NetImage;
+import util.picasso.NetImage;
 import util.view.ClearEditText;
 import util.view.TopPanelReturnTitleMenu;
 
@@ -40,51 +43,51 @@ public class AddSendAc extends BaseAc implements OnClickListener, CallInt {
 	ImageView ivSex, ivProfile;
 	public void setByMap(final Map<String, Object> map){
 		if(map != null){
-			if(Tools.getMap(map, "TYPE").toString().equals("user")){//加人，设置验证信息，备注
+			if(MapListUtil.getMap(map, "TYPE").toString().equals("user")){//加人，设置验证信息，备注
 				type = "user";
-				tvUsername.setText(Tools.getMap(map, "USERNAME").toString());
-				tvId.setText(Tools.getMap(map, "ID").toString());
-				NetImage.loadProfile(this, Tools.getMap(map, "PROFILEPATH").toString(), ivProfile);
-				NetImage.loadImage(this, Tools.getMap(map, "SEX").toString().equals("男")?R.drawable.boy:R.drawable.girl, ivSex);
-			}else if(Tools.getMap(map, "TYPE").toString().equals("group")){//加群，设置验证信息 
+				tvUsername.setText(MapListUtil.getMap(map, "USERNAME").toString());
+				tvId.setText(MapListUtil.getMap(map, "ID").toString());
+				NetImage.loadProfile(this, MapListUtil.getMap(map, "PROFILEPATH").toString(), ivProfile);
+				NetImage.loadImage(this, MapListUtil.getMap(map, "SEX").toString().equals("男")?R.drawable.boy:R.drawable.girl, ivSex);
+			}else if(MapListUtil.getMap(map, "TYPE").toString().equals("group")){//加群，设置验证信息 
 				type = "group";
-				tvUsername.setText(Tools.getMap(map, "USERNAME").toString());
-				tvId.setText(Tools.getMap(map, "ID").toString());
+				tvUsername.setText(MapListUtil.getMap(map, "USERNAME").toString());
+				tvId.setText(MapListUtil.getMap(map, "ID").toString());
 				NetImage.loadImage(this, R.drawable.contact, ivSex);
-				NetImage.loadProfile(this, Tools.getMap(map, "PROFILEPATH").toString(), ivProfile);
-			}else if(Tools.getMap(map, "TYPE").toString().equals("adduser")){	//同意？加人,设置备注
+				NetImage.loadProfile(this, MapListUtil.getMap(map, "PROFILEPATH").toString(), ivProfile);
+			}else if(MapListUtil.getMap(map, "TYPE").toString().equals("adduser")){	//同意？加人,设置备注
 				type = "user";
-				tvUsername.setText(Tools.getMap(map, "USERNAME").toString());
-				tvId.setText(Tools.getMap(map, "ID").toString());
-				NetImage.loadImage(this, Tools.getMap(map, "SEX").toString().equals("男")?R.drawable.boy:R.drawable.girl, ivSex);
-				NetImage.loadProfile(this, Tools.getMap(map, "PROFILEPATH").toString(), ivProfile);
-				cetBeizhu.setText(Tools.getMap(map, "YANZHEN").toString().substring(0, "我是".length()).equals("我是")?Tools.getMap(map, "YANZHEN").toString().substring("我是".length()) : "" );
-				etYanzhen.setText(Tools.getMap(map, "YANZHEN").toString());
+				tvUsername.setText(MapListUtil.getMap(map, "USERNAME").toString());
+				tvId.setText(MapListUtil.getMap(map, "ID").toString());
+				NetImage.loadImage(this, MapListUtil.getMap(map, "SEX").toString().equals("男")?R.drawable.boy:R.drawable.girl, ivSex);
+				NetImage.loadProfile(this, MapListUtil.getMap(map, "PROFILEPATH").toString(), ivProfile);
+				cetBeizhu.setText(MapListUtil.getMap(map, "YANZHEN").toString().substring(0, "我是".length()).equals("我是")?MapListUtil.getMap(map, "YANZHEN").toString().substring("我是".length()) : "" );
+				etYanzhen.setText(MapListUtil.getMap(map, "YANZHEN").toString());
 				bDelete.setVisibility(View.VISIBLE);
 				bDelete.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
 						MSGSender.resultUserGroupByTypeIdResultBeizhu(AddSendAc.this, type, tvId.getText().toString(), "拒绝", cetBeizhu.getText().toString()  );
-						MainMsgAc.listSessions.remove( Tools.getCountListByName( MainMsgAc.listSessions,"ID", Tools.getMap(map, "ID").toString()));
+						MainMsgAc.listSessions.remove( MapListUtil.getCountListByName( MainMsgAc.listSessions,"ID", MapListUtil.getMap(map, "ID").toString()));
 						finish();
 					}
 				});
-			}else if(Tools.getMap(map, "TYPE").toString().equals("addgroup")){	//同意？加群,设置备注
+			}else if(MapListUtil.getMap(map, "TYPE").toString().equals("addgroup")){	//同意？加群,设置备注
 				type = "group";
-				groupid = Tools.getMap(map, "GROUPID");
+				groupid = MapListUtil.getMap(map, "GROUPID");
 
-				tvUsername.setText(Tools.getMap(map, "USERNAME").toString());
-				tvId.setText(Tools.getMap(map, "ID").toString());
-				//NetImage.loadImage(this, Tools.getMap(map, "SEX").equals("男")?R.drawable.boy:R.drawable.girl, ivSex);
-				NetImage.loadProfile(this, Tools.getMap(map, "PROFILEPATH").toString(), ivProfile);
-				cetBeizhu.setText(Tools.getMap(map, "YANZHEN").toString().substring(0, "我是".length()).equals("我是")?Tools.getMap(map, "YANZHEN").toString().substring("我是".length()) : "" );
-				etYanzhen.setText(Tools.getMap(map, "YANZHEN").toString());
+				tvUsername.setText(MapListUtil.getMap(map, "USERNAME").toString());
+				tvId.setText(MapListUtil.getMap(map, "ID").toString());
+				//NetImage.loadImage(this, MapListUtil.getMap(map, "SEX").equals("男")?R.drawable.boy:R.drawable.girl, ivSex);
+				NetImage.loadProfile(this, MapListUtil.getMap(map, "PROFILEPATH").toString(), ivProfile);
+				cetBeizhu.setText(MapListUtil.getMap(map, "YANZHEN").toString().substring(0, "我是".length()).equals("我是")?MapListUtil.getMap(map, "YANZHEN").toString().substring("我是".length()) : "" );
+				etYanzhen.setText(MapListUtil.getMap(map, "YANZHEN").toString());
 				bDelete.setVisibility(View.VISIBLE);
 				bDelete.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
-						MSGSender.resultUserGroupByTypeIdResultBeizhu(AddSendAc.this, type, tvId.getText().toString(), "拒绝", cetBeizhu.getText().toString() ,Tools.getMap(map, "GROUPID") );
-						MainMsgAc.listSessions.remove( Tools.getCountListByName( MainMsgAc.listSessions,"ID", Tools.getMap(map, "ID").toString()));
+						MSGSender.resultUserGroupByTypeIdResultBeizhu(AddSendAc.this, type, tvId.getText().toString(), "拒绝", cetBeizhu.getText().toString() ,MapListUtil.getMap(map, "GROUPID") );
+						MainMsgAc.listSessions.remove( MapListUtil.getCountListByName( MainMsgAc.listSessions,"ID", MapListUtil.getMap(map, "ID").toString()));
 						finish();
 					}
 				});
@@ -93,17 +96,17 @@ public class AddSendAc extends BaseAc implements OnClickListener, CallInt {
 		}
 	}
 	@Override
-	public void callback(String jsonstr) { 
-		
-		int cmd = MyJson.getCmd(jsonstr); 
+	public void callback(String jsonstr) {
+
+		int cmd = JsonMsg.getCmd(jsonstr);
 		switch (cmd) { 
-		case MSG.ADD_USER_GROP_BY_TYPE_ID_YANZHEN_NICKNAME:
+		case MSGTYPE.ADD_USER_GROP_BY_TYPE_ID_YANZHEN_NICKNAME:
 			this.closeLoading();
-			if(MyJson.getValue0(jsonstr).equals("true")){
+			if(JsonMsg.getValue0(jsonstr).equals("true")){
 				toast("已发送添加请求");
 				finish();
 			}else{
-				toast(MyJson.getValue0(jsonstr));
+				toast(JsonMsg.getValue0(jsonstr));
 				finish();
 			}
 			break;
@@ -163,7 +166,7 @@ public class AddSendAc extends BaseAc implements OnClickListener, CallInt {
 				this.openLoading();
 			}else if(topTitle.getMenuText().equals("同意")){
 				MSGSender.resultUserGroupByTypeIdResultBeizhu(this, type, tvId.getText().toString(), "同意", cetBeizhu.getText().toString() ,groupid );
-				MainMsgAc.listSessions.remove( Tools.getCountListByName( MainMsgAc.listSessions,"ID", this.tvId.getText().toString()));
+				MainMsgAc.listSessions.remove( MapListUtil.getCountListByName( MainMsgAc.listSessions,"ID", this.tvId.getText().toString()));
 				finish();
 			}  
 			break;

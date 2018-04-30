@@ -2,9 +2,9 @@ package com.cc;
 
 import net.MSGSender;
 import interfac.CallInt;
-import util.tools.AndroidTools;
+import util.AndroidTools;
 import util.Tools;
-import util.tools.picasso.NetImage;
+import util.picasso.NetImage;
 import util.view.BottomControlPanel;
 import util.view.SlidingMenu;
 import util.view.TopPanelImageTitleMenu;
@@ -41,7 +41,7 @@ public class MainAc extends ActivityGroup implements View.OnClickListener{
 	//用户菜单信息
 	TextView tvUserName, tvSign;
 	ImageView ivProfile, ivSex;
-	View llchange,lllogin, llprofile;
+	View llchange,lllogin, llprofile, llsystem;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,7 +51,9 @@ public class MainAc extends ActivityGroup implements View.OnClickListener{
 		
 		lllogin = (View) this.findViewById(R.id.lllogin);
 		llchange = (View) this.findViewById(R.id.llchange);
+		llsystem = (View) this.findViewById(R.id.llsystem);
 		llprofile = (View) this.findViewById(R.id.llprofile);
+		llsystem.setOnClickListener(this);
 		lllogin.setOnClickListener(this);
 		llchange.setOnClickListener(this);
 		llprofile.setOnClickListener(this);
@@ -109,7 +111,7 @@ public class MainAc extends ActivityGroup implements View.OnClickListener{
 				}
 			}
 			if(count == 0){
-				Tools.log("线程" + count++ +"由于断线异常退出到登录，并自动发送消息失败导致重连");
+				AndroidTools.log("线程" + count++ +"由于断线异常退出到登录，并自动发送消息失败导致重连");
 				startActivity(new Intent(MainAc.this, LoginAc.class));
 				finish();
 			}
@@ -333,6 +335,13 @@ public class MainAc extends ActivityGroup implements View.OnClickListener{
 	@Override
 	public void onClick(View arg0) {
 		switch(arg0.getId()){
+		case R.id.llsystem:
+
+			startActivity(new Intent(MainAc.this, SystemAc.class));
+
+
+
+			break;
 		case R.id.llprofile:
 		case R.id.llchange:
 			SwitchActivity(R.id.itmsg);//默认打开第0页

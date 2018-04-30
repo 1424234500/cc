@@ -1,8 +1,6 @@
 package util.view;
 
-import javax.crypto.spec.IvParameterSpec;
-
-import util.tools.picasso.NetImage;
+import util.picasso.NetImage;
 import interfac.CallInt;
 import android.content.Context;
 import android.util.AttributeSet;

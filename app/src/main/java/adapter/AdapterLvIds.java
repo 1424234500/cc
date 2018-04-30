@@ -5,8 +5,9 @@ import interfac.InterfaceOkOrDel;
 import java.util.List;
 import java.util.Map;
 
+import util.MapListUtil;
 import util.Tools;
-import util.tools.picasso.NetImage;
+import util.picasso.NetImage;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -85,7 +86,7 @@ public abstract class AdapterLvIds extends BaseAdapter implements InterfaceOkOrD
 	 
 		
 		// 设置文字和图片
-	 	listItemView.tvid.setText(Tools.getList(listItems, position, "id").toString()) ;
+	 	listItemView.tvid.setText(MapListUtil.getList(listItems, position, "id").toString()) ;
 		
 		//监听回调？？
 		listItemView.ivdel.setOnClickListener(new OnClickListener() {
@@ -107,7 +108,7 @@ public abstract class AdapterLvIds extends BaseAdapter implements InterfaceOkOrD
 				OnOk(  listItems.get( posi ));
 			}
 		});
-	 	NetImage.loadProfile(context, Tools.getList(listItems, position, "profilepath").toString(), listItemView.ivprofile);
+	 	NetImage.loadProfile(context, MapListUtil.getList(listItems, position, "profilepath").toString(), listItemView.ivprofile);
 	
 		 
 		return convertView;

@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import net.MSG;
+import net.MSGTYPE;
 import net.MSGSender;
-import util.tools.AndroidTools;
-import util.tools.MyJson;
+
+import util.AndroidTools;
+import util.JsonMsg;
+import util.MapListUtil;
 import util.Tools;
 import adapter.AdapterContact;
 
@@ -35,27 +37,27 @@ public class MainContactAc extends BaseAc implements CallMap  {
 
 	@Override
 	public void callback(String jsonstr) {
-		int cmd = MyJson.getCmd(jsonstr);
+		int cmd = JsonMsg.getCmd(jsonstr);
 		int i;
 		switch (cmd) {
-		case MSG.CONTACT_USER_GROUP_MAP:  //联系人列表
-			//Tools.log("MainContactAc:联系人列表");
+		case MSGTYPE.CONTACT_USER_GROUP_MAP:  //联系人列表
+			//AndroidTools.log("MainContactAc:联系人列表");
             swipeRefreshLayout.setRefreshing(false);
 
 			listItems.clear();
-			listItems.addAll(MyJson.getList(jsonstr));
+			listItems.addAll(JsonMsg.getList(jsonstr));
 			listType.clear();
-			listType.addAll(MyJson.getListType(jsonstr));
+			listType.addAll(JsonMsg.getListType(jsonstr));
  			if(adapterContact != null){
  				adapterContact.notifyDataSetChanged();	 
  			} 
 			break;  
-		case MSG.UPDATE_NICKNAME_BY_ID_NICKNAME_GROUPID:	//更改备注后更新用户列表
-			Tools.log("MainContactAc:更新备注");
-			if(MyJson.getValue0(jsonstr).equals("true")){
-				String newId = MyJson.getValue1(jsonstr);
-				String newNickname = MyJson.getValue2(jsonstr);
-				i = Tools.getCountListByName(listItems, "ID", newId);
+		case MSGTYPE.UPDATE_NICKNAME_BY_ID_NICKNAME_GROUPID:	//更改备注后更新用户列表
+			AndroidTools.log("MainContactAc:更新备注");
+			if(JsonMsg.getValue0(jsonstr).equals("true")){
+				String newId = JsonMsg.getValue1(jsonstr);
+				String newNickname = JsonMsg.getValue2(jsonstr);
+				i = MapListUtil.getCountListByName(listItems, "ID", newId);
 				if( listItems.get(i).get("NICKNAME").toString().equals("")){
 					if(!newNickname.equals("")){	//本来没有备注，之后有了备注
 						listItems.get(i).put("NAME", newNickname);
@@ -73,24 +75,24 @@ public class MainContactAc extends BaseAc implements CallMap  {
 				adapterContact.notifyDataSetChanged();
 			} 
 			break;
-		case MSG.LINE_STATUS_ID_TYPE:	//上下线通知
-			Tools.log("MainContactAc:某人上下线id:" + MyJson.getValue0(jsonstr) + "=" + MyJson.getValue1(jsonstr));
+		case MSGTYPE.LINE_STATUS_ID_TYPE:	//上下线通知
+			AndroidTools.log("MainContactAc:某人上下线id:" + JsonMsg.getValue0(jsonstr) + "=" + JsonMsg.getValue1(jsonstr));
 			
-			i = Tools.getCountListByName(listItems, "ID", MyJson.getValue0(jsonstr));
+			i = MapListUtil.getCountListByName(listItems, "ID", JsonMsg.getValue0(jsonstr));
 			if(i >= 0){
-				 listItems.get(i).put("STATUS", MyJson.getValue1(jsonstr).equals("true")? "[在线]" : "[离线]");
+				 listItems.get(i).put("STATUS", JsonMsg.getValue1(jsonstr).equals("true")? "[在线]" : "[离线]");
 			}
 			adapterContact.notifyDataSetChanged();
 			break;
-		case MSG.DELETE_RELEATIONSHIP_BY_TYPE_ID:
-			Tools.log("MainContactAc:删除好友/群组id="+MyJson.getValue1(jsonstr));
+		case MSGTYPE.DELETE_RELEATIONSHIP_BY_TYPE_ID:
+			AndroidTools.log("MainContactAc:删除好友/群组id="+ JsonMsg.getValue1(jsonstr));
 			this.closeLoading();
-			if(MyJson.getValue0(jsonstr).equals("true")){
-				if(MyJson.getValue2(jsonstr).equals("user")){
-					i = Tools.getCountListByName(listItems, "ID", MyJson.getValue1(jsonstr));
+			if(JsonMsg.getValue0(jsonstr).equals("true")){
+				if(JsonMsg.getValue2(jsonstr).equals("user")){
+					i = MapListUtil.getCountListByName(listItems, "ID", JsonMsg.getValue1(jsonstr));
 					if(i >= 0 && i < listItems.size()){
-						listType.get(0).put("NUM", Tools.parseInt(Tools.getList(listType, 0, "NUM").toString()) - 1);
-						listType.get(1).put("START", Tools.parseInt(Tools.getList(listType, 1, "START").toString()) - 1);
+						listType.get(0).put("NUM", Tools.parseInt(MapListUtil.getList(listType, 0, "NUM").toString()) - 1);
+						listType.get(1).put("START", Tools.parseInt(MapListUtil.getList(listType, 1, "START").toString()) - 1);
 						listItems.remove(i);
 						//{ONNUM=0, START=0, USERNAME=我的好友, NUM=3}
 						//{ONNUM=7, START=3, USERNAME=群组, NUM=7}
@@ -103,7 +105,7 @@ public class MainContactAc extends BaseAc implements CallMap  {
 						listType.get(0).put("ONNUM", tempNum);
 					}
 				}else{
-					i = Tools.getCountListByName(listItems, "ID", MyJson.getValue1(jsonstr));
+					i = MapListUtil.getCountListByName(listItems, "ID", JsonMsg.getValue1(jsonstr));
 					if(i >= 0 && i < listItems.size()){
 						listItems.remove(i);
 						//{ONNUM=0, START=0, USERNAME=我的好友, NUM=3}
@@ -125,7 +127,7 @@ public class MainContactAc extends BaseAc implements CallMap  {
 	@Override
 	public void OnCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.ac_main_contact);
-		Tools.log("contact oncrate");
+		AndroidTools.log("contact oncrate");
 		rlSearch = (View)findViewById(R.id.rlsearch);
 		rlSearch.setOnClickListener(new OnClickListener() {
 			@Override
@@ -167,23 +169,23 @@ public class MainContactAc extends BaseAc implements CallMap  {
 
 	@Override
 	public void OnStart() {
-		Tools.log("contact OnStart");
+		AndroidTools.log("contact OnStart");
 	} 
 	@Override
 	public void OnResume() {
-		Tools.log("contact OnResume");
+		AndroidTools.log("contact OnResume");
 	} 
 	@Override
 	public void OnPause() {
-		Tools.log("contact OnPause");
+		AndroidTools.log("contact OnPause");
 	} 
 	@Override
 	public void OnStop() {
-		Tools.log("contact OnStop");
+		AndroidTools.log("contact OnStop");
 	} 
 	@Override
 	public void OnDestroy() {
-		Tools.log("contact OnDestroy");
+		AndroidTools.log("contact OnDestroy");
 	}
 	
 	@Override

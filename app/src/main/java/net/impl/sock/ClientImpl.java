@@ -13,11 +13,11 @@ import com.cc.Constant;
 
 import android.util.Log;
 
-import util.tools.MyJson;
+import util.JsonUtil;
 
 import net.Client;
-import net.MSG;
- 
+import net.MSGTYPE;
+
 
 /**
  * @author Walker
@@ -81,7 +81,7 @@ public abstract    class ClientImpl implements Client,CallString{
 					e.printStackTrace();
 					boolListenMsg = false;// 退出线程
 					out("服务器关闭" + e.toString());
-					onReceive(MyJson.makeJson( MSG.ERROR, "You have been offline... "));
+					onReceive(JsonUtil.makeJson( MSGTYPE.ERROR, "You have been offline... "));
 					CreateConnection();	//读取异常后再次尝试链接
 				}
 			}
@@ -122,14 +122,14 @@ public abstract    class ClientImpl implements Client,CallString{
 							//连接成功后，自动开启读取线程
 							ClientImpl.this.startReadThread();
 							reconnect = false;
-							onReceive(MyJson.makeJson( MSG.OK, "连接服务器成功"));
+							onReceive(JsonUtil.makeJson( MSGTYPE.OK, "连接服务器成功"));
 						} else {
-							onReceive(MyJson.makeJson(  MSG.ERROR, "连接服务器失败"));
+							onReceive(JsonUtil.makeJson(  MSGTYPE.ERROR, "连接服务器失败"));
 							sleep(1000);
 						}
 					}
 				} catch (Exception e) { 
-					onReceive(MyJson.makeJson( MSG.ERROR, "连接服务器失败"));
+					onReceive(JsonUtil.makeJson( MSGTYPE.ERROR, "连接服务器失败"));
 					out("连接服务器失败 " + e.toString());
 				}
 			

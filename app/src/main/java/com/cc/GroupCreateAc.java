@@ -2,10 +2,11 @@ package com.cc;
 
 import interfac.CallInt;
 
-import net.MSG;
+import net.MSGTYPE;
 import net.MSGSender;
 
-import util.tools.MyJson;
+import util.JsonMsg;
+import util.JsonUtil;
 import util.Tools;
 import util.view.TopPanelReturnTitleMenu;
 
@@ -33,25 +34,25 @@ public class GroupCreateAc extends BaseAc implements OnClickListener, CallInt {
 	
 	String id;
 	@Override
-	public void callback(String jsonstr) { 
-		int cmd = MyJson.getCmd(jsonstr); 
+	public void callback(String jsonstr) {
+		int cmd = JsonMsg.getCmd(jsonstr);
 		switch (cmd) { 
-		case MSG.CREATE_GROUP_BY_NAME_NUM_CHECK:
+		case MSGTYPE.CREATE_GROUP_BY_NAME_NUM_CHECK:
 			this.closeLoading();
-			if(MyJson.getValue0(jsonstr).equals("true")){
-				toast(MyJson.getValue1(jsonstr));
+			if(JsonMsg.getValue0(jsonstr).equals("true")){
+				toast(JsonMsg.getValue1(jsonstr));
 				this.finish();
 			}else{
-				toast(  MyJson.getValue0(jsonstr));
+				toast(  JsonMsg.getValue0(jsonstr));
 			}
 			break;
-		case MSG.DOLL_CREATE_BY_NAME_NUM:
+		case MSGTYPE.DOLL_CREATE_BY_NAME_NUM:
 			this.closeLoading();
-			if(MyJson.getValue0(jsonstr).equals("true")){
+			if(JsonMsg.getValue0(jsonstr).equals("true")){
 				toast("匿名房间创建成功");
 				this.finish();
 			}else{
-				toast(  MyJson.getValue0(jsonstr));
+				toast(  JsonMsg.getValue0(jsonstr));
 			}
 			break;
 		}
@@ -101,7 +102,7 @@ public class GroupCreateAc extends BaseAc implements OnClickListener, CallInt {
 			this.finish();
 			break;
 		case R.id.tvmenu:
-			if(! Tools.testNull(etname.getText().toString(), snum.getSelectedItem())){
+			if(Tools.notNull(etname.getText().toString(), snum.getSelectedItem())){
 				String name = etname.getText().toString();
 				String num = snum.getSelectedItem().toString();
 				String check = cbok.isChecked()? "true": "false";

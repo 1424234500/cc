@@ -3,8 +3,9 @@ package adapter;
 import java.util.List;
 import java.util.Map;
 
+import util.MapListUtil;
 import util.Tools;
-import util.tools.picasso.NetImage;
+import util.picasso.NetImage;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -56,11 +57,11 @@ public   class AdapterLvDoll extends BaseAdapter    {
 				viewHolderUser = (ViewHolderUser) convertView.getTag();
 		}
 		// 设置文字和图片和监听
-		viewHolderUser.tvusername.setText(Tools.getList(listItems, position, "NAME")) ;
-		viewHolderUser.tvmsg.setText(Tools.getList(listItems, position, "MASTERID"));
-		viewHolderUser.tvnum.setText(Tools.getList(listItems, position, "NOWNUM")+"/"+Tools.getList(listItems, position, "MAXNUM"));
+		viewHolderUser.tvusername.setText(MapListUtil.getList(listItems, position, "NAME")) ;
+		viewHolderUser.tvmsg.setText(MapListUtil.getList(listItems, position, "MASTERID"));
+		viewHolderUser.tvnum.setText(MapListUtil.getList(listItems, position, "NOWNUM")+"/"+ MapListUtil.getList(listItems, position, "MAXNUM"));
 			 
-	 	NetImage.loadProfile(context, Constant.getDrawableByIvProfile(Tools.parseInt(Tools.getList(listItems, position, "IVROOM"))), viewHolderUser.ivprofile);
+	 	NetImage.loadProfile(context, Constant.getDrawableByIvProfile(Tools.parseInt(MapListUtil.getList(listItems, position, "IVROOM"))), viewHolderUser.ivprofile);
 		 
 		return convertView; 
 	}

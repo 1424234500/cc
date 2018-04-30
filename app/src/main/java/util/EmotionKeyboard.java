@@ -1,13 +1,8 @@
-package util.tools;
-import interfac.CallInt;
+package util;
+
 import util.view.ChatView;
-import util.view.ChatView.OnControl;
-
-import com.cc.R;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
@@ -15,43 +10,37 @@ import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-
 /**
- * @author Walker
- * @date 2017-3-28 下午4:17:10
- * Description: 改写网上demo，适配效果
+ * author : zejian
+ * time : 2016年1月5日 上午11:14:27
+ * email : shinezejian@163.com
+ * description :源码来自开源项目https://github.com/dss886/Android-EmotionInputDetector
+ *              本人仅做细微修改以及代码解析
  */
-public class EmotionKeyboardCopy {
+public class EmotionKeyboard {
 
         private static final String SHARE_PREFERENCE_NAME = "EmotionKeyboard";
         private static final String SHARE_PREFERENCE_SOFT_INPUT_HEIGHT = "soft_input_height";
         private Activity mActivity;
         private InputMethodManager mInputManager;//软键盘管理类
         private SharedPreferences sp;
-        
-        private ViewGroup viewFill;//总容器布局
-        private View viewVoice,viewPhoto,viewGraph,viewEmoji,viewMore;	//栏目布局
-        private ChatView cvChat;
-        
-        private EditText mEditText;//输入框，点击切换到输入法
+        private View mFillLayout;//表情布局
+        private EditText mEditText;//
         private View mContentView;//内容布局view,即除了表情布局或者软键盘布局以外的布局，用于固定bar的高度，防止跳闪
-		
-        
-     
+        private EmotionKeyboard(){
+        }
 
         /**
          * 外部静态调用
          * @param activity
          * @return
          */
-        public static EmotionKeyboardCopy with(Activity activity) {
-            EmotionKeyboardCopy emotionInputDetector = new EmotionKeyboardCopy();
+        public static EmotionKeyboard with(Activity activity) {
+            EmotionKeyboard emotionInputDetector = new EmotionKeyboard();
             emotionInputDetector.mActivity = activity;
             emotionInputDetector.mInputManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             emotionInputDetector.sp = activity.getSharedPreferences(SHARE_PREFERENCE_NAME, Context.MODE_PRIVATE);
@@ -63,156 +52,123 @@ public class EmotionKeyboardCopy {
          * @param contentView
          * @return
          */
-        public EmotionKeyboardCopy bindToContent(View contentView) {
+        public EmotionKeyboard bindToContent(View contentView) {
             mContentView = contentView;
             return this;
         }
-        
+        ChatView cvChat;
+        public EmotionKeyboard bindToChatView(ChatView cvChat) {
+            this.cvChat = cvChat;
+            return this;
+        }
         /**
          * 绑定编辑框
          * @param editText
          * @return
          */
-        public EmotionKeyboardCopy bindToEditText(EditText editText) {
+        public EmotionKeyboard bindToEditText(EditText editText) {
             mEditText = editText;
             mEditText.requestFocus();
             mEditText.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_UP && viewFill.isShown()) {
+                    if (event.getAction() == MotionEvent.ACTION_UP && mFillLayout.isShown()) {
+                    	cvChat.clearId();
                         lockContentHeight();//显示软件盘时，锁定内容高度，防止跳闪。
-                        hideFillLayout(true);//隐藏表情布局，显示软件盘
-                        cvChat.close();
+                        hideEmotionLayout(true);//隐藏表情布局，显示软件盘
                         //软件盘显示后，释放内容高度
-                         mEditText.postDelayed(new Runnable() {
+                        mEditText.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 unlockContentHeightDelayed();
                             }
-                        }, 100L);
+                        }, 200L);
                     }
                     return false;
                 }
             });
             return this;
         }
-
-        
-        
-        OnControl onControl;
-        public void setOnControl(OnControl onControl){
-        	this.onControl  = onControl;
-        }
-        /**
-         * 绑定菜单栏
-         */
-        public EmotionKeyboardCopy bindToChatView(final ChatView cvchat) {
-        	this.cvChat = cvchat;
-        	
-            cvchat.setOnControl( new OnControl() {
-				@Override
-				public void onClose() { 
-					hideFillLayout(false);
-					if(onControl!=null)onControl.onClose();
-				} 
-				@Override
-				public void onOpen(int id) {
-					if(onControl!=null){
-						onControl.onOpen(id);
-					}
-					if(id == R.id.ivgraph)return;
-					
-					viewFill.removeAllViews();
-					LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
-					//params.addRule(LinearLayout.);
-					viewFill.addView(getViewById(id),params);
-
-                    if (isSoftInputShown()) { //若已经打开软键盘
-	                    lockContentHeight();
-                    	hideSoftInput();
-                    	showFillLayout();
+        public void openSoft(){
+        	if(mFillLayout.isShown()){
+	        	cvChat.clearId();
+	            lockContentHeight();//显示软件盘时，锁定内容高度，防止跳闪。
+	            hideEmotionLayout(true);//隐藏表情布局，显示软件盘
+	            //软件盘显示后，释放内容高度
+	            mEditText.postDelayed(new Runnable() {
+	                @Override
+	                public void run() {
 	                    unlockContentHeightDelayed();
+	                }
+	            }, 200L);
+        	}else{
+	            showSoftInput(); 
+        	}
+        }
+
+        /**
+         * 绑定表情按钮
+         * @param emotionButton
+         * @return
+         */
+        public EmotionKeyboard bindToEmotionButton(View emotionButton) {
+            emotionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mFillLayout.isShown()) {
+                        lockContentHeight();//显示软件盘时，锁定内容高度，防止跳闪。
+                        hideEmotionLayout(true);//隐藏表情布局，显示软件盘
+                        unlockContentHeightDelayed();//软件盘显示后，释放内容高度
                     } else {
-                    	showFillLayout();//没显示，直接显示表情布局
+                        if (isSoftInputShown()) {//同上
+                            lockContentHeight();
+                            showEmotionLayout();
+                            unlockContentHeightDelayed();
+                        } else {
+                            showEmotionLayout();//两者都没显示，直接显示表情布局
+                        }
                     }
-				}
+                }
             });
             return this;
         }
-        public View getViewById(int id){
-        	switch(id){
-        	case R.id.ivvoice:
-        		return viewVoice;
-        	case R.id.ivphoto:
-        		return viewPhoto;
-        	case R.id.ivgraph:
-        		return viewGraph;
-        	case R.id.ivemoji:
-        		return viewEmoji;
-        	case R.id.ivmore:
-        		return viewMore;
-        	}
-        	return null;
+        public void open(){
+        	  if (mFillLayout.isShown()) {
+                 // lockContentHeight();//显示软件盘时，锁定内容高度，防止跳闪。
+                  //hideEmotionLayout(true);//隐藏表情布局，显示软件盘
+                  //unlockContentHeightDelayed();//软件盘显示后，释放内容高度
+              } else {
+                  if (isSoftInputShown()) {//同上
+                      lockContentHeight();
+                      showEmotionLayout();
+                      unlockContentHeightDelayed();
+                  } else {
+                      showEmotionLayout();//两者都没显示，直接显示表情布局
+                  }
+              }
+        }
+        public void close(){
+//        	  if (mFillLayout.isShown()) {
+//                  lockContentHeight();//显示软件盘时，锁定内容高度，防止跳闪。
+//                  hideEmotionLayout(true);//隐藏表情布局，显示软件盘
+//                  unlockContentHeightDelayed();//软件盘显示后，释放内容高度
+//              }
+        	hideEmotionLayout(false);
         }
         
         /**
-         * 设置总容器
-
-         * @return
-         */
-        public EmotionKeyboardCopy setFillView(ViewGroup viewfill) {
-            this.viewFill = viewfill;
-            return this;
-        }
-        /**
-         * 设置语音内容布局
-
-         * @return
-         */
-        public EmotionKeyboardCopy setVoiceView(View viewVoice) {
-            this.viewVoice = viewVoice;
-            return this;
-        }
-        /**
-         * 设置图片内容布局
-
-         * @return
-         */
-        public EmotionKeyboardCopy setPhotoView(View viewPhoto) {
-            this.viewPhoto = viewPhoto;
-            return this;
-        }
-        /**
-         * 设置照相机内容布局
-
-         * @return
-         */
-        public EmotionKeyboardCopy setGraphView(View viewGraph) {
-            this.viewGraph = viewGraph;
-            return this;
-        }
-        /**
          * 设置表情内容布局
-
+         * @param emotionView
          * @return
          */
-        public EmotionKeyboardCopy setEmotionView(View viewEmoji) {
-            this.viewEmoji = viewEmoji;
+        public EmotionKeyboard setFillView(View fillView) {
+            mFillLayout = fillView;
             return this;
         }
-        /**
-         * 设置表情内容布局
-
-         * @return
-         */
-        public EmotionKeyboardCopy setMoreView(View viewMore) {
-            this.viewMore = viewMore;
-            return this;
-        }
-        public EmotionKeyboardCopy build(){
-        		//设置软件盘的模式：SOFT_INPUT_ADJUST_RESIZE  这个属性表示Activity的主窗口总是会被调整大小，从而保证软键盘显示空间。
-        	//从而方便我们计算软件盘的高度
-        	mActivity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
+        public EmotionKeyboard build(){
+//设置软件盘的模式：SOFT_INPUT_ADJUST_RESIZE  这个属性表示Activity的主窗口总是会被调整大小，从而保证软键盘显示空间。
+       //从而方便我们计算软件盘的高度
+       mActivity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
                     WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
             //隐藏软件盘
             hideSoftInput();
@@ -223,36 +179,35 @@ public class EmotionKeyboardCopy {
          * @return
          */
         public boolean interceptBackPress() {
-            if (viewFill.isShown()) {
-                hideFillLayout(false);
+            if (mFillLayout.isShown()) {
+                hideEmotionLayout(false);
                 return true;
             }
             return false;
         }
-        private void showFillLayout() {
+        private void showEmotionLayout() {
             int softInputHeight = getSupportSoftInputHeight();
             if (softInputHeight == 0) {
                 softInputHeight = sp.getInt(SHARE_PREFERENCE_SOFT_INPUT_HEIGHT, 400);
             }
             hideSoftInput();
-            viewFill.getLayoutParams().height = softInputHeight;
-            viewFill.setVisibility(View.VISIBLE);
-            
+            mFillLayout.getLayoutParams().height = softInputHeight;
+            mFillLayout.setVisibility(View.VISIBLE);
         }
         /**
          * 隐藏表情布局
          * @param showSoftInput 是否显示软件盘
          */
-        public void hideFillLayout(boolean showSoftInput) {
-            if (viewFill.isShown()) {
-            	viewFill.setVisibility(View.GONE);
+        private void hideEmotionLayout(boolean showSoftInput) {
+            if (mFillLayout.isShown()) {
+                mFillLayout.setVisibility(View.GONE);
                 if (showSoftInput) {
                     showSoftInput();
                 }
             }
         }
         /**
-         * 锁定内容高度，防止跳闪
+         * 锁定内容高度，防止跳闪  LinearLayout.LayoutParams， 套用了下拉刷新控件后崩溃 ViewGroup.LayoutParams
          */
         private void lockContentHeight() {
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mContentView.getLayoutParams();
@@ -270,7 +225,6 @@ public class EmotionKeyboardCopy {
                 }
             }, 200L);
         }
-       
         /**
          * 编辑框获取焦点，并显示软件盘
          */
@@ -293,8 +247,15 @@ public class EmotionKeyboardCopy {
          * 是否显示软件盘
          * @return
          */
-        private boolean isSoftInputShown() {
+        public  boolean isSoftInputShown() {
             return getSupportSoftInputHeight() != 0;
+        }
+        /**
+         * 输入法或者表情选择框是否显示
+         * @return
+         */
+        public boolean isInputOrEmojiShow(){
+            return getSupportSoftInputHeight() != 0 || mFillLayout.isShown();
         }
         /**
          * 获取软件盘的高度
@@ -348,11 +309,11 @@ public class EmotionKeyboardCopy {
                 return 0;
             }
         }
-	    /**
-	     * 获取软键盘高度
-	     * @return
-	     */
-        public int getKeyBoardHeight(){
+    /**
+     * 获取软键盘高度
+     * @return
+     */
+    public int getKeyBoardHeight(){
         return sp.getInt(SHARE_PREFERENCE_SOFT_INPUT_HEIGHT, 400);
     }
 }

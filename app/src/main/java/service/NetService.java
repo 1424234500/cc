@@ -4,8 +4,10 @@ import com.cc.Constant;
 
 import interfac.CallString;
 import net.Client;
-import net.MSG;
-import util.tools.MyJson;
+import net.MSGTYPE;
+import net.Msg;
+
+import util.AndroidTools;
 import util.Tools;
 import android.app.Service;
 import android.content.Intent;
@@ -47,13 +49,13 @@ public class NetService extends Service implements CallString {
 			 Bundle bun = intent.getExtras();
 			 if(bun != null)  {
 				String jsonstr =bun.getString("msg");
-				if(!Tools.testNull( jsonstr)){
+				if(Tools.notNull( jsonstr)){
 					out("  onStartCommand." + jsonstr);
 					this.client.send(jsonstr);
 				}else{
 					 out("NetService. onStartCommand intent.getExtras().getString('msg') 为null ？？？");
 				}
-				if(!Tools.testNull(bun.getString("socket"))){	//socket重连指令
+				if(Tools.notNull(bun.getString("socket"))){	//socket重连指令
 					this.client.reconnect(bun.getString("socket"));
 				}
 				
@@ -68,30 +70,33 @@ public class NetService extends Service implements CallString {
 	}
 
 	public void out(String str) {
-	//	Tools.out(  "NetService." + str);
+//		AndroidTools.out(  "NetService." + str);
 	}
   
 	//获取client从服务器收到的消息串，包装作为广播发送给 activitys
 	@Override
 	public void callback(String jsonstr) {
 		
-//		switch(MyJson.getCmd(jsonstr)){
-//			case MSG.CLOSE  :	//服务器传来的关闭net
+//		switch(JsonUtil.getCmd(jsonstr)){
+//			case MSGTYPE.CLOSE  :	//服务器传来的关闭net
 //				//this.client.stop();
 //				return;
-//			case MSG.BEATS:		//服务器测试心跳
-//				//this.client.send(MyJson.makeJson(MSG.BEATS, "1"));
+//			case MSGTYPE.BEATS:		//服务器测试心跳
+//				//this.client.send(JsonUtil.makeJson(MSGTYPE.BEATS, "1"));
 //				return;
 //		}
-		
-		out("get."+jsonstr); 
-		localBroadcastManager.sendBroadcast(new Intent(MSG.broadcastUrl).putExtra("msg", jsonstr)); //发送应用内广播
+
+//		out("get."+jsonstr);
+
+		Msg msg = new Msg(jsonstr);
+        jsonstr = msg.getDataJson();
+
+		localBroadcastManager.sendBroadcast(new Intent(MSGTYPE.broadcastUrl).putExtra("msg", jsonstr)); //发送应用内广播
 		
 	}
 
 	@Override
 	public IBinder onBind(Intent arg0) {
-		// TODO 自动生成的方法存根
 		return null;
 	} 
 

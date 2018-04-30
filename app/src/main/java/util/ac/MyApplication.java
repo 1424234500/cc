@@ -1,5 +1,6 @@
 package util.ac;
 
+import util.AndroidTools;
 import util.Tools;
 import android.app.ActivityManager;
 import android.app.Application;
@@ -28,7 +29,7 @@ public class MyApplication extends Application {
     	ActivityManager activityManager = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);
 		int memorySize = activityManager.getMemoryClass();
     	
-    	Tools.out("设备内存限制:" + memorySize);
+    	AndroidTools.out("设备内存限制:" + memorySize);
     }
     
     

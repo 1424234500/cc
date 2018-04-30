@@ -3,6 +3,7 @@ package adapter;
 import java.util.List;
 import java.util.Map;
 
+import util.MapListUtil;
 import util.Tools;
 
 import android.content.Context;
@@ -43,7 +44,7 @@ public class AdapterGvEmoji extends BaseAdapter{
 		}
 		// 设置文字和图片和监听
 		//Tools.log(listItems.get(position).get("id").toString() + " | " + R.drawable.at);
-		viewHolderEmoji.ivEmoji.setImageResource(Tools.parseInt( Tools.getList(listItems, position, "id").toString() ));
+		viewHolderEmoji.ivEmoji.setImageResource(Tools.parseInt( MapListUtil.getList(listItems, position, "id").toString() ));
 		//viewHolderEmoji.ivEmoji.setImageResource(R.drawable.at);
 		
 		return convertView; 

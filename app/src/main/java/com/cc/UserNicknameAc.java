@@ -2,10 +2,10 @@ package com.cc;
 
 import interfac.CallInt;
 
-import net.MSG;
+import net.MSGTYPE;
 import net.MSGSender;
 
-import util.tools.MyJson;
+import util.JsonMsg;
 import util.view.TopPanelReturnTitleMenu;
 
 import android.os.Bundle;
@@ -29,15 +29,15 @@ public class UserNicknameAc extends BaseAc implements OnClickListener, CallInt {
 	String groupid = "";
 	@Override
 	public void callback(String jsonstr) { 
-		int cmd = MyJson.getCmd(jsonstr); 
+		int cmd = JsonMsg.getCmd(jsonstr);
 		switch (cmd) { 
-		case MSG.UPDATE_NICKNAME_BY_ID_NICKNAME_GROUPID:
+		case MSGTYPE.UPDATE_NICKNAME_BY_ID_NICKNAME_GROUPID:
 			this.closeLoading();
-			if(MyJson.getValue0(jsonstr).equals("true")){
+			if(JsonMsg.getValue0(jsonstr).equals("true")){
 				toast("修改成功");
 				this.finish();
 			}else{
-				toast("修改失败：" + MyJson.getValue0(jsonstr));
+				toast("修改失败：" + JsonMsg.getValue0(jsonstr));
 			}
 
 			break;

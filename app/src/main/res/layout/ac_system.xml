@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/viewsystem"
+     >
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+
+        android:layout_alignParentBottom="true"
+        android:padding="40dp">
+
+
+        <Button
+            android:id="@+id/bgoback"
+            android:layout_width="80dp"
+            android:layout_height="60dp" android:splitMotionEvents="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:text="后退" />
+
+        <Button
+            android:id="@+id/bgohead"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" android:splitMotionEvents="true"
+            android:text="前进" />
+
+
+        <Button
+            android:id="@+id/bturnleft"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="-157dp" android:splitMotionEvents="true"
+            android:layout_toEndOf="@+id/bturnright"
+            android:text="左转" />
+
+        <Button
+            android:id="@+id/bturnright"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:layout_alignParentEnd="true" android:splitMotionEvents="true"
+            android:layout_centerVertical="true"
+            android:text="右转" />
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

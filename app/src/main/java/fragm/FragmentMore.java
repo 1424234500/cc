@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import util.MapListUtil;
 import util.fragm.BaseFragment;
 import util.Tools;
 import android.os.Bundle;
@@ -73,7 +74,7 @@ public class FragmentMore extends BaseFragment implements  OnItemClickListener  
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int i, long l) {
 		if(call != null){
-			if(Tools.getList(listItems, i, "text").equals("文件")){
+			if(MapListUtil.getList(listItems, i, "text").equals("文件")){
 				choseFile();
 			}
 		}

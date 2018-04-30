@@ -1,4 +1,4 @@
-package util.tools;
+package util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -10,7 +10,7 @@ public class MD5 {
 	}
 
 	public final static String makeKey(String id, long time) {
-		return makeStr("zll" + id + time);
+		return makeStr("cc" + id + time);
 	}
 
 	public final static String makeStr(String str) {

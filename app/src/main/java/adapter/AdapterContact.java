@@ -3,8 +3,9 @@ package adapter;
 import java.util.List;
 import java.util.Map;
 
+import util.MapListUtil;
 import util.Tools;
-import util.tools.picasso.NetImage;
+import util.picasso.NetImage;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,7 +68,7 @@ public   class AdapterContact extends  BaseExpandableListAdapter      {
     //  获得某个父项的某个子项  
     @Override  
     public Object getChild(int groupPosition, int childPos) {  
-        return  listItems.get((Tools.parseInt( (Tools.getList(listType, groupPosition, "START").toString())) + childPos));  
+        return  listItems.get((Tools.parseInt( (MapListUtil.getList(listType, groupPosition, "START").toString())) + childPos));
     }  
   
     //  获得父项的数量  
@@ -79,7 +80,7 @@ public   class AdapterContact extends  BaseExpandableListAdapter      {
     //  获得某个父项的子项数目  
     @Override  
     public int getChildrenCount(int groupPosition) {  
-        return Tools.parseInt( (Tools.getList(listType, groupPosition, "NUM").toString()));  
+        return Tools.parseInt( (MapListUtil.getList(listType, groupPosition, "NUM").toString()));  
     }  
   
     //  获得某个父项  
@@ -159,9 +160,9 @@ public   class AdapterContact extends  BaseExpandableListAdapter      {
 			viewHolder = (ViewHolder) convertView.getTag();
 		} 
 		 
-		viewHolder.tvusername.setText(Tools.getList(listType, groupPosition, "USERNAME").toString());
-		viewHolder.tvonnum.setText(Tools.getList(listType, groupPosition, "ONNUM").toString());
-		viewHolder.tvnum.setText(Tools.getList(listType, groupPosition, "NUM").toString());
+		viewHolder.tvusername.setText(MapListUtil.getList(listType, groupPosition, "USERNAME").toString());
+		viewHolder.tvonnum.setText(MapListUtil.getList(listType, groupPosition, "ONNUM").toString());
+		viewHolder.tvnum.setText(MapListUtil.getList(listType, groupPosition, "NUM").toString());
 		viewHolder.ivicon .setBackgroundResource(isExpanded? R.drawable.sanjiaod : R.drawable.sanjiaor);
 		
 		convertView.setPadding(0,20,0,0);
@@ -177,7 +178,7 @@ public   class AdapterContact extends  BaseExpandableListAdapter      {
     	viewHolderUser = null;  
 		viewHolderGroup = null;  
 		int type = getChildType(groupPosition, childPos);	//得到No.i条数据布局类型
-		int position = childPos + Tools.parseInt( Tools.getList(listType, groupPosition, "START").toString()) ;
+		int position = childPos + Tools.parseInt( MapListUtil.getList(listType, groupPosition, "START").toString()) ;
 		//构建或者取出可复用布局
 		if (convertView == null) { //若无可复用布局
 			if(type== TYPE_USER){
@@ -206,14 +207,14 @@ public   class AdapterContact extends  BaseExpandableListAdapter      {
 		}
 		// 设置文字和图片和监听
 		if(type== TYPE_USER){ 
-			viewHolderUser.tvusername.setText(Tools.getList(listItems, position, "NAME").toString()) ;
-			viewHolderUser.tvsign.setText(Tools.getList(listItems, position, "SIGN").toString()) ;
-			viewHolderUser.tvstatus.setText(Tools.getList(listItems, position, "STATUS").toString()) ;
-		 	NetImage.loadProfile(context, Tools.getList(listItems, position, "PROFILEPATH").toString(), viewHolderUser.ivprofile);
-		 	//NetImage.loadImage( context,Tools.getList(listItems, position, "SEX").toString().equals("男") ? R.drawable.boy:R.drawable.girl, viewHolderUser.ivsex);
+			viewHolderUser.tvusername.setText(MapListUtil.getList(listItems, position, "NAME").toString()) ;
+			viewHolderUser.tvsign.setText(MapListUtil.getList(listItems, position, "SIGN").toString()) ;
+			viewHolderUser.tvstatus.setText(MapListUtil.getList(listItems, position, "STATUS").toString()) ;
+		 	NetImage.loadProfile(context, MapListUtil.getList(listItems, position, "PROFILEPATH").toString(), viewHolderUser.ivprofile);
+		 	//NetImage.loadImage( context,MapListUtil.getList(listItems, position, "SEX").toString().equals("男") ? R.drawable.boy:R.drawable.girl, viewHolderUser.ivsex);
 		}else if(type== TYPE_GROUP){  
-			viewHolderGroup.tvusername.setText(Tools.getList(listItems, position, "USERNAME").toString()) ;
-		 	NetImage.loadProfile(context, Tools.getList(listItems, position, "PROFILEPATH").toString(), viewHolderGroup.ivprofile);
+			viewHolderGroup.tvusername.setText(MapListUtil.getList(listItems, position, "USERNAME").toString()) ;
+		 	NetImage.loadProfile(context, MapListUtil.getList(listItems, position, "PROFILEPATH").toString(), viewHolderGroup.ivprofile);
 		}
 		 
 		return convertView; 

@@ -3,12 +3,11 @@ package com.cc;
 import database.BaseDao;
 import database.BaseDaoImpl;
 import service.NetService;
-import util.tools.MyJson;
 import util.Tools;
 import util.view.DialogBeats;
 import util.view.TopPanelReturnTitleMenu;
 import interfac.CallString;
-import net.MSG;
+import net.MSGTYPE;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -56,11 +55,11 @@ public abstract class BaseAc extends Activity implements CallString {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		//registerReceiver(broadcastReceiver, new IntentFilter(MSG.broadcastUrl));
+		//registerReceiver(broadcastReceiver, new IntentFilter(MSGTYPE.broadcastUrl));
 		//registerReceiver(mBroadcastReceiver, intentFilter);
 		//注册应用内广播接收器
 		localBroadcastManager = LocalBroadcastManager.getInstance(this);
-		localBroadcastManager.registerReceiver(broadcastReceiver, new IntentFilter(MSG.broadcastUrl));
+		localBroadcastManager.registerReceiver(broadcastReceiver, new IntentFilter(MSGTYPE.broadcastUrl));
 		sqlDao = new BaseDaoImpl(this);
 		
 		OnCreate(savedInstanceState);
@@ -169,7 +168,7 @@ public abstract class BaseAc extends Activity implements CallString {
 			topTitle.setTitle("菜单");
 		}
 		str = bundle.getString("mode");
-		if( ! Tools.testNull(str)){
+		if( ! Tools.notNull(str)){
 			topTitle.setAlphaMode(false);
 		}else{
 			topTitle.setAlphaMode(true);

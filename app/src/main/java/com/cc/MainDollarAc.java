@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import net.MSG;
+import net.MSGTYPE;
 import net.MSGSender;
-import util.tools.AndroidTools;
-import util.tools.MyJson;
+
+import util.AndroidTools;
+import util.JsonMsg;
+import util.MapListUtil;
 import util.Tools;
 import adapter.AdapterLvDoll;
 
@@ -29,48 +31,48 @@ public class MainDollarAc extends BaseAc  {
 
 	@Override
 	public void callback(String jsonstr) {
-		int cmd = MyJson.getCmd(jsonstr);
+		int cmd = JsonMsg.getCmd(jsonstr);
 		int i , j;
 		List<Map<String, Object>>  list;
 		Map<String, Object>  map;
 		String v, v1;
 		switch (cmd) {
-		case MSG.DOLL_ROOM_LIST:
+		case MSGTYPE.DOLL_ROOM_LIST:
             swipeRefreshLayout.setRefreshing(false);
 
-			list = MyJson.getList(jsonstr);
+			list = JsonMsg.getList(jsonstr);
 			listItems.clear();
 			listItems.addAll(list);
 			adapterLv.notifyDataSetChanged();
 			break;
-		case MSG.DOLL_INTO_BY_NAME:
+		case MSGTYPE.DOLL_INTO_BY_NAME:
 			this.closeLoading();
-			if(MyJson.getValue0(jsonstr).equals("true")){
-				map = MyJson.getMap(jsonstr);
+			if(JsonMsg.getValue0(jsonstr).equals("true")){
+				map = JsonMsg.getMap(jsonstr);
 				onClickItem(map);
 			}else{
-				toast(  MyJson.getValue0(jsonstr));
+				toast(  JsonMsg.getValue0(jsonstr));
 			}
 			break;
-		case MSG.DOLL_CREATE_BY_NAME_NUM:
+		case MSGTYPE.DOLL_CREATE_BY_NAME_NUM:
 			this.closeLoading();
-			if(MyJson.getValue0(jsonstr).equals("true")){
+			if(JsonMsg.getValue0(jsonstr).equals("true")){
 				//toast("匿名房间创建成功");
 				//this.finish();
-				map = MyJson.getMap(jsonstr);
+				map = JsonMsg.getMap(jsonstr);
 				onClickItem(map);
 			}else{
-				toast(  MyJson.getValue0(jsonstr));
+				toast(  JsonMsg.getValue0(jsonstr));
 			}
 			break;
-		case MSG.DOLL_IN_OR_OUT_BY_NAME_TYPE:
+		case MSGTYPE.DOLL_IN_OR_OUT_BY_NAME_TYPE:
 			//cr.name, "out");
-			v = MyJson.getValue0(jsonstr);
-			v1 =  MyJson.getValue1(jsonstr);
+			v = JsonMsg.getValue0(jsonstr);
+			v1 =  JsonMsg.getValue1(jsonstr);
 			Tools.out(v + "房间有人" + v1);
-			i = Tools.getCountListByName(listItems, "NAME", v);
+			i = MapListUtil.getCountListByName(listItems, "NAME", v);
 			if(i >= 0){
-				j = Tools.parseInt(Tools.getList(listItems, i, "NOWNUM"));
+				j = Tools.parseInt(MapListUtil.getList(listItems, i, "NOWNUM"));
 				if(v1.equals("in")){
 					j ++;
 				}else{
@@ -99,7 +101,7 @@ public class MainDollarAc extends BaseAc  {
 	@Override
 	public void OnCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.ac_main_dollar);
-		Tools.log("dollar OnCreate");
+		AndroidTools.log("dollar OnCreate");
 		lv = (ListView)findViewById(R.id.lv);
 		adapterLv = new AdapterLvDoll(this, listItems);
 		lv.setAdapter(adapterLv);
@@ -107,7 +109,7 @@ public class MainDollarAc extends BaseAc  {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, 	long arg3) {
 				//onClickItem(listItems.get(arg2));
-				MSGSender.intoDollByName(MainDollarAc.this, Tools.getList(listItems, arg2, "NAME"));
+				MSGSender.intoDollByName(MainDollarAc.this, MapListUtil.getList(listItems, arg2, "NAME"));
 				
 			}
 			
@@ -160,25 +162,25 @@ public class MainDollarAc extends BaseAc  {
 
 	@Override
 	public void OnStart() {
-		Tools.log("dollar OnStart");
+		AndroidTools.log("dollar OnStart");
 	} 
 	@Override
 	public void OnResume() {
-		Tools.log("dollar OnResume");
+		AndroidTools.log("dollar OnResume");
 		
 	} 
 	@Override
 	public void OnPause() {
-		Tools.log("dollar OnPause");
+		AndroidTools.log("dollar OnPause");
 
 	} 
 	@Override
 	public void OnStop() {
-		Tools.log("dollar OnStop");
+		AndroidTools.log("dollar OnStop");
 	} 
 	@Override
 	public void OnDestroy() {
-		Tools.log("dollar OnDestroy");
+		AndroidTools.log("dollar OnDestroy");
 	}
 
 }

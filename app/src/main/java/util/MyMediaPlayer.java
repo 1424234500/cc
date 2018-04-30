@@ -1,10 +1,8 @@
-package util.tools;
+package util;
 
 
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
-
-import util.Tools;
 
 public class MyMediaPlayer { 
 	    private static MyMediaPlayer mMyMediaPlayer;
@@ -49,7 +47,7 @@ public class MyMediaPlayer {
 	            return;
 	        }
 	        try {
-	        	Tools.log("播放文件:" + soundFilePath + " 开始 ");
+	        	AndroidTools.log("播放文件:" + soundFilePath + " 开始 ");
 	        	
 	            mMediaPlayer.reset();
 	            mMediaPlayer.setDataSource(soundFilePath);
@@ -62,9 +60,9 @@ public class MyMediaPlayer {
 	            mMediaPlayer.setOnCompletionListener(new OnCompletionListener(){
 	                 @Override
 	                 public void onCompletion(MediaPlayer mp) {
-	                	 Tools.log("播放文件:" + soundFilePath + " 结束");
+	                	 AndroidTools.log("播放文件:" + soundFilePath + " 结束");
 	                    if(onPlay != null){
-	                    	Tools.log("回调");
+	                    	AndroidTools.log("回调");
 	                    	onPlay.onPlayEnd(mMediaPlayer);
 	                    }
 	                    stop();

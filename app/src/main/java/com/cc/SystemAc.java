@@ -1,18 +1,27 @@
 package com.cc;
 
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SeekBar;
 
 import net.MSGSender;
 import net.MSGTYPE;
 import net.Msg;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import service.NetService;
@@ -21,20 +30,49 @@ import util.JsonMsg;
 import util.JsonUtil;
 import util.MapListUtil;
 import util.MySP;
+import util.MySensor;
 import util.Tools;
 
 
 public class SystemAc extends BaseAc implements View.OnTouchListener {
 
 	Button bgohead, bgoback, bturnleft, bturnright;
-
+    SeekBar sbcarmera, sbspeed;
 	@Override
 	public void OnCreate(Bundle savedInstanceState) {
 		Tools.out("SystemAc.oncreate");
 
 		setContentView(R.layout.ac_system);
+        sbcarmera = (SeekBar)findViewById(R.id.sbcarmera);
+        sbcarmera.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                turnCaramera(i);
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
 
+            }
+        });
+        sbspeed = (SeekBar)findViewById(R.id.sbspeed);
+        sbspeed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                move("movefasterto" + "-" + i);
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 		bgohead = (Button)findViewById(R.id.bgohead);
 		bgoback = (Button)findViewById(R.id.bgoback);
 		bturnleft = (Button)findViewById(R.id.bturnleft);
@@ -80,6 +118,15 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
 		bturnleft.setOnTouchListener(this);
 		bturnright.setOnTouchListener(this);
 
+
+        sensor = new MySensor();
+        sensor.setSensor(this, Sensor.TYPE_ORIENTATION, SensorManager.SENSOR_DELAY_GAME, new MySensor.OnCallback() {
+            @Override
+            public void make(Object... objects) {
+                onTurnOri(objects);
+            }
+        });
+
 		MSGSender.systemLogin(getContext());	//认证系统 让系统能够收到消息
 		MSGSender.systemAuth(getContext());		//权限控制
 
@@ -87,7 +134,7 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
 	}
 	@Override
 	public void callback(String jsonstr) { 
-//		AndroidTools.out("StartAc.callback."+jsonstr);
+//		out("StartAc.callback."+jsonstr);
 		Map map = JsonUtil.getMap(jsonstr);
 
 		switch (Tools.parseInt(MapListUtil.getMap(map, "cmd"))) {
@@ -108,6 +155,18 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
 	}
 
 
+
+
+
+
+
+
+
+
+
+
+
+    MySensor sensor;
     Button btns[];
     int    btnsOn[];
     int    btnsOnOld[];
@@ -175,7 +234,7 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
         if (btnsOn[i] == btnsOnOld[i]) {
 
         } else if (btnsOn[i] == 1 && btnsOnOld[i] == 0) {  //从0-》1 开启
-            AndroidTools.out("按钮" + i + " 开启");
+            out("按钮" + i + " 开启");
             if (id == R.id.bgohead) {
                 move("head");
             } else if (id == R.id.bgoback) {
@@ -186,7 +245,7 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
                 move("right");
             }
         } else if (btnsOn[i] == 0 && btnsOnOld[i] == 1) {  //从1-》0 关闭
-            AndroidTools.out("按钮" + i + " 关闭");
+            out("按钮" + i + " 关闭");
 
             if (id == R.id.bgohead) {
                 move("space");
@@ -204,7 +263,21 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
 		MSGSender.systemCtrl(getContext(), "move", go);
 	}
 
+    public void turnCaramera(int i){
+//        0-100 -> 0-180
+        int to = i;//(int) (1.0 * i / 100 * 180);
+        MSGSender.systemCtrl(getContext(), "turn", to+"");
+    }
+    public void onTurnOri(Object...objects){
+        int x = (int) objects[0];
+        int y = (int) objects[0];
+        int z = (int) objects[0];
 
+        //y 横向 的左偏 90 - 0 - -90
+
+
+
+    }
 
 
 

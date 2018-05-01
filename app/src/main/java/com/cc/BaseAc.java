@@ -3,6 +3,7 @@ package com.cc;
 import database.BaseDao;
 import database.BaseDaoImpl;
 import service.NetService;
+import util.AndroidTools;
 import util.Tools;
 import util.view.DialogBeats;
 import util.view.TopPanelReturnTitleMenu;
@@ -176,7 +177,9 @@ public abstract class BaseAc extends Activity implements CallString {
 		
 		
 	}
-	
-	
+
+	public void out(Object...objects){
+		AndroidTools.out(this.getClass().getName() + "." + Tools.objects2string(objects));
+	}
 	
 }

@@ -272,8 +272,9 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
         int x = (int) objects[0];
         int y = (int) objects[0];
         int z = (int) objects[0];
-
-        //y 横向 的左偏 90 - 0 - -90
+        //x 水平 旋转  0 - 360
+        //y 横瓶 左偏 90 - 0 - -90
+        //z 竖屏 左偏 90 - 0 - -90
 
 
 

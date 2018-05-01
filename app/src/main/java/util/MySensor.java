@@ -145,7 +145,10 @@ public class MySensor {
                 float X_lateral = sensorEvent.values[0];
                 float Y_longitudinal = sensorEvent.values[1];
                 float Z_vertical = sensorEvent.values[2];
-                out("绕xyz轴转过的角度", X_lateral, Y_longitudinal, Z_vertical );
+                out("绕xyz轴转过的角度","水平旋转", X_lateral, "横屏左90：0：-90右", Y_longitudinal, "竖屏左90：0：-90右", Z_vertical );
+                //x 水平 旋转  0 - 360
+                //y 横瓶 左偏 90 - 0 - -90
+                //z 竖屏 左偏 90 - 0 - -90
                 callback.make(X_lateral, Y_longitudinal, Z_vertical);
             }
             else if(sensorEvent.sensor.getType() == Sensor.TYPE_GYROSCOPE){

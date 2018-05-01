@@ -120,7 +120,7 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
 
 
         sensor = new MySensor();
-        sensor.setSensor(this, Sensor.TYPE_ORIENTATION, SensorManager.SENSOR_DELAY_GAME, new MySensor.OnCallback() {
+        sensor.setSensor(this, Sensor.TYPE_ORIENTATION, SensorManager.SENSOR_DELAY_NORMAL, new MySensor.OnCallback() {
             @Override
             public void make(Object... objects) {
                 onTurnOri(objects);
@@ -268,15 +268,27 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
         int to = i;//(int) (1.0 * i / 100 * 180);
         MSGSender.systemCtrl(getContext(), "turn", to+"");
     }
+
+    float[] arr = new float[3];
+    int now = 0;
+    int last = 2;
     public void onTurnOri(Object...objects){
-        int x = (int) objects[0];
-        int y = (int) objects[0];
-        int z = (int) objects[0];
+        float x = (float) objects[0];
+        float y = (float) objects[0];
+        float z = (float) objects[0];
         //x 水平 旋转  0 - 360
         //y 横瓶 左偏 90 - 0 - -90
         //z 竖屏 左偏 90 - 0 - -90
 
-
+        y = y > 90 ? 90 : y;
+        y = y < -90 ? -90 : y;
+        y += 90;
+        arr[now] = y;
+        if(Math.abs(arr[now] - arr[last]) > 5){
+            arr[last] = y;
+            sbcarmera.setProgress((int)y);
+            out("横屏反转", y);
+        }
 
     }
 

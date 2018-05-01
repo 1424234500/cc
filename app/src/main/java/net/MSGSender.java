@@ -61,8 +61,7 @@ public   class MSGSender {
 		msg.setMsgType(Msg.DATA);
 		msg.setToKey("0");
 		msg.setToSysKey(Constant.systemKey);
-		msg.put("about", "系统控制");
-
+		msg.put("about", "s");
 		msg.put("method", method);
 		msg.put("params", params);
 

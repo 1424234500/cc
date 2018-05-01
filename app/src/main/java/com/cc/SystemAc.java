@@ -37,7 +37,8 @@ import util.Tools;
 public class SystemAc extends BaseAc implements View.OnTouchListener {
 
 	Button bgohead, bgoback, bturnleft, bturnright;
-    SeekBar sbcarmera, sbspeed;
+    SeekBar sbcarmera;
+    SeekBar sbspeed;
 	@Override
 	public void OnCreate(Bundle savedInstanceState) {
 		Tools.out("SystemAc.oncreate");
@@ -47,7 +48,6 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
         sbcarmera.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                turnCaramera(i);
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -55,14 +55,13 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
             }
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                turnCaramera(seekBar.getProgress());
             }
         });
         sbspeed = (SeekBar)findViewById(R.id.sbspeed);
         sbspeed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                move("movefasterto" + "-" + i);
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -70,7 +69,7 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
             }
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                move("movefasterto" + "-" + seekBar.getProgress());
             }
         });
 		bgohead = (Button)findViewById(R.id.bgohead);
@@ -265,8 +264,8 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
 
     public void turnCaramera(int i){
 //        0-100 -> 0-180
-        int to = i;//(int) (1.0 * i / 100 * 180);
-        MSGSender.systemCtrl(getContext(), "turn", to+"");
+        int to = 180 - i;//(int) (1.0 * i / 100 * 180);
+        MSGSender.systemCtrl(getContext(), "cameraTurn", to+"");
     }
 
     float[] arr = new float[3];
@@ -274,20 +273,21 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
     int last = 2;
     public void onTurnOri(Object...objects){
         float x = (float) objects[0];
-        float y = (float) objects[0];
-        float z = (float) objects[0];
+        float y = (float) objects[1];
+        float z = (float) objects[2];
         //x 水平 旋转  0 - 360
         //y 横瓶 左偏 90 - 0 - -90
         //z 竖屏 左偏 90 - 0 - -90
+        y = z;
 
         y = y > 90 ? 90 : y;
         y = y < -90 ? -90 : y;
         y += 90;
+
         arr[now] = y;
-        if(Math.abs(arr[now] - arr[last]) > 5){
+        if(Math.abs(arr[now] - arr[last]) > 8){
             arr[last] = y;
-            sbcarmera.setProgress((int)y);
-            out("横屏反转", y);
+//            out("横屏反转", y);
         }
 
     }

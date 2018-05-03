@@ -1,14 +1,8 @@
 package com.cc;
 
-import android.content.Context;
-import android.content.Intent;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -16,27 +10,23 @@ import android.widget.SeekBar;
 
 import net.MSGSender;
 import net.MSGTYPE;
-import net.Msg;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import service.NetService;
+import io.vov.vitamio.LibsChecker;
+import io.vov.vitamio.MediaPlayer;
+import io.vov.vitamio.widget.VideoView;
 import util.AndroidTools;
-import util.JsonMsg;
 import util.JsonUtil;
 import util.MapListUtil;
-import util.MySP;
 import util.MySensor;
+import util.MyVideo;
 import util.Tools;
 
 
 public class SystemAc extends BaseAc implements View.OnTouchListener {
-
-	Button bgohead, bgoback, bturnleft, bturnright;
+    MyVideo video;
+    Button bgohead, bgoback, bturnleft, bturnright;
     SeekBar sbcarmera;
     SeekBar sbspeed;
 	@Override
@@ -85,7 +75,6 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
             btnsOnOld[i] = 0;
         }
         findViewById(R.id.viewsystem).setOnTouchListener(this);
-        bgohead.setOnTouchListener(this);
         bgohead.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -118,6 +107,15 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
 		bturnright.setOnTouchListener(this);
 
 
+        String path = "rtmp://192.168.191.1:1935/myapp/test1";
+        video = new MyVideo(this, R.id.vv, new MyVideo.Callback() {
+            @Override
+            public void onRes(Boolean res) {
+
+            }
+        });
+
+
         sensor = new MySensor();
         sensor.setSensor(this, Sensor.TYPE_ORIENTATION, SensorManager.SENSOR_DELAY_NORMAL, new MySensor.OnCallback() {
             @Override
@@ -128,6 +126,7 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
 
 		MSGSender.systemLogin(getContext());	//认证系统 让系统能够收到消息
 		MSGSender.systemAuth(getContext());		//权限控制
+
 
 
 	}

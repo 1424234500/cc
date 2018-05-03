@@ -4,6 +4,7 @@ import net.MSGSender;
 import interfac.CallInt;
 import util.AndroidTools;
 import util.Tools;
+import util.ac.demo.RtmpAc;
 import util.picasso.NetImage;
 import util.view.BottomControlPanel;
 import util.view.SlidingMenu;
@@ -41,7 +42,7 @@ public class MainAc extends ActivityGroup implements View.OnClickListener{
 	//用户菜单信息
 	TextView tvUserName, tvSign;
 	ImageView ivProfile, ivSex;
-	View llchange,lllogin, llprofile, llsystem;
+	View llchange,lllogin, llprofile, llsystem, lltest;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,8 +53,10 @@ public class MainAc extends ActivityGroup implements View.OnClickListener{
 		lllogin = (View) this.findViewById(R.id.lllogin);
 		llchange = (View) this.findViewById(R.id.llchange);
 		llsystem = (View) this.findViewById(R.id.llsystem);
+		lltest = (View) this.findViewById(R.id.lltest);
 		llprofile = (View) this.findViewById(R.id.llprofile);
 		llsystem.setOnClickListener(this);
+		lltest.setOnClickListener(this);
 		lllogin.setOnClickListener(this);
 		llchange.setOnClickListener(this);
 		llprofile.setOnClickListener(this);
@@ -335,9 +338,13 @@ public class MainAc extends ActivityGroup implements View.OnClickListener{
 	@Override
 	public void onClick(View arg0) {
 		switch(arg0.getId()){
-		case R.id.llsystem:
+			case R.id.lltest:
+                startActivity(new Intent(MainAc.this, RtmpAc.class));
 
-			startActivity(new Intent(MainAc.this, SystemAc.class));
+                break;
+			case R.id.llsystem:
+
+			    startActivity(new Intent(MainAc.this, SystemAc.class));
 
 
 

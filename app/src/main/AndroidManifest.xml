@@ -76,6 +76,7 @@
 
         <activity android:name="com.cc.SystemAc" > </activity>
 
+        <activity android:name="util.ac.demo.RtmpAc" >  </activity>
         <activity android:name="com.cc.TestMainAc" >  </activity>
 
 

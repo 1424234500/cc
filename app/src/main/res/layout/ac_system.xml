@@ -5,16 +5,16 @@
     android:id="@+id/viewsystem"
      >
 
-
     <RelativeLayout
+        android:id="@+id/rlbotoom"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
 
-        android:layout_alignParentBottom="true"
+        android:layout_height="200dp"
         android:layout_alignParentStart="true"
-        android:paddingBottom="20dp"
+        android:layout_alignParentBottom="true"
         android:paddingLeft="40dp"
-        android:paddingRight="40dp">
+        android:paddingRight="40dp"
+        android:paddingBottom="20dp">
 
 
         <Button
@@ -78,8 +78,8 @@
             android:layout_width="79dp"
             android:layout_height="wrap_content"
 
-            android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
             android:max="100"
             android:progress="60"
             android:progressDrawable="@color/gainsboro"
@@ -88,5 +88,12 @@
 
 
     </RelativeLayout>
+
+    <io.vov.vitamio.widget.VideoView
+        android:id="@+id/vv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 
 </RelativeLayout>

@@ -40,4 +40,5 @@ dependencies {
     implementation files('libs/slf4j-api-1.7.7.jar')
     implementation files('libs/slf4j-log4j12-1.7.7.jar')
     implementation files('libs/json-20131018.jar')
+    implementation project(':vitamio')
 }

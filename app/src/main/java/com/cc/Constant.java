@@ -6,9 +6,13 @@ public class Constant {
 	//public static String serverIp = "10.18.176.187";//校园网
 	//public static String serverIp = "192.168.253.1";	//本机360wifi作废了
 
+
 	public static int serverPort = 8092;
 	public static String serverIpNet = "192.168.1.6";	//服务器
 	public static String serverIpLocal = "192.168.191.1";	//本机
+
+	public static String[] serverIps = {"39.107.26.100", "192.168.1.6", "192.168.191.1"};
+
 	public static String serverIp = serverIpLocal;
 
 

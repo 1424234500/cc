@@ -1,12 +1,48 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:background="#696969"
+    tools:context="util.ac.demo.RtmpAc">
 
-    <io.vov.vitamio.widget.VideoView
-        android:id="@+id/vitamio_videoView"
+    <io.vov.vitamio.widget.CenterLayout
+        android:id="@+id/dd"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <io.vov.vitamio.widget.VideoView
+            android:id="@+id/vitamio"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+    </io.vov.vitamio.widget.CenterLayout>
+
+    <TextView
+        android:id="@+id/buffer_percent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="84dp"
+        android:textColor="#e6ff01" />
+
+    <TextView
+        android:id="@+id/net_speed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/dd"
+        android:layout_marginLeft="12dp"
+        android:layout_toRightOf="@id/buffer_percent"
+        android:textColor="#04fa00" />
+
+    <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:background="@color/antiquewhite"
+        android:onClick="changeLayout" />
 
-</LinearLayout>
+</RelativeLayout>

@@ -1,17 +1,26 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:id="@+id/viewsystem"
-     >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <util.view.VideoRtmp
+        android:id="@+id/video"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+
+        />
+
 
     <RelativeLayout
         android:id="@+id/rlbotoom"
         android:layout_width="match_parent"
-
         android:layout_height="200dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
         android:paddingLeft="40dp"
         android:paddingRight="40dp"
         android:paddingBottom="20dp">
@@ -89,11 +98,5 @@
 
     </RelativeLayout>
 
-    <io.vov.vitamio.widget.VideoView
-        android:id="@+id/vv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
 
-</RelativeLayout>
+</FrameLayout>

@@ -3,6 +3,8 @@ package net.impl.mina;
 import interfac.CallString;
 
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.Client;
 import net.MSGTYPE;
@@ -37,7 +39,7 @@ public abstract class ClientImpl implements Client, CallString {
 
     @Override
     public void out(String str) {
-//        AndroidTools.out("Mina." + str);
+        AndroidTools.out("Mina." + str);
     }
 
     @Override
@@ -67,7 +69,7 @@ public abstract class ClientImpl implements Client, CallString {
         return true;
     }
 
-    int ipcount = 1;
+    int ipcount = 0;
     static boolean ifOnConn = false;
 
     public void whileConn() {
@@ -77,19 +79,15 @@ public abstract class ClientImpl implements Client, CallString {
             public void run() {
                 while (ifOnConn) {
                     try {
-                        if (ipcount == 0) {
-                            Constant.serverIp = Constant.serverIpLocal;
-                        } else {
-                            Constant.serverIp = Constant.serverIpNet;
-                        }
+                        Constant.serverIp = Constant.serverIps[ipcount];
+                        ipcount = (ipcount + 1) % Constant.serverIps.length;
                         ip = Constant.serverIp;
                         port = Constant.serverPort;
 
-                        ipcount = 1 - ipcount;
 
                         // 连接服务器，知道端口、地址
                         future = connector.connect(new InetSocketAddress(ip, port));
-                        out("等待服务器响应" + ip + ":" + port);
+                        AndroidTools.out("等待服务器响应" + ip + ":" + port);
                         // 等待连接创建完成
                         future.awaitUninterruptibly();
 //						try {
@@ -99,13 +97,13 @@ public abstract class ClientImpl implements Client, CallString {
 //						}
                         // 获取当前session
                         session = future.getSession();
-                        out(" 链接服务器成功！ ");
+                        AndroidTools.out(" 链接服务器成功！ ");
                         ifOnConn = false;
                         break;
                     } catch (Exception e) {
-                        out("连接异常,稍后后尝试重新连接");
+                        AndroidTools.out("连接异常,稍后后尝试重新连接");
                         try {
-                            Thread.sleep(600);
+                            Thread.sleep(100);
                         } catch (InterruptedException e1) {
                             e1.printStackTrace();
                         }
@@ -139,7 +137,7 @@ public abstract class ClientImpl implements Client, CallString {
     }
 
     public void send(String message) {
-        out("Send>>" + message);
+//        out("Send>>" + message);
         if (session != null && session.isConnected()) {
             session.write(message);
         } else {
@@ -167,7 +165,7 @@ public abstract class ClientImpl implements Client, CallString {
     @Override
     public void onReceive(String str) {
         callback(str);
-        out("Get<<" + str);
+//        out("Get<<" + str);
     }
 
     public void disConn() {
@@ -177,6 +175,16 @@ public abstract class ClientImpl implements Client, CallString {
 
     @Override
     public void reconnect(String string) {
+        if(string.length() > 0){
+            String[] arr = new String[Constant.serverIps.length + 1];
+            //新添加ip作为连接ip集合
+            for(int i = 0; i < Constant.serverIps.length; i++){
+                arr[i] = Constant.serverIps[i];
+            }
+            arr[Constant.serverIps.length] = string;
+            Constant.serverIps = arr;
+            ipcount = Constant.serverIps.length - 1;
+        }
         if (ifOnConn) {
 
         } else {
@@ -185,7 +193,6 @@ public abstract class ClientImpl implements Client, CallString {
                 session.close();
                 future.cancel();
             } catch (Exception e) {
-                // TODO: handle exception
             }
             AndroidTools.log("断开重连");
             connect();

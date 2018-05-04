@@ -1,12 +1,17 @@
 package com.cc;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import net.MSGSender;
 import net.MSGTYPE;
@@ -16,17 +21,19 @@ import java.util.Map;
 import io.vov.vitamio.LibsChecker;
 import io.vov.vitamio.MediaPlayer;
 import io.vov.vitamio.widget.VideoView;
+import service.NetService;
 import util.AndroidTools;
 import util.JsonUtil;
 import util.MapListUtil;
 import util.MySensor;
 import util.MyVideo;
 import util.Tools;
+import util.view.VideoRtmp;
 
 
 public class SystemAc extends BaseAc implements View.OnTouchListener {
-    MyVideo video;
     Button bgohead, bgoback, bturnleft, bturnright;
+    VideoRtmp video;
     SeekBar sbcarmera;
     SeekBar sbspeed;
 	@Override
@@ -74,7 +81,8 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
             btnsOn[i] = 0;
             btnsOnOld[i] = 0;
         }
-        findViewById(R.id.viewsystem).setOnTouchListener(this);
+        final View viewsystem = findViewById(R.id.viewsystem);
+		viewsystem.setOnTouchListener(this);
         bgohead.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -106,15 +114,44 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
 		bturnleft.setOnTouchListener(this);
 		bturnright.setOnTouchListener(this);
 
+//        final String path = "rtmp://192.168.191.1:1935/myapp/test1";
+        final String path = "rtmp://39.107.26.100:1935:1935/myapp/test1";
 
-        String path = "rtmp://192.168.191.1:1935/myapp/test1";
-        video = new MyVideo(this, R.id.vv, new MyVideo.Callback() {
+
+        video = (VideoRtmp)findViewById(R.id.video);
+        video.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onRes(Boolean res) {
-
+            public boolean onLongClick(View view) {
+                final EditText inputServer = new EditText(getContext());
+                inputServer.setText(video.getPath());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("rtmp地址").setIcon(android.R.drawable.ic_dialog_info).setView(inputServer)  .setNegativeButton("Cancel", null);
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String text = inputServer.getText().toString();
+                        video.play(text);
+                    }
+                });
+                builder.show();
+                return true;
             }
         });
+        video.setOnplayListener(this, new MyVideo.Callback() {
+            @Override
+            public boolean onRes(MyVideo video, int status) {
+                return false;
+            }
 
+            @Override
+            public void onBufferingUpdate(MediaPlayer mp, int percent) {
+            }
+
+            @Override
+            public boolean onInfo(MediaPlayer mp, int what, int extra) {
+                return false;
+            }
+        });
+        video.play(path);
 
         sensor = new MySensor();
         sensor.setSensor(this, Sensor.TYPE_ORIENTATION, SensorManager.SENSOR_DELAY_NORMAL, new MySensor.OnCallback() {
@@ -126,8 +163,6 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
 
 		MSGSender.systemLogin(getContext());	//认证系统 让系统能够收到消息
 		MSGSender.systemAuth(getContext());		//权限控制
-
-
 
 	}
 	@Override

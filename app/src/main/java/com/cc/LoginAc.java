@@ -282,7 +282,6 @@ public class LoginAc extends BaseAc implements OnClickListener, TextWatcher {
 	}
 
 	private void OpenIvDown(View view) {
-		// TODO 自动生成的方法存根
 		// 构造需要显示的数据
 		liststr = this.sqlDao.queryList("select * from " + Constant.LOGIN_USER + " ");
 		if (liststr == null)
@@ -364,13 +363,11 @@ public class LoginAc extends BaseAc implements OnClickListener, TextWatcher {
 	@Override
 	public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
 			int arg3) {
-		// TODO 自动生成的方法存根
 
 	}
 
 	@Override
 	public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-		// TODO 自动生成的方法存根
 
 	}
 
@@ -378,8 +375,7 @@ public class LoginAc extends BaseAc implements OnClickListener, TextWatcher {
 
 	@Override
 	public void OnStart() {
-		// TODO 自动生成的方法存根
-		
+
 	}
 
 
@@ -394,24 +390,21 @@ public class LoginAc extends BaseAc implements OnClickListener, TextWatcher {
 
 	@Override
 	public void OnPause() {
-		// TODO 自动生成的方法存根
-		
+
 	}
 
 
 
 	@Override
 	public void OnStop() {
-		// TODO 自动生成的方法存根
-		
+
 	}
 
 
 
 	@Override
 	public void OnDestroy() {
-		// TODO 自动生成的方法存根
-		
+
 	}
 
 

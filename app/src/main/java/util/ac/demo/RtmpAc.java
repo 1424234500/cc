@@ -44,9 +44,10 @@ public class RtmpAc extends Activity {
             videoView = (VideoView) findViewById(R.id.vitamio);
             videoView.setVideoURI(Uri.parse("rtmp://192.168.191.1:1935/myapp/test1"));
             videoView.setVideoQuality(MediaPlayer.VIDEOQUALITY_HIGH);
-            MediaController controller = new MediaController(this);
-            videoView.setMediaController(controller);
-            videoView.setBufferSize(1024); //设置视频缓冲大小。默认1024KB，单位byte
+//            MediaController controller = new MediaController(this);
+//            videoView.setMediaController(controller);
+            videoView.setOnClickListener(null);
+            videoView.setBufferSize(128); //设置视频缓冲大小。默认1024KB，单位byte
             videoView.requestFocus();
             videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override

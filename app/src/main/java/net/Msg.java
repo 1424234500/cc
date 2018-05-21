@@ -109,11 +109,11 @@ public class Msg{
 	public Object get(Object key){
 		return this.get(key, null);
 	}
-	public Object get(Object key, Object defaultValue){
+	public <T> T get(Object key, T defaultValue){
 		 Object res = data.get(key);
 		 if(res == null)
 			 res = defaultValue;
-		 return res;
+		 return (T)res;
 	}
 
 

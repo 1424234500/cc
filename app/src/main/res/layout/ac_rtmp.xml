@@ -5,44 +5,48 @@
     android:background="#696969"
     tools:context="util.ac.demo.RtmpAc">
 
-    <io.vov.vitamio.widget.CenterLayout
+<!--
+<io.vov.vitamio.widget.CenterLayout
         android:id="@+id/dd"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <io.vov.vitamio.widget.VideoView
-            android:id="@+id/vitamio"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true" />
     </io.vov.vitamio.widget.CenterLayout>
+-->
 
     <TextView
         android:id="@+id/buffer_percent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="84dp"
+        android:text="buffer_percent"
         android:textColor="#e6ff01" />
+
+    <io.vov.vitamio.widget.VideoView
+        android:id="@+id/vitamio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
 
     <TextView
         android:id="@+id/net_speed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/dd"
-        android:layout_marginLeft="12dp"
-        android:layout_toRightOf="@id/buffer_percent"
+        android:text="net_speed"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
         android:textColor="#04fa00" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:background="@color/antiquewhite"
-        android:onClick="changeLayout" />
+    <!--
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:background="@color/antiquewhite"
+            android:onClick="changeLayout" />
+    -->
 
 </RelativeLayout>

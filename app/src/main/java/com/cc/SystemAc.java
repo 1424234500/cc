@@ -119,6 +119,7 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
 
 
         video = (VideoRtmp)findViewById(R.id.video);
+        video.setOnClickListener(null);
         video.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {

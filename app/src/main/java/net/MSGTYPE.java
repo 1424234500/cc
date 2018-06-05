@@ -68,6 +68,13 @@ public   class MSGTYPE {
 	public static final int DOLL_ROOM_UPDATE_BY_NAME = 205;//聊天室 刷新
 	public static final int DOLL_IN_OR_OUT_BY_NAME_TYPE = 206;//某房间进入退出房间信息
 
+
+	///////////////////////////////////////////////////////////////////
+    //图片传输监控模块
+    public static final int SYS_DECT_ON = 300;//检测提醒
+
+
+
 	
 	
 }

@@ -16,7 +16,10 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 
@@ -25,7 +28,6 @@ public class NetService extends Service implements CallString {
 	public Client client;//网络工具
 	LocalBroadcastManager localBroadcastManager;	//本地的activity广播机制
 	NotificationManager mNotificationManager;//推送栏广播
-
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -100,28 +102,28 @@ public class NetService extends Service implements CallString {
 
 		Msg msg = new Msg(jsonstr);
         jsonstr = msg.getDataJson();	//消息体中的实际消息包 除去中转系统转发参数
-		String type = msg.get("type", "");	//消息的类型 文本 推送
-		if(type.equals("broadcast")){
-			mNotificationManager.notify(0, makeBroad(msg).build());
-		}
-		localBroadcastManager.sendBroadcast(new Intent(MSGTYPE.broadcastUrl).putExtra("msg", jsonstr)); //发送应用内广播
+		String type = msg.get("type", "");	//文本中转消息 中 的 推送提示消息
+		if(type.equals("push")){
+//			Looper.prepare();	//主线程中自动创建 子线程中需手动创建
 
-	}
-	public NotificationCompat.Builder makeBroad(Msg msg){
-		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-		mBuilder.setContentTitle("有人")//设置通知栏标题
-				.setContentText(msg.get("res", "")) //设置通知栏显示内容
-	//	.setContentIntent(getDefalutIntent(Notification.FLAG_AUTO_CANCEL)) //设置通知栏点击意图
-	//  .setNumber(number) //设置通知集合的数量
-				.setTicker("有可疑人物出现！") //通知首次出现在通知栏，带上升动画效果的
-				.setWhen(System.currentTimeMillis())//通知产生的时间，会在通知信息里显示，一般是系统获取到的时间
-			.setPriority(Notification.PRIORITY_DEFAULT) //设置该通知优先级
-			    .setAutoCancel(true)//设置这个标志当用户单击面板就可以让通知将自动取消
-				.setOngoing(false)//ture，设置他为一个正在进行的通知。他们通常是用来表示一个后台任务,用户积极参与(如播放音乐)或以某种方式正在等待,因此占用设备(如一个文件下载,同步操作,主动网络连接)
-				.setDefaults(Notification.DEFAULT_VIBRATE)//向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合
-	//.Notification.DEFAULT_ALL// Notification.DEFAULT_SOUND 添加声音 // requires VIBRATE permission
-				.setSmallIcon(R.drawable.ic_launcher);//设置通知小ICON
-		return mBuilder;
+			Bundle bundle = new Bundle();
+			bundle.putString("title", msg.get("title","title"));
+			bundle.putString("text", msg.get("text","text"));
+			bundle.putString("ticker", msg.get("ticker","ticker"));
+			Message message = new Message();
+			message.setData(bundle);
+		}
+
+		switch(msg.getMsgType()){
+            case Msg.DATA:
+                localBroadcastManager.sendBroadcast(new Intent(MSGTYPE.broadcastUrl).putExtra("msg", jsonstr)); //发送应用内广播
+                break;
+            case Msg.BROADCAST_SYS:
+            case Msg.BROADCAST:
+                AndroidTools.toast(getBaseContext(), msg.get("info", ""));
+                break;
+        }
+
 	}
 
 

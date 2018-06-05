@@ -4,6 +4,7 @@ import service.NetService;
 import util.AndroidTools;
 import util.JsonUtil;
 import util.MD5;
+import util.MapListUtil;
 import util.MySP;
 import util.Tools;
 import android.content.Context;
@@ -43,11 +44,13 @@ public   class MSGSender {
 		Msg msg = new Msg();
 		msg.setMsgType(Msg.DATA);
 		msg.setToKey("0");
-		msg.setToSysKey(Constant.systemKey);
+	msg.setToSysKey(Constant.systemKey);
+	    msg.put("cmd", MSGTYPE.LOGIN_BY_ID_PWD);
 		msg.put("about", "获取权限");
 		msg.put("id", Constant.systemId);
 		msg.put("pwd", Constant.systemPwd);
-
+		msg.put("method", "login");
+		msg.put("params", MapListUtil.map().put("id", Constant.systemId).put("pwd", Constant.systemPwd).build());
 		String jsonstr = msg.getData();
 		sendSystem(context, jsonstr);
 	}

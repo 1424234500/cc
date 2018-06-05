@@ -123,8 +123,10 @@ public abstract class BaseAc extends Activity implements CallString {
 		} 
 		
 	}
-	 
-	
+
+	public void toast(Object...objects){
+		Toast.makeText(this, Tools.objects2string(objects), Toast.LENGTH_SHORT).show();
+	}
 	public void toast(String str){
 		Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
 	}

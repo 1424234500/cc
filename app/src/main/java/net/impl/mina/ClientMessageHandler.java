@@ -11,7 +11,6 @@ public class ClientMessageHandler extends IoHandlerAdapter   {
 	ClientImpl mClient;
 	
 	public ClientMessageHandler(ClientImpl mClient) {
-		// TODO 自动生成的构造函数存根
 		this.mClient = mClient;
 	}
 

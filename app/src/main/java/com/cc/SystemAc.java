@@ -5,11 +5,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -33,14 +35,21 @@ import util.view.VideoRtmp;
 
 public class SystemAc extends BaseAc implements View.OnTouchListener {
     Button bgohead, bgoback, bturnleft, bturnright;
-    VideoRtmp video;
+//    VideoRtmp video;
+    ImageView ivphoto;
     SeekBar sbcarmera;
     SeekBar sbspeed;
+
+
 	@Override
 	public void OnCreate(Bundle savedInstanceState) {
 		Tools.out("SystemAc.oncreate");
 
 		setContentView(R.layout.ac_system);
+
+
+
+		ivphoto = (ImageView)findViewById(R.id.ivphoto);
         sbcarmera = (SeekBar)findViewById(R.id.sbcarmera);
         sbcarmera.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -115,44 +124,44 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
 		bturnright.setOnTouchListener(this);
 
 //        final String path = "rtmp://192.168.191.1:1935/myapp/test1";
-        final String path = "rtmp://39.107.26.100:1935:1935/myapp/test1";
-
-
-        video = (VideoRtmp)findViewById(R.id.video);
-        video.setOnClickListener(null);
-        video.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                final EditText inputServer = new EditText(getContext());
-                inputServer.setText(video.getPath());
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("rtmp地址").setIcon(android.R.drawable.ic_dialog_info).setView(inputServer)  .setNegativeButton("Cancel", null);
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        String text = inputServer.getText().toString();
-                        video.play(text);
-                    }
-                });
-                builder.show();
-                return true;
-            }
-        });
-        video.setOnplayListener(this, new MyVideo.Callback() {
-            @Override
-            public boolean onRes(MyVideo video, int status) {
-                return false;
-            }
-
-            @Override
-            public void onBufferingUpdate(MediaPlayer mp, int percent) {
-            }
-
-            @Override
-            public boolean onInfo(MediaPlayer mp, int what, int extra) {
-                return false;
-            }
-        });
-        video.play(path);
+//        final String path = "rtmp://39.107.26.100:1935:1935/myapp/test1";
+//
+//
+//        video = (VideoRtmp)findViewById(R.id.video);
+//        video.setOnClickListener(null);
+//        video.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View view) {
+//                final EditText inputServer = new EditText(getContext());
+//                inputServer.setText(video.getPath());
+//                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+//                builder.setTitle("rtmp地址").setIcon(android.R.drawable.ic_dialog_info).setView(inputServer)  .setNegativeButton("Cancel", null);
+//                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        String text = inputServer.getText().toString();
+//                        video.play(text);
+//                    }
+//                });
+//                builder.show();
+//                return true;
+//            }
+//        });
+//        video.setOnplayListener(this, new MyVideo.Callback() {
+//            @Override
+//            public boolean onRes(MyVideo video, int status) {
+//                return false;
+//            }
+//
+//            @Override
+//            public void onBufferingUpdate(MediaPlayer mp, int percent) {
+//            }
+//
+//            @Override
+//            public boolean onInfo(MediaPlayer mp, int what, int extra) {
+//                return false;
+//            }
+//        });
+//        video.play(path);
 
         sensor = new MySensor();
         sensor.setSensor(this, Sensor.TYPE_ORIENTATION, SensorManager.SENSOR_DELAY_NORMAL, new MySensor.OnCallback() {
@@ -168,16 +177,23 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
 	}
 	@Override
 	public void callback(String jsonstr) { 
-//		out("StartAc.callback."+jsonstr);
+		out(jsonstr);
 		Map map = JsonUtil.getMap(jsonstr);
-
+		out(map);
+        String str;
 		switch (Tools.parseInt(MapListUtil.getMap(map, "cmd"))) {
-		case MSGTYPE.OK:
+            case MSGTYPE.OK:
+                break;
+            case MSGTYPE.LOGIN_BY_ID_PWD:
+                str = MapListUtil.getMap(map, "res").equals("0")?"认证失败":"认证成功";
+                toast(str);
+                break;
+            case MSGTYPE.SYS_DECT_ON:
+                str = MapListUtil.getMap(map, "id");
+                toast("检测到人出没",str);
+                break;
 
-
-			break;
-		
-		}
+        }
 		
 		
 	}

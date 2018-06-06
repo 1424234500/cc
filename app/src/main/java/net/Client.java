@@ -12,7 +12,7 @@ public interface Client {
 	public boolean start();	//服务器连接成功后启动读取线程
 	public boolean stop();	//关闭连接
 	public void send(String jsonstr);		//发送消息
-	public void onReceive(String str) ;		//收到消息后，不实现，交由包含此接口的类实现，以实现回功能
+	public void onReceive(String jsonstr) ;		//收到消息后，不实现，交由包含此接口的类实现，以实现回功能
 	public void reconnect(String string);
 	
 	

@@ -37,10 +37,10 @@ public class NetService extends Service implements CallString {
 
 
 		localBroadcastManager = LocalBroadcastManager.getInstance(this);
-		client = new net.impl.mina.ClientImpl( Constant.serverIp){
+		client = new net.impl.mina.ClientImpl(){
 			@Override
-			public void callback(String str) {
-				NetService.this.callback(str);
+			public void onReceive(String str) {
+				callback(str);
 			}
 			
 		};
@@ -88,7 +88,7 @@ public class NetService extends Service implements CallString {
 	//获取client从服务器收到的消息串，包装作为广播发送给 activitys
 	@Override
 	public void callback(String jsonstr) {
-		
+
 //		switch(JsonUtil.getCmd(jsonstr)){
 //			case MSGTYPE.CLOSE  :	//服务器传来的关闭net
 //				//this.client.stop();
@@ -120,7 +120,7 @@ public class NetService extends Service implements CallString {
                 break;
             case Msg.BROADCAST_SYS:
             case Msg.BROADCAST:
-                AndroidTools.toast(getBaseContext(), msg.get("info", ""));
+                AndroidTools.out(msg.get("info", ""));
                 break;
         }
 

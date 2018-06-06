@@ -5,12 +5,12 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.CumulativeProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 
+import util.AndroidTools;
 import util.Tools;
 
 public class MyCharsetDecoder extends CumulativeProtocolDecoder {
 
-	protected boolean doDecode(IoSession session, IoBuffer in,
-			ProtocolDecoderOutput out) throws Exception {
+	protected boolean doDecode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception {
 
 		if (in.remaining() > 4) {// 前4字节是包头
 			// 标记当前position的快照标记mark，以便后继的reset操作能恢复position位置
@@ -20,7 +20,7 @@ public class MyCharsetDecoder extends CumulativeProtocolDecoder {
 			// in.get(l);
 			// int len = Tools.bytes2int(l);// 将byte转成int
 			int len = in.getInt();
-			Tools.out("解码：" + " len=" + len);
+			out("解码：" + " len=" + len);
 			// 注意上面的get操作会导致下面的remaining()值发生变化
 			if (in.remaining() < len) {
 				// 如果消息内容不够，则重置恢复position位置到操作前,进入下一轮, 接收新数据，以拼凑成完整数据
@@ -35,7 +35,7 @@ public class MyCharsetDecoder extends CumulativeProtocolDecoder {
 
 				String jsonstr = new String(packArr,
 						MyCharsetCodecFactory.charset);
-				Tools.out("数据:" + jsonstr);
+				out("数据:" + jsonstr);
 
 				out.write(jsonstr);
 
@@ -45,5 +45,8 @@ public class MyCharsetDecoder extends CumulativeProtocolDecoder {
 			}
 		}
 		return false;// 处理成功，让父类进行接收下个包
+	}
+	public void out(String str){
+//		AndroidTools.out(str);
 	}
 }

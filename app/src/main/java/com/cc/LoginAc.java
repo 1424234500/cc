@@ -2,6 +2,7 @@ package com.cc;
 
 import interfac.CallInt;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import service.NetService;
 import util.AndroidTools;
 import util.JsonMsg;
 import util.JsonUtil;
+import util.MapListUtil;
 import util.MySP;
 import util.Tools;
 import util.picasso.NetImage;
@@ -59,8 +61,10 @@ public class LoginAc extends BaseAc implements OnClickListener, TextWatcher {
 	public void callback(String jsonstr) {
 	//	out("get. " + jsonstr);
 
-		int cmd = JsonMsg.getCmd(jsonstr);
-		String value = "", value1 = "", value2 = "", value3, value4,value5,value6,value7,  res = "";
+		Map map = JsonUtil.getMap(jsonstr);
+		int cmd = MapListUtil.getMap(map, "cmd", 0);
+		String value = MapListUtil.getMap(map, "value0", "false");
+
 		switch (cmd) {
 		case MSGTYPE.PROFILE_PATH_BY_ID:// 从服务器返回的图片信息
 			final String path = JsonMsg.getValue0(jsonstr);
@@ -69,58 +73,41 @@ public class LoginAc extends BaseAc implements OnClickListener, TextWatcher {
 		    	 
 		    	 //out("path:." + cc++);
 			}
-
-			
-			
 			break;
 		case MSGTYPE.LOGIN_BY_ID_PWD:
 			this.closeLoading();
-
-			value = JsonMsg.getValue0(jsonstr);
-		
 			if(value.equals( "true")){
-				try {
-					JSONObject jb = new JSONObject(jsonstr);
-					value1 = jb.getString("value1");
-					value2 = jb.getString("value2");
-					value3 = jb.getString("value3");
-					value4 = jb.getString("value4");
-					value5 = jb.getString("value5");
-					value6 = jb.getString("value6");
-					value7 = jb.getString("value7");
-					//登陆成功， 下一步
-					AndroidTools.toast(this, "登陆成功"); 
-					Constant.offlineMode = 0;
+				map = MapListUtil.getMap(map, "value1", new HashMap());
+				//登陆成功， 下一步
+				AndroidTools.toast(this, "登陆成功");
+				Constant.offlineMode = 0;
 
-					Constant.id = value1; 
-					Constant.username = value2;//保存用户名密码，头像
-					Constant.profilepath = value3;
-					Constant.sign = value4;
-					Constant.sex = value5;
-					Constant.profilepathwall = value6;
-					Constant.email = value7;
-					Constant.ivdoll =  Tools.parseInt(jb.getString("value8"));
-					
-					AndroidTools.putIfLogin(getApplicationContext(), "true");
-					
-					Map<String, Object> map = sqlDao.queryOne("select * from " + Constant.LOGIN_USER + " where id=? ", Constant.id);
-					if(map == null)	//插入或者更新
-						this.sqlDao.execSQL("insert into " + Constant.LOGIN_USER + " values(?, ?, ?) ", Constant.id, Constant.pwd, Constant.profilepath);
-					else
-						this.sqlDao.execSQL("update  " + Constant.LOGIN_USER + " set pwd=?,profilepath=? where id=? ",  Constant.pwd, Constant.profilepath, Constant.id);
-					
-					MySP.put(this, "userid", Constant.id);
-					MySP.put(this, "userpwd", Constant.pwd);
-					
-					startActivity(new Intent(LoginAc.this, MainAc.class));
-					this.finish();
-					
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+				Constant.id = MapListUtil.getMap(map, "id", "");
+				Constant.username = MapListUtil.getMap(map, "username", "");
+				Constant.profilepath = MapListUtil.getMap(map, "profilepath", "");
+				Constant.sign = MapListUtil.getMap(map, "sign", "");;
+				Constant.sex = MapListUtil.getMap(map, "sex", "");;
+				Constant.profilepathwall = MapListUtil.getMap(map, "profilepathwall", "");;
+				Constant.email = MapListUtil.getMap(map, "email", "");;
+				Constant.ivdoll =  MapListUtil.getMap(map, "ivdoll", 0);
+
+				AndroidTools.putIfLogin(getApplicationContext(), "true");
+
+				map = sqlDao.queryOne("select * from " + Constant.LOGIN_USER + " where id=? ", Constant.id);
+				if(map == null)	//插入或者更新
+					this.sqlDao.execSQL("insert into " + Constant.LOGIN_USER + " values(?, ?, ?) ", Constant.id, Constant.pwd, Constant.profilepath);
+				else
+					this.sqlDao.execSQL("update  " + Constant.LOGIN_USER + " set pwd=?,profilepath=? where id=? ",  Constant.pwd, Constant.profilepath, Constant.id);
+
+				MySP.put(this, "userid", Constant.id);
+				MySP.put(this, "userpwd", Constant.pwd);
+
+				startActivity(new Intent(LoginAc.this, MainAc.class));
+				this.finish();
 			}else{
- 				AndroidTools.toast(this, "登陆失败."+ value1); 
-				out("登陆失败."+ value1);
+				value = MapListUtil.getMap(map, "value1", "");
+ 				AndroidTools.toast(this, "登陆失败."+ value);
+				out("登陆失败."+ value);
 			}
 			break;
 		case MSGTYPE.TOAST:
@@ -206,6 +193,9 @@ public class LoginAc extends BaseAc implements OnClickListener, TextWatcher {
 		cetPwd.setText(pwd);
 	  
 		//MSGSender.beats(this);
+		MSGSender.systemLogin(getContext());	//认证系统 让系统能够收到消息
+		MSGSender.systemAuth(getContext());		//权限控制
+		ClickLogin();
 	} 
 
 	 

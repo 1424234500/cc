@@ -49,7 +49,7 @@ public class UserDetailAc extends BaseAc implements OnClickListener, CallInt {
 
 	public void setByMap(final Map<String, Object> map){
 		if(map != null){
-			if(map.get("ID").toString().equals(Constant.id)){
+			if(MapListUtil.getMap(map,"ID").toString().equals(Constant.id)){
 				topTitle.setMenu("编辑");
 			}else{
 				topTitle.setMenu("更多");

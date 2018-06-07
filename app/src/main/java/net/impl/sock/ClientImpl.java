@@ -175,8 +175,7 @@ public abstract    class ClientImpl implements Client,CallString{
 
 	@Override
 	public boolean stop() {
-		// TODO 自动生成的方法存根
-		try { 
+		try {
 			if(writer != null)
 		 	writer.close();
 			if(reader != null)

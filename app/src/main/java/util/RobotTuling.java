@@ -49,7 +49,7 @@ public class RobotTuling {
 				break;
 			case 302000:
 				res = MapListUtil.getMap(map, "text") + "\n" ;
-				list = (List<Map<String,Object>>)MapListUtil.getMap(map, "text", new ArrayList<>()); //JsonUtil.getList(jsonstr, "list");
+				list = MapListUtil.getMap(map, "text", new ArrayList<Map<String, Object>>()); //JsonUtil.getList(jsonstr, "list");
 				for(Map<String,Object> item: list){
 					res += "" + item.get("source").toString() + "\n";
 					res += "" + item.get("article").toString() + "\n";

@@ -171,8 +171,6 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
             }
         });
 
-		MSGSender.systemLogin(getContext());	//认证系统 让系统能够收到消息
-		MSGSender.systemAuth(getContext());		//权限控制
 
 	}
 	@Override

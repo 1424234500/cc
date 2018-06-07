@@ -3,6 +3,7 @@ package adapter;
 import java.util.List;
 import java.util.Map;
 
+import util.MapListUtil;
 import util.picasso.NetImage;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -83,17 +84,17 @@ public   class AdapterLvAddFind extends BaseAdapter    {
 		}
 		// 设置文字和图片和监听
 		if(type== TYPE_USER){ 
-			viewHolderUser.tvusername.setText(listItems.get( position).get("USERNAME").toString()) ;
-			viewHolderUser.tvid.setText(listItems.get( position).get("ID").toString()) ;
- 		 	NetImage.loadProfile(context, listItems.get( position).get("PROFILEPATH").toString(), viewHolderUser.ivprofile);
-		 	NetImage.loadImage( context,listItems.get( position).get("SEX").toString().equals("男") ? R.drawable.boy:R.drawable.girl, viewHolderUser.ivsex);
+			viewHolderUser.tvusername.setText(MapListUtil.getList(listItems, position,"USERNAME").toString()) ;
+			viewHolderUser.tvid.setText(MapListUtil.getList(listItems, position,"ID").toString()) ;
+ 		 	NetImage.loadProfile(context, MapListUtil.getList(listItems, position,"PROFILEPATH").toString(), viewHolderUser.ivprofile);
+		 	NetImage.loadImage( context,MapListUtil.getList(listItems, position,"SEX").toString().equals("男") ? R.drawable.boy:R.drawable.girl, viewHolderUser.ivsex);
 		}else if(type== TYPE_GROUP){  
-			viewHolderGroup.tvusername.setText(listItems.get( position).get("USERNAME").toString()) ;
-			viewHolderGroup.tvnum.setText(listItems.get( position).get("NUM").toString()) ;
-			viewHolderGroup.tvid.setText(listItems.get( position).get("ID").toString()) ;
-			viewHolderGroup.tvsign.setText(listItems.get( position).get("SIGN").toString()) ;
+			viewHolderGroup.tvusername.setText(MapListUtil.getList(listItems, position,"USERNAME").toString()) ;
+			viewHolderGroup.tvnum.setText(MapListUtil.getList(listItems, position,"NUM").toString()) ;
+			viewHolderGroup.tvid.setText(MapListUtil.getList(listItems, position,"ID").toString()) ;
+			viewHolderGroup.tvsign.setText(MapListUtil.getList(listItems, position,"SIGN").toString()) ;
 
-			NetImage.loadProfile(context, listItems.get( position).get("PROFILEPATH").toString(), viewHolderGroup.ivprofile);
+			NetImage.loadProfile(context, MapListUtil.getList(listItems, position,"PROFILEPATH").toString(), viewHolderGroup.ivprofile);
 		}
 		 
 		return convertView; 
@@ -107,12 +108,13 @@ public   class AdapterLvAddFind extends BaseAdapter    {
 		//必须实现，让adapter可控布局类型
 		@Override
 		public int getItemViewType(int position) {
-			 if( listItems.get(position).get("TYPE").toString().equals("user")){
+			 if( MapListUtil.getList(listItems, position,"TYPE").toString().equals("user")){
 				 return TYPE_USER;	
-			 }else if( listItems.get(position).get("TYPE").toString().equals("group")){
+			 }else if( MapListUtil.getList(listItems, position,"TYPE").toString().equals("group")){
 				 return TYPE_GROUP;	
-			 } 
-			 return -1;
+			 }else{
+			 	return TYPE_USER;
+			 }
 		}
 		
 	

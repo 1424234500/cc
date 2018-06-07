@@ -6,12 +6,23 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 public class Tools {
 
 	public static void main(String argc[]) {
 
+
 	}
+
+	public static String getUUID(){
+		return "cc_" + UUID.randomUUID().toString().split("-")[0];
+	}
+
+
+
+
+
 
 	private static int toolong = 600;
 

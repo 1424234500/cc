@@ -42,7 +42,7 @@ public class Msg{
     Map data;		//消息数据包
 
     public Msg(){
-        id = UUID.randomUUID().toString();
+        id = Tools.getUUID();
         ok = "";
         info = "";
         data = new HashMap();
@@ -63,9 +63,9 @@ public class Msg{
         this.setOk(MapListUtil.getMap(map, "ok", "0"));
         this.setInfo(MapListUtil.getMap(map, "in", ""));
         this.setId(MapListUtil.getMap(map, "id", ""));
-        this.setData((Map) MapListUtil.getMap(map, "data", new HashMap()));
+        this.setData(MapListUtil.getMap(map, "data", new HashMap()));
 
-        this.setMsgType(Tools.parseInt(MapListUtil.getMap(map, "mt", "-2")));
+        this.setMsgType(MapListUtil.getMap(map, "mt", -2));
         this.setToSysKey(MapListUtil.getMap(map, "tsk", ""));
         this.setToKey(MapListUtil.getMap(map, "tk", ""));
         this.setFromSysKey(MapListUtil.getMap(map, "fsk", ""));

@@ -138,7 +138,7 @@ public class MapListUtil {
 	public static int getCountListByName(List<Map<String,Object>> list, String name, String value){
 		if(list == null)return -1;
 		for(int i = 0; i < list.size(); i++){
-			if(list.get(i).get(name).toString().equals(value)){
+			if(getList(list, i, name).equals(value)){
 				return i;
 			}
 		}
@@ -170,7 +170,7 @@ public class MapListUtil {
 	}
 	public static <T> T getList(List<Map<String, Object>> list, int i, String name, T defaultValue){
 		if(list == null || i < 0 || i >= list.size()) return defaultValue;
-		return getMap(list.get(i), "name", defaultValue);
+		return getMap(list.get(i), name, defaultValue);
 	}
 	public static String getMap(Map map, String name){
 		return getMap(map, name, "");

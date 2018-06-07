@@ -170,7 +170,12 @@ public class AndroidTools {
         Bundle b = intent.getExtras();
         Set<String> keys = b.keySet();
         for (String key : keys) {
-            map.put(key, b.get(key).toString());
+            Object obj = b.get(key);
+            if(obj != null)
+                map.put(key, b.get(key).toString());
+            else{
+                map.put(key, "null");
+            }
         }
         return map;
     }

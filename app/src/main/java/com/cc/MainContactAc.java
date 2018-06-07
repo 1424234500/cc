@@ -11,6 +11,7 @@ import net.MSGSender;
 
 import util.AndroidTools;
 import util.JsonMsg;
+import util.JsonUtil;
 import util.MapListUtil;
 import util.Tools;
 import adapter.AdapterContact;
@@ -37,17 +38,19 @@ public class MainContactAc extends BaseAc implements CallMap  {
 
 	@Override
 	public void callback(String jsonstr) {
-		int cmd = JsonMsg.getCmd(jsonstr);
-		int i;
+		Map map = JsonUtil.getMap(jsonstr);
+		int cmd = MapListUtil.getMap(map, "cmd", 0);
+		String value = MapListUtil.getMap(map, "value0", "false");
+		int i = 0;
 		switch (cmd) {
 		case MSGTYPE.CONTACT_USER_GROUP_MAP:  //联系人列表
 			//AndroidTools.log("MainContactAc:联系人列表");
             swipeRefreshLayout.setRefreshing(false);
 
 			listItems.clear();
-			listItems.addAll(JsonMsg.getList(jsonstr));
+			listItems.addAll(MapListUtil.getMap(map, "value2", new ArrayList()));
 			listType.clear();
-			listType.addAll(JsonMsg.getListType(jsonstr));
+			listType.addAll(MapListUtil.getMap(map, "value1", new ArrayList()));
  			if(adapterContact != null){
  				adapterContact.notifyDataSetChanged();	 
  			} 
@@ -198,10 +201,10 @@ public class MainContactAc extends BaseAc implements CallMap  {
 	@Override
 	public void call(Map<String, Object> map) {
 		//点中某个用户/群组，进入详情界面显示
-		String type = map.get("TYPE").toString();
-		//MSGSender.getUserGroupDetailByTypeId(this, type, map.get("ID").toString() );
+		String type = MapListUtil.getMap(map,"TYPE").toString();
+		//MSGSender.getUserGroupDetailByTypeId(this, type, MapListUtil.getMap(map,"ID").toString() );
 		Intent intent  = null;
-		if(map.get("ID").toString().equals(Constant.id)){
+		if(MapListUtil.getMap(map,"ID").toString().equals(Constant.id)){
 			//自己，跳转自己的详情和修改界面
 			intent = new Intent( this, UserDetailAc.class);
 		}else{

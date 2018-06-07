@@ -13,6 +13,7 @@ import net.MSGSender;
 import util.AndroidTools;
 import util.AndroidTools;
 import util.JsonMsg;
+import util.JsonUtil;
 import util.MapListUtil;
 import adapter.AdapterLvSession;
 import util.Tools;
@@ -41,12 +42,13 @@ public class MainMsgAc extends BaseAc implements CallMap  {
 	
 	@Override
 	public void callback(String jsonstr) {
-		int cmd = JsonMsg.getCmd(jsonstr);
 		int i ;
+		Map map = JsonUtil.getMap(jsonstr);
+		int cmd = MapListUtil.getMap(map, "cmd", 0);
+		String value = MapListUtil.getMap(map, "value0", "false");
 
 		List<Map<String, Object>>  list;
-		Map<String, Object>  map;
-		
+
 		switch (cmd) {
 		case MSGTYPE.TURN_DELETE_RELEATIONSHIP_BY_GROUPNAME:	//被踢出群
 			toast("群组:"+ JsonMsg.getValue0(jsonstr) + " 抛弃了您");
@@ -112,19 +114,24 @@ public class MainMsgAc extends BaseAc implements CallMap  {
 		case MSGTYPE.GET_CHAT_SESSIONS:  //会话列表
 			AndroidTools.log("MainMsgAc:会话列表");
             swipeRefreshLayout.setRefreshing(false);
+            if(value.equals("false")){
+            	toast(MapListUtil.getMap(map, "value1"));
+			}else{
+				list = MapListUtil.getMap(map, "value1", new ArrayList());
 
-			listSessions.clear();
-			listSessions.addAll(JsonMsg.getList(jsonstr));
- 			
- 			if(adapterLvSession != null){
- 				adapterLvSession.notifyDataSetChanged();
- 			}
- 			for(i = 0;  i < listSessions.size(); i++){
- 				if(Tools.parseInt( MapListUtil.getList(listSessions, i, "NUM")) > 0){//有未读消息
- 					AndroidTools.systemVoiceToast(this);
- 					break;
- 				}
- 			}
+				listSessions.clear();
+				listSessions.addAll(list);
+				if(adapterLvSession != null){
+					adapterLvSession.notifyDataSetChanged();
+				}
+				for(i = 0;  i < listSessions.size(); i++){
+					if(Tools.parseInt( MapListUtil.getList(listSessions, i, "NUM")) > 0){//有未读消息
+						AndroidTools.systemVoiceToast(this);
+						break;
+					}
+				}
+			}
+
 			break;  
 		case MSGTYPE.DELETE_RELEATIONSHIP_BY_TYPE_ID:
 			AndroidTools.log("MainMsgAc:删除关系");
@@ -314,16 +321,16 @@ public class MainMsgAc extends BaseAc implements CallMap  {
 		//系统消息，提示，好友添加请求
 		//点击发消息，跳转到聊天界面等待 获取与目标用户的聊天记录10条/分页查询 ,并删除气泡提示，更新为已读
 		
-		String type = map.get("TYPE").toString();
+		String type = MapListUtil.getMap(map, "type");
 		Intent intent = null;
 
 		if(type.equals("user")){
-			listSessions.get( MapListUtil.getCountListByName(listSessions, "ID", map.get("ID").toString())).put("NUM", 0);
+			listSessions.get( MapListUtil.getCountListByName(listSessions, "ID", MapListUtil.getMap(map,"ID").toString())).put("NUM", 0);
 			adapterLvSession.notifyDataSetChanged();
 			
 			intent = new Intent(this, ChatAc.class);
 		}else if(type.equals("group")){
-			listSessions.get( MapListUtil.getCountListByName(listSessions, "ID", map.get("ID").toString())).put("NUM", 0);
+			listSessions.get( MapListUtil.getCountListByName(listSessions, "ID", MapListUtil.getMap(map,"ID").toString())).put("NUM", 0);
 			adapterLvSession.notifyDataSetChanged();
 			
 			intent = new Intent(this, ChatAc.class);
@@ -339,7 +346,10 @@ public class MainMsgAc extends BaseAc implements CallMap  {
 			intent.putExtra("title", "添加群");
 			intent.putExtra("return", "消息");
 			
-		} 
+		} else{
+			AndroidTools.toast(getContext(), "该会话类型异常？" + type);
+			return;
+		}
 		
 		AndroidTools.putMapToIntent(intent, map);
 		startActivity(intent);

@@ -165,7 +165,7 @@ public class AddSendAc extends BaseAc implements OnClickListener, CallInt {
 				MSGSender.addUserGroupByTypeIdYanZhengBeizhu(this, type, tvId.getText().toString(), etYanzhen.getText().toString(), cetBeizhu.getText().toString()  );
 				this.openLoading();
 			}else if(topTitle.getMenuText().equals("同意")){
-				MSGSender.resultUserGroupByTypeIdResultBeizhu(this, type, tvId.getText().toString(), "同意", cetBeizhu.getText().toString() ,groupid );
+				MSGSender.resultUserGroupByTypeIdResultBeizhu(this, type, tvId.getText().toString(), "1", cetBeizhu.getText().toString() ,groupid );
 				MainMsgAc.listSessions.remove( MapListUtil.getCountListByName( MainMsgAc.listSessions,"ID", this.tvId.getText().toString()));
 				finish();
 			}  

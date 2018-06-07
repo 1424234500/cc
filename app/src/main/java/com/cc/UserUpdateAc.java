@@ -11,6 +11,7 @@ import net.MSGSender;
 import util.AndroidTools;
 import util.JsonMsg;
 import util.MD5;
+import util.MapListUtil;
 import util.Tools;
 import util.view.ClearEditText;
 import util.view.TopPanelReturnTitleMenu;
@@ -35,12 +36,12 @@ public class UserUpdateAc extends BaseAc implements OnClickListener, CallInt  {
 
 	public void setByMap(final Map<String, Object> map){
 		if(map != null){
-			cetUsername.setText(map.get("USERNAME").toString());
+			cetUsername.setText(MapListUtil.getMap(map,"USERNAME").toString());
 			
-			cetEmail.setText(map.get("SIGN").toString());
+			cetEmail.setText(MapListUtil.getMap(map,"SIGN").toString());
 			cetPwd.setText("");
 			cetRepwd.setText("");
-			if(map.get("SEX").toString().equals("男")){
+			if(MapListUtil.getMap(map,"SEX").toString().equals("男")){
 				rbFemale.setSelected(false);
 				rbMale.setSelected(true);
 			}else{

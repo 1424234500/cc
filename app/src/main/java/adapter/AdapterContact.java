@@ -68,7 +68,7 @@ public   class AdapterContact extends  BaseExpandableListAdapter      {
     //  获得某个父项的某个子项  
     @Override  
     public Object getChild(int groupPosition, int childPos) {  
-        return  listItems.get((Tools.parseInt( (MapListUtil.getList(listType, groupPosition, "START").toString())) + childPos));
+        return  listItems.get((Tools.parseInt( (MapListUtil.getList(listType, groupPosition, "start").toString())) + childPos));
     }  
   
     //  获得父项的数量  
@@ -80,7 +80,7 @@ public   class AdapterContact extends  BaseExpandableListAdapter      {
     //  获得某个父项的子项数目  
     @Override  
     public int getChildrenCount(int groupPosition) {  
-        return Tools.parseInt( (MapListUtil.getList(listType, groupPosition, "NUM").toString()));  
+        return Tools.parseInt( (MapListUtil.getList(listType, groupPosition, "num").toString()));
     }  
   
     //  获得某个父项  
@@ -99,15 +99,15 @@ public   class AdapterContact extends  BaseExpandableListAdapter      {
     //	获得某个父项的某个子项类型
     @Override
 	public int getChildType(int groupPositionition, int childPosition) {
-    	String type = listItems.get( 
-    			childPosition + Tools.parseInt(  listType.get(groupPositionition).get("START").toString() ) 
-    	).get("TYPE").toString();
-    	
+		int gi = MapListUtil.getList(listType, groupPositionition, "start", 0);
+		int i = childPosition + gi;
+
+		String type = MapListUtil.getList(listItems, i, "type");
 	   	 if(type .equals("user")){
 			 return TYPE_USER;	
 		 }else if( type.equals("group")){
 			 return TYPE_GROUP;	
-		 } 
+		 }
 		 return -1;
     }
     //	获得子类型种类数量

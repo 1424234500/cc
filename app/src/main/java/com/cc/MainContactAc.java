@@ -41,12 +41,15 @@ public class MainContactAc extends BaseAc implements CallMap  {
 		Map map = JsonUtil.getMap(jsonstr);
 		int cmd = MapListUtil.getMap(map, "cmd", 0);
 		String value = MapListUtil.getMap(map, "value0", "false");
+		if(value.equals("false")){
+			toast("异常:" + MapListUtil.getMap(map, "value1"));
+			return;
+		}
 		int i = 0;
 		switch (cmd) {
 		case MSGTYPE.CONTACT_USER_GROUP_MAP:  //联系人列表
 			//AndroidTools.log("MainContactAc:联系人列表");
             swipeRefreshLayout.setRefreshing(false);
-
 			listItems.clear();
 			listItems.addAll(MapListUtil.getMap(map, "value2", new ArrayList()));
 			listType.clear();

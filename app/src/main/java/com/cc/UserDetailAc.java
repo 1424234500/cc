@@ -90,6 +90,7 @@ public class UserDetailAc extends BaseAc implements OnClickListener, CallInt {
 							session.put("NUM", "0");
 							session.put("TIME", "");
 							MainMsgAc.listSessions.add(0, session);
+							MSGSender.getSessions(getContext());
 						}
 						c = MapListUtil.getCountListByName(MainContactAc.listItems, "ID", MapListUtil.getMap(map,"ID").toString());
 						if(c >= 0){

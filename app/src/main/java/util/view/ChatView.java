@@ -78,9 +78,9 @@ import com.cc.R;
 						onControl.onClose(); 
 					}
 					nowChoseId = 0;
-					//ivs[i].setImageResource(img1s[i]);
+					ivs[i].setImageResource(img1s[i]);
 				}else{//从其它切换到，从关闭到打开
-				//	ivs[i].setImageResource(img2s[i]);
+					ivs[i].setImageResource(img2s[i]);
 					nowChoseId = id;
 					if(this.onControl != null){
 						onControl.onOpen(id); 
@@ -88,7 +88,7 @@ import com.cc.R;
 				} 
 				
 			}else{
-				//ivs[i].setImageResource(img1s[i]);
+				ivs[i].setImageResource(img1s[i]);
 			}
 		} 
 	}

@@ -2,6 +2,7 @@ package adapter;
 
 import interfac.CallInt;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -231,7 +232,7 @@ public   class AdapterLvChat extends  BaseAdapter      {
 		//////////////////////////////////////////设置文本消息
 		if(type == TYPE_TEXT_SELF ){ 
 			viewHolderTextSelf.tvusername.setText( Tools.cutName(Constant.username)) ;
-			viewHolderTextSelf.tvtime.setText(MapListUtil.getList(listItems, position, "TIME").toString()) ;
+			viewHolderTextSelf.tvtime.setText(Tools.formatL(new Timestamp(Tools.parseLong(MapListUtil.getList(listItems, position, "TIME"))))) ;
 	        //解析消息内容
 	        SpannableString spannableString = EmotionUtils.getEmotionContent(context,viewHolderTextSelf.tvtext,MapListUtil.getList(listItems, position, "MSG").toString());
 	        viewHolderTextSelf.tvtext.setText(spannableString);
@@ -244,7 +245,7 @@ public   class AdapterLvChat extends  BaseAdapter      {
 			NetImage.loadProfile(context, MapListUtil.getList(listItems, position, "PROFILEPATH").toString(), viewHolderTextSelf.ivprofile);
 		}else if(type == TYPE_TEXT_OTHER){ 
 			viewHolderTextOther.tvusername.setText(Tools.cutName( MapListUtil.getList(listItems, position, "USERNAME").toString())) ;
-			viewHolderTextOther.tvtime.setText(  MapListUtil.getList(listItems, position, "TIME").toString()) ;
+			viewHolderTextOther.tvtime.setText(  Tools.formatL(new Timestamp(Tools.parseLong(MapListUtil.getList(listItems, position, "TIME"))))) ;
 	        //解析消息内容
 	        SpannableString spannableString = EmotionUtils.getEmotionContent(context,viewHolderTextOther.tvtext,MapListUtil.getList(listItems, position, "MSG").toString());
 	        viewHolderTextOther.tvtext.setText(spannableString);
@@ -259,7 +260,7 @@ public   class AdapterLvChat extends  BaseAdapter      {
 		//////////////////////////////////////设置语音消息
 		else if(type == TYPE_VOICE_SELF ){ 
 			viewHolderVoiceSelf.tvusername.setText( Tools.cutName(Constant.username)) ;
-			viewHolderVoiceSelf.tvtime.setText(MapListUtil.getList(listItems, position, "TIME").toString()) ;
+			viewHolderVoiceSelf.tvtime.setText(Tools.formatL(new Timestamp(Tools.parseLong(MapListUtil.getList(listItems, position, "TIME"))))) ;
 			NetImage.loadProfile(context, MapListUtil.getList(listItems, position, "PROFILEPATH").toString(), viewHolderVoiceSelf.ivprofile);
 			//设置语音播放状态
 			//viewHolderVoiceSelf.ivvoice.setImageResource(R.anim.anim_frame_voice_right);
@@ -290,7 +291,7 @@ public   class AdapterLvChat extends  BaseAdapter      {
 		
 		}else if(type == TYPE_VOICE_OTHER){ 
 			viewHolderVoiceOther.tvusername.setText(Tools.cutName( MapListUtil.getList(listItems, position, "USERNAME").toString())) ;
-			viewHolderVoiceOther.tvtime.setText(  MapListUtil.getList(listItems, position, "TIME").toString()) ;
+			viewHolderVoiceOther.tvtime.setText(  Tools.formatL(new Timestamp(Tools.parseLong(MapListUtil.getList(listItems, position, "TIME"))))) ;
 			NetImage.loadProfile(context, MapListUtil.getList(listItems, position, "PROFILEPATH").toString(), viewHolderVoiceOther.ivprofile);
 		
 			//设置语音播放状态
@@ -324,7 +325,7 @@ public   class AdapterLvChat extends  BaseAdapter      {
 		//////////////////////////////////////设置图片消息
 		else if(type == TYPE_PHOTO_SELF ){ 
 			viewHolderPhotoSelf.tvusername.setText( Tools.cutName(Constant.username)) ;
-			viewHolderPhotoSelf.tvtime.setText(MapListUtil.getList(listItems, position, "TIME").toString()) ;
+			viewHolderPhotoSelf.tvtime.setText(Tools.formatL(new Timestamp(Tools.parseLong(MapListUtil.getList(listItems, position, "TIME"))))) ;
 			NetImage.loadProfile(context, MapListUtil.getList(listItems, position, "PROFILEPATH").toString(), viewHolderPhotoSelf.ivprofile);
 		
 			//NetImage.loadNetImageInto(context, MapListUtil.getList(listItems, position, "MSG").toString(), viewHolderPhotoSelf.ivphoto);
@@ -346,7 +347,7 @@ public   class AdapterLvChat extends  BaseAdapter      {
 			
 		}else if(type == TYPE_PHOTO_OTHER){ 
 			viewHolderPhotoOther.tvusername.setText(Tools.cutName( MapListUtil.getList(listItems, position, "USERNAME").toString())) ;
-			viewHolderPhotoOther.tvtime.setText(  MapListUtil.getList(listItems, position, "TIME").toString()) ;
+			viewHolderPhotoOther.tvtime.setText(  Tools.formatL(new Timestamp(Tools.parseLong(MapListUtil.getList(listItems, position, "TIME"))))) ;
 			NetImage.loadProfile(context, MapListUtil.getList(listItems, position, "PROFILEPATH").toString(), viewHolderPhotoOther.ivprofile);
 			
 			//MSG存储图片名字id
@@ -369,7 +370,7 @@ public   class AdapterLvChat extends  BaseAdapter      {
 		//////////////////////////////////////设置文件消息
 		else if(type == TYPE_FILE_SELF ){ 
 			viewHolderFileSelf.tvusername.setText( Tools.cutName(Constant.username)) ;
-			viewHolderFileSelf.tvtime.setText(MapListUtil.getList(listItems, position, "TIME").toString()) ;
+			viewHolderFileSelf.tvtime.setText(Tools.formatL(new Timestamp(Tools.parseLong(MapListUtil.getList(listItems, position, "TIME"))))) ;
 			NetImage.loadProfile(context, MapListUtil.getList(listItems, position, "PROFILEPATH").toString(), viewHolderFileSelf.ivprofile);
 			
 			String id_filename = MapListUtil.getMap(listItems.get( position), "MSG");	//1011_xxx.doc
@@ -397,7 +398,7 @@ public   class AdapterLvChat extends  BaseAdapter      {
 			// viewHolderTextSelf.tvtext.setText(spannafbleString);
 		}else if(type == TYPE_FILE_OTHER){ 
 			viewHolderFileOther.tvusername.setText(Tools.cutName( MapListUtil.getList(listItems, position, "USERNAME").toString())) ;
-			viewHolderFileOther.tvtime.setText(  MapListUtil.getList(listItems, position, "TIME").toString()) ;
+			viewHolderFileOther.tvtime.setText(  Tools.formatL(new Timestamp(Tools.parseLong(MapListUtil.getList(listItems, position, "TIME"))))) ;
 			NetImage.loadProfile(context, MapListUtil.getList(listItems, position, "PROFILEPATH").toString(), viewHolderFileOther.ivprofile);
 		
 			String id_filename = MapListUtil.getMap(listItems.get( position), "MSG");	//1011_xxx.doc
@@ -434,26 +435,26 @@ public   class AdapterLvChat extends  BaseAdapter      {
 	//必须实现，让adapter可控布局类型
 	@Override
 	public int getItemViewType(int position) {
-		if( listItems.get(position).get("TYPE").toString().equals("text")){
-			if( listItems.get(position).get("FROMID").toString().equals(Constant.id)){//自己发送的
+		if( MapListUtil.getList(listItems, position, "TYPE").toString().equals("text")){
+			if( MapListUtil.getList(listItems, position,"FROMID").toString().equals(Constant.id)){//自己发送的
 				return TYPE_TEXT_SELF;
 			}else{
 				return TYPE_TEXT_OTHER;
 			}
-		 }else if( listItems.get(position).get("TYPE").toString().equals("voice")){
-			if( listItems.get(position).get("FROMID").toString().equals(Constant.id)){//自己发送的
+		 }else if( MapListUtil.getList(listItems, position,"TYPE").toString().equals("voice")){
+			if( MapListUtil.getList(listItems, position,"FROMID").toString().equals(Constant.id)){//自己发送的
 				return TYPE_VOICE_SELF;
 			}else{
 				return TYPE_VOICE_OTHER;
 			}
-		 }else if( listItems.get(position).get("TYPE").toString().equals("photo")){
-			if( listItems.get(position).get("FROMID").toString().equals(Constant.id)){//自己发送的
+		 }else if( MapListUtil.getList(listItems, position,"TYPE").toString().equals("photo")){
+			if( MapListUtil.getList(listItems, position,"FROMID").toString().equals(Constant.id)){//自己发送的
 				return TYPE_PHOTO_SELF;
 			}else{
 				return TYPE_PHOTO_OTHER;
 			}
-		 }else if( listItems.get(position).get("TYPE").toString().equals("file")){
-			if( listItems.get(position).get("FROMID").toString().equals(Constant.id)){//自己发送的
+		 }else if( MapListUtil.getList(listItems, position,"TYPE").toString().equals("file")){
+			if( MapListUtil.getList(listItems, position,"FROMID").toString().equals(Constant.id)){//自己发送的
 				return TYPE_FILE_SELF;
 			}else{
 				return TYPE_FILE_OTHER;

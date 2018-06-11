@@ -41,20 +41,18 @@ public class AddAc extends BaseAc implements CallInt, View.OnClickListener, Call
 		Map map = JsonUtil.getMap(jsonstr);
 		int cmd = MapListUtil.getMap(map, "cmd", 0);
 		String value = MapListUtil.getMap(map, "value0", "false");
-
+		if(value.equals("false")){
+			toast("异常:" + MapListUtil.getMap(map, "value1"));
+			return;
+		}
 		switch (cmd) {
 		case MSGTYPE.FIND_USERS_GROUPS_BY_ID:// 从服务器返回的查询结果
-			this.closeLoading();
-			if(value.equals("true")){
-				listAddFind.clear();
-				List list = MapListUtil.getMap(map, "value1", new ArrayList());
-				listAddFind.addAll(list);
-				//Tools.out( (Tools.list2string( listAddFind)));
-				if(adapterLvAddFind != null) {
-					adapterLvAddFind.notifyDataSetChanged();
-				}
-			}else{
-				toast(MapListUtil.getMap(map, "value1"));
+ 			listAddFind.clear();
+			List list = MapListUtil.getMap(map, "value1", new ArrayList());
+			listAddFind.addAll(list);
+			//Tools.out( (Tools.list2string( listAddFind)));
+			if(adapterLvAddFind != null) {
+				adapterLvAddFind.notifyDataSetChanged();
 			}
 			break;
 		}

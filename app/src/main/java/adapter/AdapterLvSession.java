@@ -1,5 +1,6 @@
 package adapter;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -66,14 +67,14 @@ public   class AdapterLvSession extends BaseAdapter    {
 
 		viewHolderUser.tvusername.setText(MapListUtil.getList(listItems, position, "NAME")) ;
 		//viewHolderUser.tvmsg.setText(MapListUtil.getList(listItems, position, "MSG")) ;
-		if(MapListUtil.getMap(listItems.get( position), "MSG").equals("text")){
+		if(MapListUtil.getList(listItems, position,"MSG").equals("text")){
 			SpannableString spannableString = EmotionUtils.getEmotionContent(context,viewHolderUser.tvmsg,MapListUtil.getList(listItems, position, "MSG"));
 			viewHolderUser.tvmsg.setText(spannableString);
-		}else if(MapListUtil.getMap(listItems.get( position), "MSG").equals("voice")){
+		}else if(MapListUtil.getList(listItems, position,"MSG").equals("voice")){
 			viewHolderUser.tvmsg.setText("[语音]");
-		}else if(MapListUtil.getMap(listItems.get( position), "MSG").equals("file")){
+		}else if(MapListUtil.getList(listItems, position,"MSG").equals("file")){
 			viewHolderUser.tvmsg.setText("[文件]");
-		}else if(MapListUtil.getMap(listItems.get( position), "MSG").equals("photo")){
+		}else if(MapListUtil.getList(listItems, position, "MSG").equals("photo")){
 			viewHolderUser.tvmsg.setText("[图片]");
 		}else {
 			SpannableString spannableString = EmotionUtils.getEmotionContent(context,viewHolderUser.tvmsg,MapListUtil.getList(listItems, position, "MSG"));
@@ -81,7 +82,7 @@ public   class AdapterLvSession extends BaseAdapter    {
 		}
 		
 			
-		viewHolderUser.tvtime.setText(MapListUtil.getList(listItems, position, "TIME"));
+		viewHolderUser.tvtime.setText(Tools.formatL(new Timestamp(Tools.parseLong(MapListUtil.getList(listItems, position, "TIME")))));
 		int t = Tools.parseInt( MapListUtil.getList(listItems, position, "NUM") );
 		if(t <= 0){
 			viewHolderUser.tvnum.setText( "") ;

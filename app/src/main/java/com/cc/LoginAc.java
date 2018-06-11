@@ -64,7 +64,10 @@ public class LoginAc extends BaseAc implements OnClickListener, TextWatcher {
 		Map map = JsonUtil.getMap(jsonstr);
 		int cmd = MapListUtil.getMap(map, "cmd", 0);
 		String value = MapListUtil.getMap(map, "value0", "false");
-
+		if(value.equals("false")){
+			toast("异常:" + MapListUtil.getMap(map, "value1"));
+			return;
+		}
 		switch (cmd) {
 		case MSGTYPE.PROFILE_PATH_BY_ID:// 从服务器返回的图片信息
 			final String path = JsonMsg.getValue0(jsonstr);

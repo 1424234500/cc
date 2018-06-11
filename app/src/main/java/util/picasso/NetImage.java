@@ -36,7 +36,7 @@ public class NetImage {
 			loadImage(context, R.drawable.loading, imageView);
 			return;
 		}
-		url = Constant.profileHttp() + url;
+//		url = Constant.profileHttp() + url;
 		//Tools.tip(" profile url=" + url);
 		if(url.length() > 4 && url.substring(0, 4).toLowerCase().equals("http")){	//网络图片
 			//Tools.out(url);
@@ -46,8 +46,11 @@ public class NetImage {
 			.into(imageView);
 		}else{//本地图片
 			//Tools.out("picasso访问本地图片："+url);
-			Picasso .with(context) .load(new File(url)).placeholder(R.drawable.loading) 
-			.error(R.drawable.loaderror)
+			int id = Tools.parseInt(url);
+			id = Constant.getProfile(id);
+			Picasso .with(context) .load(id).placeholder(R.drawable.loading)
+//			Picasso .with(context) .load(new File(url)).placeholder(R.drawable.loading)
+					.error(R.drawable.loaderror)
 			.transform( new PicassoRoundTransform()  )
 			 .into(imageView);
 		}
@@ -67,8 +70,9 @@ public class NetImage {
 			.error(R.drawable.loaderror)
 			.into(imageView);
 		}else{//本地图片
-			//Tools.out("picasso访问本地图片："+url);
-			Picasso .with(context) .load(new File(url)).placeholder(R.drawable.loading) 
+			int id = Tools.parseInt(url);
+			id = Constant.getProfile(id);
+			Picasso .with(context) .load(id).placeholder(R.drawable.loading)
 			.error(R.drawable.loaderror)
 			.transform( new PicassoRoundTransform()  )
 			 .into(imageView);
@@ -79,8 +83,7 @@ public class NetImage {
 			loadImage(context, R.drawable.loading, imageView);
 			return;
 		}
-		url = Constant.profileWallHttp() + url;
-		//Tools.tip(" loadProfileWall url=" + url);
+//		url = Constant.profileWallHttp() + url;
 
 		if(url.length() > 4 && url.substring(0, 4).toLowerCase().equals("http")){	//网络图片
 			//Tools.out(url);
@@ -89,7 +92,9 @@ public class NetImage {
 			.into(imageView);
 		}else{//本地图片
 			//Tools.out("picasso访问本地图片："+url);
-			Picasso .with(context) .load(new File(url)).placeholder(R.drawable.loading) 
+			int id = Tools.parseInt(url);
+			id = Constant.getProfile(id);
+			Picasso .with(context) .load(id).placeholder(R.drawable.loading)
 			.error(R.drawable.loaderror)
 			.transform( new PicassoRoundTransform()  )
 			 .into(imageView);

@@ -243,10 +243,10 @@ public   class AdapterLvChatDoll extends  BaseAdapter      {
 				}
 			});
 			NetImage.loadProfile(context, Constant.getDrawableByIvProfile(Tools.parseInt(MapListUtil.getList(listItems, position, "PROFILEPATH"))) , viewHolderTextSelf.ivprofile);
-		}else if(type == TYPE_TEXT_OTHER){ 
+		}else if(type == TYPE_TEXT_OTHER){
 			//viewHolderTextOther.tvusername.setText(Tools.cutName( MapListUtil.getList(listItems, position, "USERNAME").toString())) ;
 			viewHolderTextOther.tvusername.setVisibility(View.INVISIBLE);
-			
+
 			viewHolderTextOther.tvtime.setText(  MapListUtil.getList(listItems, position, "TIME").toString()) ;
 	        //解析消息内容
 	        SpannableString spannableString = EmotionUtils.getEmotionContent(context,viewHolderTextOther.tvtext,MapListUtil.getList(listItems, position, "MSG").toString());
@@ -260,7 +260,7 @@ public   class AdapterLvChatDoll extends  BaseAdapter      {
 			NetImage.loadProfile(context, Constant.getDrawableByIvProfile(Tools.parseInt(MapListUtil.getList(listItems, position, "PROFILEPATH"))), viewHolderTextOther.ivprofile);
 		}
 		//////////////////////////////////////设置语音消息
-		else if(type == TYPE_VOICE_SELF ){ 
+		else if(type == TYPE_VOICE_SELF ){
 			//viewHolderVoiceSelf.tvusername.setText( Tools.cutName(Constant.username)) ;
 			viewHolderVoiceSelf.tvusername.setVisibility(View.INVISIBLE);
 
@@ -268,16 +268,16 @@ public   class AdapterLvChatDoll extends  BaseAdapter      {
 			NetImage.loadProfile(context, Constant.getDrawableByIvProfile(Tools.parseInt(MapListUtil.getList(listItems, position, "PROFILEPATH"))), viewHolderVoiceSelf.ivprofile);
 			//设置语音播放状态
 			//viewHolderVoiceSelf.ivvoice.setImageResource(R.anim.anim_frame_voice_right);
-			AnimationDrawable anim = (AnimationDrawable)viewHolderVoiceSelf.ivvoice.getDrawable(); 
-//			anim.start();  
+			AnimationDrawable anim = (AnimationDrawable)viewHolderVoiceSelf.ivvoice.getDrawable();
+//			anim.start();
 
 			if(MapListUtil.getMap(listItems.get( position), "isplay").equals("true")){
-				 anim.start();  
+				 anim.start();
 			}else{
-				 anim.stop();  
+				 anim.stop();
 				 viewHolderVoiceSelf.ivvoice.setImageResource(R.drawable.anim_frame_voice_right);
 			}
-			
+
 			if(MapListUtil.getList(listItems, position, "isok").toString().equals("true")){//文件下载就绪
 				viewHolderVoiceSelf.tvtext.setText(MapListUtil.getMap(listItems.get( position), "count"));
 				viewHolderVoiceSelf.ivvoice.setOnClickListener(new OnClickListener() {
@@ -293,23 +293,23 @@ public   class AdapterLvChatDoll extends  BaseAdapter      {
 				viewHolderVoiceSelf.tvtext.setText("下载中");
 				viewHolderVoiceSelf.ivvoice.setOnClickListener(null);
 			}
-		
-		}else if(type == TYPE_VOICE_OTHER){ 
+
+		}else if(type == TYPE_VOICE_OTHER){
 			//viewHolderVoiceOther.tvusername.setText(Tools.cutName( MapListUtil.getList(listItems, position, "USERNAME").toString())) ;
 			viewHolderVoiceOther.tvusername.setVisibility(View.INVISIBLE);
 
 			viewHolderVoiceOther.tvtime.setText(  MapListUtil.getList(listItems, position, "TIME").toString()) ;
 			NetImage.loadProfile(context, Constant.getDrawableByIvProfile(Tools.parseInt(MapListUtil.getList(listItems, position, "PROFILEPATH"))), viewHolderVoiceOther.ivprofile);
-		
+
 			//设置语音播放状态
-			AnimationDrawable anim = (AnimationDrawable)viewHolderVoiceOther.ivvoice.getDrawable(); 
+			AnimationDrawable anim = (AnimationDrawable)viewHolderVoiceOther.ivvoice.getDrawable();
 			if(MapListUtil.getMap(listItems.get( position), "isplay").equals("true")){
-				if (!anim.isRunning()) {  
-					anim.start();  
+				if (!anim.isRunning()) {
+					anim.start();
 	            }
 			}else{
-				 if (anim.isRunning()) {  
-						anim.stop();  
+				 if (anim.isRunning()) {
+						anim.stop();
 		          }
 			}
 			if(MapListUtil.getList(listItems, position, "isok").toString().equals("true")){//文件下载就绪
@@ -327,16 +327,16 @@ public   class AdapterLvChatDoll extends  BaseAdapter      {
 				viewHolderVoiceOther.tvtext.setText("下载中");
 				viewHolderVoiceOther.ivvoice.setOnClickListener(null);
 			}
-	
+
 		}
 		//////////////////////////////////////设置图片消息
-		else if(type == TYPE_PHOTO_SELF ){ 
+		else if(type == TYPE_PHOTO_SELF ){
 			//viewHolderPhotoSelf.tvusername.setText( Tools.cutName(Constant.username)) ;
 			viewHolderPhotoSelf.tvusername.setVisibility(View.INVISIBLE);
 
 			viewHolderPhotoSelf.tvtime.setText(MapListUtil.getList(listItems, position, "TIME").toString()) ;
 			NetImage.loadProfile(context, Constant.getDrawableByIvProfile(Tools.parseInt(MapListUtil.getList(listItems, position, "PROFILEPATH"))), viewHolderPhotoSelf.ivprofile);
-		
+
 			//NetImage.loadNetImageInto(context, MapListUtil.getList(listItems, position, "MSG").toString(), viewHolderPhotoSelf.ivphoto);
 			if(MapListUtil.getList(listItems, position, "isok").toString().equals("true")){//文件下载就绪,使用picasso加载的本地文件
 				NetImage.loadLocalImgResize(context, Constant.dirPhoto + MapListUtil.getList(listItems, position, "MSG"),Constant.photoMaxH, viewHolderPhotoSelf.ivphoto);
@@ -346,32 +346,32 @@ public   class AdapterLvChatDoll extends  BaseAdapter      {
 				viewHolderPhotoSelf.ivphoto.setOnClickListener(new OnClickListener() { // 点击放大
 					public void onClick(View paramView) {
 						if(callInt != null) callInt.call(position);
-					} 
+					}
 				});
 			}else{
 				viewHolderPhotoSelf.ivphoto.setClickable(false);
 				//viewHolderPhotoSelf.tvtext.setText("下载中");
 				viewHolderPhotoSelf.ivphoto.setImageResource(R.drawable.loading);
 			}
-			
-		}else if(type == TYPE_PHOTO_OTHER){ 
+
+		}else if(type == TYPE_PHOTO_OTHER){
 			//viewHolderPhotoOther.tvusername.setText(Tools.cutName( MapListUtil.getList(listItems, position, "USERNAME").toString())) ;
 			viewHolderPhotoOther.tvusername.setVisibility(View.INVISIBLE);
 
 			viewHolderPhotoOther.tvtime.setText(  MapListUtil.getList(listItems, position, "TIME").toString()) ;
 			NetImage.loadProfile(context, Constant.getDrawableByIvProfile(Tools.parseInt(MapListUtil.getList(listItems, position, "PROFILEPATH"))), viewHolderPhotoOther.ivprofile);
-			
+
 			//MSG存储图片名字id
 			//NetImage.loadNetImageInto(context, MapListUtil.getList(listItems, position, "MSG").toString(), viewHolderPhotoSelf.ivphoto);
 			if(MapListUtil.getList(listItems, position, "isok").toString().equals("true")){//文件下载就绪,使用picasso加载的本地文件
 				NetImage.loadLocalImgResize(context, Constant.dirPhoto + MapListUtil.getList(listItems, position, "MSG"),Constant.photoMaxH, viewHolderPhotoOther.ivphoto);
-				
+
 				//viewHolderPhotoOther.ivphoto.setImageBitmap(MyImage.getBitmapByDecodeFile(Constant.dirPhoto + MapListUtil.getList(listItems, position, "MSG").toString()));
 				//	Tools.out("设置图片消息"+Constant.dirPhoto + MapListUtil.getList(listItems, position, "MSG").toString());
 				viewHolderPhotoOther.ivphoto.setOnClickListener(new OnClickListener() { // 点击放大
 					public void onClick(View paramView) {
 						if(callInt != null) callInt.call(position);
-					} 
+					}
 				});
 			}else{
 				//viewHolderPhotoSelf.tvtext.setText("下载中");
@@ -380,18 +380,18 @@ public   class AdapterLvChatDoll extends  BaseAdapter      {
 			//网络图片加载？缓存问题！ 还是说后台下载完毕后通知显示，状态位再更新,当是图片类型时MSG存储路径,自己发时存储本地路径，网络获取时存储网络路径
 		}
 		//////////////////////////////////////设置文件消息
-		else if(type == TYPE_FILE_SELF ){ 
+		else if(type == TYPE_FILE_SELF ){
 			//viewHolderFileSelf.tvusername.setText( Tools.cutName(Constant.username)) ;
 			viewHolderFileSelf.tvusername.setVisibility(View.INVISIBLE);
 
 			viewHolderFileSelf.tvtime.setText(MapListUtil.getList(listItems, position, "TIME").toString()) ;
 			NetImage.loadProfile(context, Constant.getDrawableByIvProfile(Tools.parseInt(MapListUtil.getList(listItems, position, "PROFILEPATH"))), viewHolderFileSelf.ivprofile);
-			
+
 			String id_filename = MapListUtil.getMap(listItems.get( position), "MSG");	//1011_xxx.doc
 			String filename = id_filename.substring(id_filename.split(Constant.split)[0].length() + Constant.split.length());	//xxx.doc
 			String fileext = Tools.getFileTypeByLocalPath(filename);	//doc
 			int resid = Constant.getDrawableByTypeFile(fileext);
-			
+
 			NetImage.loadImage(context, resid, viewHolderFileSelf.ivvoice);
 
 			if(MapListUtil.getList(listItems, position, "isok").toString().equals("true")){//文件下载就绪
@@ -410,7 +410,7 @@ public   class AdapterLvChatDoll extends  BaseAdapter      {
 				viewHolderFileSelf.ivvoice.setOnClickListener(null);
 			}
 			// viewHolderTextSelf.tvtext.setText(spannafbleString);
-		}else if(type == TYPE_FILE_OTHER){ 
+		}else if(type == TYPE_FILE_OTHER){
 			//viewHolderFileOther.tvusername.setText(Tools.cutName( MapListUtil.getList(listItems, position, "USERNAME").toString())) ;
 			viewHolderFileOther.tvusername.setVisibility(View.INVISIBLE);
 
@@ -451,26 +451,26 @@ public   class AdapterLvChatDoll extends  BaseAdapter      {
 	//必须实现，让adapter可控布局类型
 	@Override
 	public int getItemViewType(int position) {
-		if( listItems.get(position).get("TYPE").toString().equals("text")){
-			if( listItems.get(position).get("FROMID").toString().equals(Constant.id)){//自己发送的
+		if( MapListUtil.getList(listItems, position,"TYPE").toString().equals("text")){
+			if( MapListUtil.getList(listItems, position,"FROMID").toString().equals(Constant.id)){//自己发送的
 				return TYPE_TEXT_SELF;
 			}else{
 				return TYPE_TEXT_OTHER;
 			}
-		 }else if( listItems.get(position).get("TYPE").toString().equals("voice")){
-			if( listItems.get(position).get("FROMID").toString().equals(Constant.id)){//自己发送的
+		 }else if( MapListUtil.getList(listItems, position,"TYPE").toString().equals("voice")){
+			if( MapListUtil.getList(listItems, position,"FROMID").toString().equals(Constant.id)){//自己发送的
 				return TYPE_VOICE_SELF;
 			}else{
 				return TYPE_VOICE_OTHER;
 			}
-		 }else if( listItems.get(position).get("TYPE").toString().equals("photo")){
-			if( listItems.get(position).get("FROMID").toString().equals(Constant.id)){//自己发送的
+		 }else if( MapListUtil.getList(listItems, position,"TYPE").toString().equals("photo")){
+			if( MapListUtil.getList(listItems, position,"FROMID").toString().equals(Constant.id)){//自己发送的
 				return TYPE_PHOTO_SELF;
 			}else{
 				return TYPE_PHOTO_OTHER;
 			}
-		 }else if( listItems.get(position).get("TYPE").toString().equals("file")){
-			if( listItems.get(position).get("FROMID").toString().equals(Constant.id)){//自己发送的
+		 }else if( MapListUtil.getList(listItems, position,"TYPE").toString().equals("file")){
+			if( MapListUtil.getList(listItems, position,"FROMID").toString().equals(Constant.id)){//自己发送的
 				return TYPE_FILE_SELF;
 			}else{
 				return TYPE_FILE_OTHER;

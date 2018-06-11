@@ -46,7 +46,10 @@ public class MainMsgAc extends BaseAc implements CallMap  {
 		Map map = JsonUtil.getMap(jsonstr);
 		int cmd = MapListUtil.getMap(map, "cmd", 0);
 		String value = MapListUtil.getMap(map, "value0", "false");
-
+		if(value.equals("false")){
+			toast("异常:" + MapListUtil.getMap(map, "value1"));
+			return;
+		}
 		List<Map<String, Object>>  list;
 
 		switch (cmd) {
@@ -73,7 +76,7 @@ public class MainMsgAc extends BaseAc implements CallMap  {
 				//判断是否有会话， fromid to me，
 				i = MapListUtil.getCountListByName(listSessions, "ID", MapListUtil.getMap(map, "FROMID"));
 				if(i >= 0){//有了，则更新
-					listSessions.get(i).put("MSG", MapListUtil.getMap(map, "TYPE"));
+					listSessions.get(i).put("TYPE", MapListUtil.getMap(map, "TYPE"));
 					listSessions.get(i).put("MSG", MapListUtil.getMap(map, "MSG"));
 					listSessions.get(i).put("TIME", MapListUtil.getMap(map, "TIME"));
 					listSessions.get(i).put("NUM",(Tools.parseInt(MapListUtil.getList(listSessions, i, "NUM"))+1) +"") ;
@@ -91,7 +94,7 @@ public class MainMsgAc extends BaseAc implements CallMap  {
 				//判断是否有会话 fromid  groupid to me
 				i = MapListUtil.getCountListByName(listSessions, "ID", MapListUtil.getMap(map, "TOID"));
 				if(i >= 0){//有了，则更新
-					listSessions.get(i).put("MSG", MapListUtil.getMap(map, "TYPE"));
+					listSessions.get(i).put("TYPE", MapListUtil.getMap(map, "TYPE"));
 					listSessions.get(i).put("MSG", MapListUtil.getMap(map, "MSG"));
 					listSessions.get(i).put("TIME", MapListUtil.getMap(map, "TIME"));
 					listSessions.get(i).put("NUM",(Tools.parseInt(MapListUtil.getList(listSessions, i, "NUM"))+1) +"") ;

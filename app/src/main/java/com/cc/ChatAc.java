@@ -71,30 +71,34 @@ public class ChatAc extends BaseAc implements CallInt, View.OnClickListener{
  
 	@Override
 	public void callback(String jsonstr) {
-		List<Map<String, Object>>  list;
-		Map<String, Object>  map;
-		int cmd = JsonMsg.getCmd(jsonstr);
+		Map map = JsonUtil.getMap(jsonstr);
+		int cmd = MapListUtil.getMap(map, "cmd", 0);
+		String value = MapListUtil.getMap(map, "value0", "false");
+		if(value.equals("false")){
+			toast("异常:" + MapListUtil.getMap(map, "value1"));
+			return;
+		}
+		List list;
 		switch (cmd) {
 		case MSGTYPE.GET_USER_GROUP_CHAT_BY_TYPE_ID_START://查询消息记录 服务器决定一次多x<10>条消息
-			list = JsonUtil.getList(jsonstr);
             swipeRefreshLayout.setRefreshing(false);
-
+			list = MapListUtil.getMap(map, "value1", new ArrayList());
 			//需要适配好友 私聊，群聊，非好友，为了复用代码，多传输部分冗余数据
 			//本地添加会话记录
 			//适配器需要username,time,msg,type,profilepath
 			//消息记录fromid,toid,type,time,msg
 			//会话列表type <user,group>,toid id,username,profilepath,nickname,name,   msg,time,status <在线,离线>
 			listChatMsg.addAll(0, list);
-			downLoadFile(list);	//下载需要用的文件####################
+			downLoadFile(list);    //下载需要用的文件####################
 			adapterLvChat.notifyDataSetChanged();
-            lvChat.setSelection(list.size());	//选中刷新出来的数据的最新一条
+			lvChat.setSelection(list.size());    //选中刷新出来的数据的最新一条
 
-            updateSession(this.toid);
+			updateSession(this.toid);
 			break;
 		case MSGTYPE.SEND_CHATMSG_BY_GTYPE_TOID_TYPE_TIME_MSG://在线时收到一些条消息，判定，是此会话的fromid和toid才显示在当前界面
 			//AndroidTools.systemVoiceToast(this);//已经在外层提示过，此处只做限制显示
-			
-			list = JsonUtil.getList(jsonstr);
+
+			list = MapListUtil.getMap(map, "value1", new ArrayList());
 			//Tools.out("当前selfid:"+Constant.id + " toid:" + this.toid);
 			//Tools.out(Tools.list2string(list));
 			//我和目标用户之间的对话消息，此处一条消息，只能是别人发给我，或者别人发给群
@@ -532,9 +536,9 @@ public class ChatAc extends BaseAc implements CallInt, View.OnClickListener{
 		int c = MapListUtil.getCountListByName(MainMsgAc.listSessions, "ID", toid);
 		if(c >= 0){
 			if(listChatMsg.size() > 0){
-				MainMsgAc.listSessions.get(c).put("MSG", listChatMsg.get(listChatMsg.size() - 1).get("MSG").toString());
-				MainMsgAc.listSessions.get(c).put("TYPE", listChatMsg.get(listChatMsg.size() - 1).get("TYPE").toString());
-				MainMsgAc.listSessions.get(c).put("TIME", listChatMsg.get(listChatMsg.size() - 1).get("TIME").toString());
+				MainMsgAc.listSessions.get(c).put("MSG", MapListUtil.getList(listChatMsg, listChatMsg.size() - 1, "msg"));
+				MainMsgAc.listSessions.get(c).put("TYPE", MapListUtil.getList(listChatMsg, listChatMsg.size() - 1, "type"));
+				MainMsgAc.listSessions.get(c).put("TIME", MapListUtil.getList(listChatMsg, listChatMsg.size() - 1, "time"));
 			}
 		}
 	} 

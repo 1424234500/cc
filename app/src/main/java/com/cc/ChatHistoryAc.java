@@ -42,13 +42,18 @@ public class ChatHistoryAc extends BaseAc implements CallInt, View.OnClickListen
  
 	@Override
 	public void callback(String jsonstr) {
-		List<Map<String, Object>>  list;
-		Map<String, Object>  map;
-		int cmd = JsonMsg.getCmd(jsonstr);
+		Map map = JsonUtil.getMap(jsonstr);
+		int cmd = MapListUtil.getMap(map, "cmd", 0);
+		String value = MapListUtil.getMap(map, "value0", "false");
+		if(value.equals("false")){
+			toast("异常:" + MapListUtil.getMap(map, "value1"));
+			return;
+		}
+		List list;
 		switch (cmd) {
 		case MSGTYPE.GET_USER_GROUP_CHAT_BY_TYPE_ID_START_HISTORY://查询消息记录 服务器决定一次多x<10>条消息
 			closeLoading();
-			list = JsonUtil.getList(jsonstr);
+			list = MapListUtil.getMap(map, "value1", new ArrayList());
 
 			//需要适配好友 私聊，群聊，非好友，为了复用代码，多传输部分冗余数据
 			//本地添加会话记录

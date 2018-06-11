@@ -74,35 +74,35 @@ public class AndroidTools {
             args.put("type", type/*"uploadphoto"  */);    //访问类型
             args.put("filename", getValueEncoded(tofilename));    //目标存储文件名
 
-            OkHttpUtils.post()//
-                    .addFile("file", tofilename, new File(localFilepath))//.addFile("mFile", "test1.txt", file2)//
-                    .url(Constant.httpUpload())
-                    //	.params(args)//获取不到
-                    .headers(args)// 	文件上传类型，header键值对能够通过getHeader获取？servlet通过smartupload获取
-                    .build()//
-                    .execute(new Callback<String>() {
-                        @Override
-                        public void onError(Call arg0, Exception arg1, int arg2) {
-                            log("上传文件失败:" + arg1.toString() + " file:" + tofilename);
-                        }
-
-                        @Override
-                        public void onResponse(String arg0, int arg1) {
-                            if (type.equals("uploadprofile") || type.equals("uploadprofilewall")) {
-                                if (context != null) {
-                                    NetImage.clear(context, Constant.profilepath);
-                                    NetImage.clear(context, Constant.profilepathwall);
-                                }
-                            }//头像上传完毕后清楚picasso的缓重新加载
-
-                        }
-
-                        @Override
-                        public String parseNetworkResponse(Response arg0, int arg1) throws Exception {
-                            //	Tools.log("parseNetworkResponse:" + arg1 );
-                            return null;
-                        }
-                    });
+//            OkHttpUtils.post()//
+//                    .addFile("file", tofilename, new File(localFilepath))//.addFile("mFile", "test1.txt", file2)//
+//                    .url(Constant.httpUpload())
+//                    //	.params(args)//获取不到
+//                    .headers(args)// 	文件上传类型，header键值对能够通过getHeader获取？servlet通过smartupload获取
+//                    .build()//
+//                    .execute(new Callback<String>() {
+//                        @Override
+//                        public void onError(Call arg0, Exception arg1, int arg2) {
+//                            log("上传文件失败:" + arg1.toString() + " file:" + tofilename);
+//                        }
+//
+//                        @Override
+//                        public void onResponse(String arg0, int arg1) {
+//                            if (type.equals("uploadprofile") || type.equals("uploadprofilewall")) {
+//                                if (context != null) {
+//                                    NetImage.clear(context, Constant.profilepath);
+//                                    NetImage.clear(context, Constant.profilepathwall);
+//                                }
+//                            }//头像上传完毕后清楚picasso的缓重新加载
+//
+//                        }
+//
+//                        @Override
+//                        public String parseNetworkResponse(Response arg0, int arg1) throws Exception {
+//                            //	Tools.log("parseNetworkResponse:" + arg1 );
+//                            return null;
+//                        }
+//                    });
         } catch (Exception e) {
             log("okhttp文件上传异常" + localFilepath + " / " + tofilename + " type=" + type + " " + e.toString());
         }

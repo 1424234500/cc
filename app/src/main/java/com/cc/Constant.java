@@ -132,17 +132,17 @@ public class Constant {
 
 	
 	//聊天图片加载最大高度
-	public static int photoMaxH = 400;
+	public static int photoMaxH = 800;
 	//发送图片压缩高度
 	public static int photoSend = 800;
 	//相册加载最大高度
-	public static int ablumMaxH = 500;
+	public static int ablumMaxH = 600;
 	//手机信息
 	public static int screenH = 1980;
 	public static int screenW = 1080;
 	
 	//emoji表情大小
-	public static int emojiWH = 64;
+	public static int emojiWH = 80;
 	
 	
 	
@@ -153,8 +153,46 @@ public class Constant {
 	public static int offlineMode = 0;	//0正常模式，1离线模式
 	protected static long sleepUpload = 2000;
 
-
-	
+	public static int getProfileWall(int id){
+		int ress[] = {
+				R.drawable.cat01,
+				R.drawable.cat02,
+				R.drawable.cat03,
+				R.drawable.cat04,
+				R.drawable.cat05,
+				R.drawable.cat06,
+				R.drawable.cat07,
+				R.drawable.cat08,
+				R.drawable.cat09,
+				R.drawable.cat10,
+				R.drawable.cat11,
+				R.drawable.cat12,
+				R.drawable.cat13,
+				R.drawable.cat14,
+		};
+		id = id < 0? id : id % ress.length;
+		return ress[id];
+	}
+	public static int getProfile(int id){
+		int ress[] = {
+				R.drawable.d_heng,
+				R.drawable.d_haha,
+				R.drawable.d_nu,
+				R.drawable.d_han,
+				R.drawable.d_kun,
+				R.drawable.d_hehe,
+				R.drawable.d_aoteman,
+				R.drawable.d_baibai,
+				R.drawable.d_beishang,
+				R.drawable.d_bizui,
+				R.drawable.d_chijing,
+				R.drawable.d_dalian,
+				R.drawable.d_doge,
+				R.drawable.d_ding,
+		};
+		id = id < 0? id : id % ress.length;
+		return ress[id];
+	}
 	
 	// 通过id得到映射的图片头像资源
 	public static int getDrawableByIvProfile(int ivprofile) {

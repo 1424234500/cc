@@ -19,10 +19,56 @@ public class Tools {
 		return "cc_" + UUID.randomUUID().toString().split("-")[0];
 	}
 
+	public static int[][] parsePhoto(int w, int h, String str){
+		int[][] res = new int[h][w];
+//		byte[] byts= str.getBytes();
+		char low,high;	//0-f
+		int cc = 0;
+		for(int i = 0; i < h; i++){
+			for(int j = 0; j < w; j++){
+				cc++;
+				low = str.charAt(cc*2);
+				high = str.charAt(cc*2 + 1);
+				res[i][j] = parseHex(new char[]{low, high});
+			}
+		}
 
-
-
-
+		return res;
+	}
+	public static int parseHex(char[] chs){
+		int res = 0;
+		int hex = 1;
+		for(int i = chs.length - 1; i >= 0; i--){
+			res += getCharHex(chs[i]) * hex;
+			hex *= 16;
+		}
+		return res;
+	}
+	public static int[] parseHex(String str){
+		return parseHex(str, 2);
+	}
+	public static int[] parseHex(String str, int deta){
+		int res[] = new int[str.length() / deta];
+		for(int i = 0; i < str.length() - 1; i+=deta){
+			char[] chs = new char[deta];
+			str.getChars(i, i+deta, chs, 0);
+			res[i] = parseHex(chs);
+		}
+		return res;
+	}
+	public static int getCharHex(char ch){
+		int res = 0;
+		if(ch >= 48 && ch <=57){
+			res = ch - 48;
+		}else if(ch >= 65 && ch <= 90){
+			res = ch - 55;
+		}else if(ch >= 97 && ch <= 122){
+			res = ch - 87;
+		}else{
+			res = ch;
+		}
+		return res;
+	}
 
 	private static int toolong = 600;
 

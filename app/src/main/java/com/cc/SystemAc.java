@@ -30,13 +30,14 @@ import util.MapListUtil;
 import util.MySensor;
 import util.MyVideo;
 import util.Tools;
+import util.view.CanvasView;
 import util.view.VideoRtmp;
 
 
 public class SystemAc extends BaseAc implements View.OnTouchListener {
     Button bgohead, bgoback, bturnleft, bturnright;
 //    VideoRtmp video;
-    ImageView ivphoto;
+    CanvasView ivphoto;
     SeekBar sbcarmera;
     SeekBar sbspeed;
 
@@ -49,7 +50,7 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
 
 
 
-		ivphoto = (ImageView)findViewById(R.id.ivphoto);
+		ivphoto = (CanvasView)findViewById(R.id.ivphoto);
         sbcarmera = (SeekBar)findViewById(R.id.sbcarmera);
         sbcarmera.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -179,6 +180,7 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
 		Map map = JsonUtil.getMap(jsonstr);
 		out(map);
         String str;
+        int w, h;
 		switch (Tools.parseInt(MapListUtil.getMap(map, "cmd"))) {
             case MSGTYPE.OK:
                 break;
@@ -190,8 +192,14 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
                 str = MapListUtil.getMap(map, "id");
                 toast("检测到人出没",str);
                 break;
+			case MSGTYPE.SYS_PHOTO:
+				str = MapListUtil.getMap(map, "res");
+				w = MapListUtil.getMap(map, "w", 0);
+				h = MapListUtil.getMap(map, "h", 0);
+				ivphoto.setData(w, h, Tools.parsePhoto(w, h, str));
+				break;
 
-        }
+		}
 		
 		
 	}

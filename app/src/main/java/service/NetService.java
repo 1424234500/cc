@@ -27,12 +27,12 @@ public class NetService extends Service implements CallString {
  
 	public Client client;//网络工具
 	LocalBroadcastManager localBroadcastManager;	//本地的activity广播机制
-	NotificationManager mNotificationManager;//推送栏广播
+	NotificationManager notificationManager;//推送栏广播
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		out("   onCreate    ");
-		mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);//推送栏广播
+		notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);//推送栏广播
 
 
 
@@ -105,13 +105,7 @@ public class NetService extends Service implements CallString {
 		String type = msg.get("type", "");	//文本中转消息 中 的 推送提示消息
 		if(type.equals("push")){
 //			Looper.prepare();	//主线程中自动创建 子线程中需手动创建
-
-			Bundle bundle = new Bundle();
-			bundle.putString("title", msg.get("title","title"));
-			bundle.putString("text", msg.get("text","text"));
-			bundle.putString("ticker", msg.get("ticker","ticker"));
-			Message message = new Message();
-			message.setData(bundle);
+			push(msg);
 		}
 
 		switch(msg.getMsgType()){
@@ -125,7 +119,20 @@ public class NetService extends Service implements CallString {
         }
 
 	}
+	public void push(Msg msg){
+		String title = msg.get("title","title");
+		String text = msg.get("text","text");
+		String ticker = msg.get("ticker","ticker");
 
+		Notification notification = new Notification.Builder(this)
+				.setSmallIcon(R.drawable.ic_launcher)//设置小图标
+				.setContentTitle(title)
+				.setContentText(text)
+				.build();
+		notification.flags = Notification.FLAG_AUTO_CANCEL;
+		notificationManager.notify(0, notification);
+		AndroidTools.systemVoiceToast(this);
+	}
 
 
 	@Override

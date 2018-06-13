@@ -4,7 +4,6 @@ import net.MSGSender;
 import interfac.CallInt;
 import util.AndroidTools;
 import util.Tools;
-import util.ac.demo.RtmpAc;
 import util.picasso.NetImage;
 import util.view.BottomControlPanel;
 import util.view.SlidingMenu;
@@ -339,7 +338,7 @@ public class MainAc extends ActivityGroup implements View.OnClickListener{
 	public void onClick(View arg0) {
 		switch(arg0.getId()){
 			case R.id.lltest:
-                startActivity(new Intent(MainAc.this, RtmpAc.class));
+//                startActivity(new Intent(MainAc.this, RtmpAc.class));
 
                 break;
 			case R.id.llsystem:

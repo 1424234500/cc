@@ -44,7 +44,7 @@ public class ChatHistoryAc extends BaseAc implements CallInt, View.OnClickListen
 	public void callback(String jsonstr) {
 		Map map = JsonUtil.getMap(jsonstr);
 		int cmd = MapListUtil.getMap(map, "cmd", 0);
-		String value = MapListUtil.getMap(map, "value0", "false");
+		String value = MapListUtil.getMap(map, "value0", "");
 		if(value.equals("false")){
 			toast("异常:" + MapListUtil.getMap(map, "value1"));
 			return;

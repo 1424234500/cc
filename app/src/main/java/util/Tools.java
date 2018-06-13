@@ -27,9 +27,14 @@ public class Tools {
 		for(int i = 0; i < h; i++){
 			for(int j = 0; j < w; j++){
 				cc++;
-				low = str.charAt(cc*2);
-				high = str.charAt(cc*2 + 1);
-				res[i][j] = parseHex(new char[]{low, high});
+				if(cc * 2 + 1 >= str.length()){
+					res[i][j] = 0;
+				}else{
+					low = str.charAt(cc*2);
+					high = str.charAt(cc*2 + 1);
+					res[i][j] = parseHex(new char[]{low, high});
+				}
+
 			}
 		}
 

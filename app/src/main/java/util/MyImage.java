@@ -21,6 +21,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Base64;
 
 import com.cc.Constant;
 	/**
@@ -365,11 +366,23 @@ Drawable
 	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
 	        return baos.toByteArray();
-	    }	
-	
-	
-	
-	
+	    }
+
+
+
+		public static Bitmap toBitmap(String string){
+			//将字符串转换成Bitmap类型
+			Bitmap bitmap=null;
+			try {
+				byte[]bitmapArray;
+				bitmapArray= Base64.decode(string, Base64.DEFAULT);
+				bitmap=BitmapFactory.decodeByteArray(bitmapArray, 0, bitmapArray.length);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return bitmap;
+		}
 	
 	
 	

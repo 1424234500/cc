@@ -3,10 +3,16 @@ package com.cc;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.media.Image;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -20,13 +26,11 @@ import net.MSGTYPE;
 
 import java.util.Map;
 
-import io.vov.vitamio.LibsChecker;
-import io.vov.vitamio.MediaPlayer;
-import io.vov.vitamio.widget.VideoView;
 import service.NetService;
 import util.AndroidTools;
 import util.JsonUtil;
 import util.MapListUtil;
+import util.MyImage;
 import util.MySensor;
 import util.MyVideo;
 import util.Tools;
@@ -51,6 +55,12 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
 
 
 		ivphoto = (CanvasView)findViewById(R.id.ivphoto);
+		ivphoto.setOnCanvas(new CanvasView.OnCanvas() {
+            @Override
+            public void onDraw(CanvasView view, Canvas canvas, Paint paint, Object... objects) {
+                draw(view, canvas, paint, objects);
+            }
+        });
         sbcarmera = (SeekBar)findViewById(R.id.sbcarmera);
         sbcarmera.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -175,13 +185,13 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
 
 	}
 	@Override
-	public void callback(String jsonstr) { 
-		out(jsonstr);
-		Map map = JsonUtil.getMap(jsonstr);
-		out(map);
+	public void callback(String jsonstr) {
+        Map map = JsonUtil.getMap(jsonstr);
+        int cmd = MapListUtil.getMap(map, "cmd", 0);
+        String value = MapListUtil.getMap(map, "value0", "false");
         String str;
         int w, h;
-		switch (Tools.parseInt(MapListUtil.getMap(map, "cmd"))) {
+		switch (cmd) {
             case MSGTYPE.OK:
                 break;
             case MSGTYPE.LOGIN_BY_ID_PWD:
@@ -196,14 +206,62 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
 				str = MapListUtil.getMap(map, "res");
 				w = MapListUtil.getMap(map, "w", 0);
 				h = MapListUtil.getMap(map, "h", 0);
-				ivphoto.setData(w, h, Tools.parsePhoto(w, h, str));
+				Bitmap arr = MyImage.toBitmap(str);
+//				int arr[][] = Tools.parsePhoto(w, h, str);
+//                for(int i = 0; i < arr.length; i++) {
+//                    str = "";
+//                    for (int j = 0; j < arr[i].length; i++) {
+//                        str += Tools.fillInt(arr[i][j], 4);
+//                    }
+//                    out(str);
+//                }
+				ivphoto.setData(w, h, arr);
 				break;
 
 		}
 		
 		
 	}
+    public void draw(CanvasView view, Canvas canvas, Paint paint, Object...objects){
+//	    int w = (int)objects[0];
+//	    int h = (int)objects[1];
+	    Bitmap bitmap = (Bitmap)objects[2];
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
+	    int sw = view.getWidth();
+	    int sh = view.getHeight();
+	    //800,600 -> 600,300
+        //              8   3     6   6         2:3
+        float b1 = 1f * w / h;      //120：50 2.4  1200 500
+        float b2 = 1f * sw / sh;    //2 : 1  = 2  1000 500
+        int tw = 0;
+        int th = 0;
+        int sx = 0;
+        int sy = 0;
+        if(b1 < b2){
+            th = sh;
+            tw = (int)(1f * w * th / h);
+            sx = (sw - tw) / 2;
+        }else{
+            tw = sw;
+            th = (int)(1f * h * tw / w);
+            sy = (sh - th) / 2;
+        }
 
+        canvas.drawColor(Color.WHITE);
+        canvas.drawBitmap(bitmap, new Rect(0, 0, w, h), new Rect(sx, sy, tw, th),  paint);
+
+//        if(arr != null && arr.length > 0 && arr[0].length > 0){
+//            for(int i = 0 ; i < h; i++){
+//                for(int j = 0; j < w; j++){
+//                    int cc = arr[i][j];
+//                    int c = Color.rgb(cc, cc, cc);
+//                    paint.setColor(c);
+//                    canvas.drawRect(j*dw, i*dh, j*dw+dw, i*dh+dh, paint);
+//                }
+//            }
+//        }
+    }
 
 	@Override
 	public boolean OnBackPressed() {

@@ -109,12 +109,11 @@ public class NetService extends Service implements CallString {
 		}
 
 		switch(msg.getMsgType()){
+			case Msg.BROADCAST_SYS:
+			case Msg.BROADCAST:
+				AndroidTools.out(msg.get("info", "广播"));
             case Msg.DATA:
                 localBroadcastManager.sendBroadcast(new Intent(MSGTYPE.broadcastUrl).putExtra("msg", jsonstr)); //发送应用内广播
-                break;
-            case Msg.BROADCAST_SYS:
-            case Msg.BROADCAST:
-                AndroidTools.out(msg.get("info", ""));
                 break;
         }
 

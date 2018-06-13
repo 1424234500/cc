@@ -25,10 +25,7 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback, R
 	private Path mPath = new Path();
 	// Paint实例
 	private Paint paint = new Paint();
-//	绘图数据
-	private int[][] arr;
-	private int w = 0;
-	private int h = 0;
+
 
 	public CanvasView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -80,33 +77,25 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback, R
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		startDraw = false;
 	}
-	public void setData(int w, int h, int[][] arr){
-		this.w = w;
-		this.h = h;
-		this.arr = arr;
-		AndroidTools.out(w + " " + h + " " + arr.toString());
+
+	public interface OnCanvas{
+		public void onDraw(CanvasView view, Canvas canvas, Paint paint, Object...objects);
+	}
+	OnCanvas onCanvas;
+	public void setOnCanvas(OnCanvas c){
+		this.onCanvas = c;
+	}
+	Object data[];
+	public void setData(Object...objects){
+		this.data = objects;
 		draw();
 	}
 	private synchronized void draw() {
 		try {
 			canvas = mSurfaceHolder.lockCanvas();
-			canvas.drawColor(Color.WHITE);
-			float dw = 1f * Constant.screenW / w;
-			float dh = 1f * Constant.screenH / h;
-
-			if(arr != null && arr.length > 0 && arr[0].length > 0){
-				for(int i = 0 ; i < h; i++){
-					for(int j = 0; j < w; j++){
-						int cc = arr[i][j];
-						int c = Color.rgb(cc, cc, cc);
-						paint.setColor(c);
-						canvas.drawRect(i*dw, i*dh, i*dw+dw, i*dh+dh, paint);
-					}
-				}
-
+			if(onCanvas != null){
+				onCanvas.onDraw(this, canvas, paint, data);
 			}
-
-
 		} catch (Exception e) {
 		} finally {
 			// 对画布内容进行提交

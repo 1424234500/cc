@@ -45,8 +45,12 @@ public abstract class BaseAc extends Activity implements CallString {
 	BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			//Tools.out("BaseAc.receive." + intent.getExtras().getString("msg"));
-			callback(intent.getExtras().getString("msg"));
+			try {
+				//Tools.out("BaseAc.receive." + intent.getExtras().getString("msg"));
+				callback(intent.getExtras().getString("msg"));
+			}catch (Exception e){
+				e.printStackTrace();
+			}
 		}
 	};
 

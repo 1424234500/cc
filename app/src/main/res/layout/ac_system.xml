@@ -101,13 +101,72 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <util.view.CanvasView
-                android:id="@+id/ivphoto"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+              <!--  <util.view.CanvasView
+                    android:id="@+id/ivphoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:src="@drawable/d_doge" />-->
+                <ImageView
+                    android:id="@+id/ivphoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/cat01" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Button" />
+
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Button" />
+
+                <Button
+                    android:id="@+id/btake"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="抓拍" />
+
+                <Button
+                    android:id="@+id/bphoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="大图" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/ivdetail"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/d_doge" />
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/cat01" />
+
 
         </LinearLayout>
     </ScrollView>

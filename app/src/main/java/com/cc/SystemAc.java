@@ -41,12 +41,15 @@ import util.view.VideoRtmp;
 public class SystemAc extends BaseAc implements View.OnTouchListener {
     Button bgohead, bgoback, bturnleft, bturnright;
 //    VideoRtmp video;
-    CanvasView ivphoto;
+    ImageView ivphoto;
     SeekBar sbcarmera;
     SeekBar sbspeed;
+    ImageView ivdetail;
+    Button bphoto;
+    Button btake;
 
 
-	@Override
+    @Override
 	public void OnCreate(Bundle savedInstanceState) {
 		Tools.out("SystemAc.oncreate");
 
@@ -54,13 +57,29 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
 
 
 
-		ivphoto = (CanvasView)findViewById(R.id.ivphoto);
-		ivphoto.setOnCanvas(new CanvasView.OnCanvas() {
+        ivdetail = (ImageView) findViewById(R.id.ivdetail);
+        bphoto = (Button)findViewById(R.id.bphoto);
+        btake = (Button)findViewById(R.id.btake);
+        btake.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDraw(CanvasView view, Canvas canvas, Paint paint, Object... objects) {
-                draw(view, canvas, paint, objects);
+            public void onClick(View view) {
+                MSGSender.systemCtrl(getContext(), "takePhoto", MapListUtil.map().put("id", Tools.getUUID()).build());
             }
         });
+        bphoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MSGSender.systemCtrl(getContext(), "file", MapListUtil.map().put("id", photoId).build());
+            }
+        });
+        ivphoto = (ImageView)findViewById(R.id.ivphoto);
+//		ivphoto.setOnCanvas(new CanvasView.OnCanvas() {
+//            @Override
+//            public void onDraw(CanvasView view, Canvas canvas, Paint paint, Object... objects) {
+//                draw(view, canvas, paint, objects);
+//            }
+//        });
+
         sbcarmera = (SeekBar)findViewById(R.id.sbcarmera);
         sbcarmera.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -199,33 +218,35 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
                 toast(str);
                 break;
             case MSGTYPE.SYS_DECT_ON:
-                str = MapListUtil.getMap(map, "id");
-                toast("检测到人出没",str);
-                break;
 			case MSGTYPE.SYS_PHOTO:
-				str = MapListUtil.getMap(map, "res");
-				w = MapListUtil.getMap(map, "w", 0);
-				h = MapListUtil.getMap(map, "h", 0);
-				Bitmap arr = MyImage.toBitmap(str);
-//				int arr[][] = Tools.parsePhoto(w, h, str);
-//                for(int i = 0; i < arr.length; i++) {
-//                    str = "";
-//                    for (int j = 0; j < arr[i].length; i++) {
-//                        str += Tools.fillInt(arr[i][j], 4);
-//                    }
-//                    out(str);
-//                }
-				ivphoto.setData(w, h, arr);
+				onRecvPhoto(map);
 				break;
-
+            case MSGTYPE.SYS_PHOTO_DETAIL:
+                onRecvPhotoDetail(map);
+                break;
 		}
 		
 		
 	}
+	String photoId = "";
+	public void onRecvPhoto(Map map){
+		String photo = MapListUtil.getMap(map, "res");
+		String time = MapListUtil.getMap(map, "time");
+		String id = MapListUtil.getMap(map, "id");
+		this.photoId = id;
+		toast("检测到人出没",id);
+		Bitmap arr = MyImage.toBitmap(photo);
+        ivphoto.setImageBitmap(arr);
+
+    }
+    public void onRecvPhotoDetail(Map map){
+        String photo = MapListUtil.getMap(map, "res");
+        String id = MapListUtil.getMap(map, "id");
+        Bitmap arr = MyImage.toBitmap(photo);
+        ivdetail.setImageBitmap(arr);
+    }
     public void draw(CanvasView view, Canvas canvas, Paint paint, Object...objects){
-//	    int w = (int)objects[0];
-//	    int h = (int)objects[1];
-	    Bitmap bitmap = (Bitmap)objects[2];
+	    Bitmap bitmap = (Bitmap)objects[0];
         int w = bitmap.getWidth();
         int h = bitmap.getHeight();
 	    int sw = view.getWidth();
@@ -251,16 +272,6 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
         canvas.drawColor(Color.WHITE);
         canvas.drawBitmap(bitmap, new Rect(0, 0, w, h), new Rect(sx, sy, tw, th),  paint);
 
-//        if(arr != null && arr.length > 0 && arr[0].length > 0){
-//            for(int i = 0 ; i < h; i++){
-//                for(int j = 0; j < w; j++){
-//                    int cc = arr[i][j];
-//                    int c = Color.rgb(cc, cc, cc);
-//                    paint.setColor(c);
-//                    canvas.drawRect(j*dw, i*dh, j*dw+dw, i*dh+dh, paint);
-//                }
-//            }
-//        }
     }
 
 	@Override

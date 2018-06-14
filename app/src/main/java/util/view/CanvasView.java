@@ -26,6 +26,7 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback, R
 	// Paint实例
 	private Paint paint = new Paint();
 
+	private long sleepTime = 1000;
 
 	public CanvasView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -50,7 +51,7 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback, R
 		while (startDraw) {
 			// 绘制
 			draw();
-			AndroidTools.sleep(100);
+			AndroidTools.sleep(sleepTime);
 		}
 	}
 

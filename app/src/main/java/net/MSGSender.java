@@ -221,10 +221,7 @@ public   class MSGSender {
     }
 
     //系统控制
-    public static void systemCtrl(Context context, String method, Map params){
-        systemCtrl(context, method, makeJson(params));
-    }
-    public static void systemCtrl(Context context, String method, String params){
+    public static void systemCtrl(Context context, String method, Object params){
         Msg msg = new Msg();
         msg.setMsgType(Msg.DATA);
         msg.setToKey("0");

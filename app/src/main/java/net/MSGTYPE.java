@@ -73,6 +73,7 @@ public   class MSGTYPE {
     //图片传输监控模块
 	public static final int SYS_DECT_ON = 300;//检测提醒
 	public static final int SYS_PHOTO = 301;//图片数据
+	public static final int SYS_PHOTO_DETAIL = 302;//图片大数据
 
 
 

@@ -63,7 +63,7 @@ public class SystemAc extends BaseAc implements View.OnTouchListener {
         btake.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MSGSender.systemCtrl(getContext(), "takePhoto", MapListUtil.map().put("id", Tools.getUUID()).build());
+                MSGSender.systemCtrl(getContext(), "file", MapListUtil.map().put("id", "_temp_now.png").build());
             }
         });
         bphoto.setOnClickListener(new View.OnClickListener() {

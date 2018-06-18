@@ -7,6 +7,7 @@ import com.cc.R;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.View;
 
@@ -27,8 +28,11 @@ public class DialogImageShow extends Dialog {
     	this(context);
     	
     	isv.setBitmap(BitmapFactory.decodeFile(path));
-     
     }
-    
+    public DialogImageShow(Context context, Bitmap bitmap) {
+        this(context);
+
+        isv.setBitmap(bitmap);
+    }
       
 } 

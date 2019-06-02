@@ -1,9 +1,29 @@
+build
+target
+release
+log
 
 
-
-*.iml
-.gradle
-.DS_Store
 captures
+
+
 .idea
+.gradle
+
+
+.settings
+
+
 local.properties
+
+
+*.jar
+*.bak
+*.class
+*.log
+*.pyc
+*.o
+*.apk
+*.db
+*.~sql
+*.out
